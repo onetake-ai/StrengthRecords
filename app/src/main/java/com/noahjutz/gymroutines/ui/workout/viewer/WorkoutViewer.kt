@@ -41,7 +41,7 @@ import org.koin.core.parameter.parametersOf
 fun WorkoutViewer(
     workoutId: Int,
     viewModel: WorkoutViewerViewModel = getViewModel { parametersOf(workoutId) },
-    popBackStack: () -> Unit,
+    popBackStack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -80,15 +80,15 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                 text = routineName.takeIf { it.isNotBlank() }
                     ?: stringResource(R.string.unnamed_routine),
                 modifier = Modifier.padding(horizontal = 24.dp),
-                style = typography.h4,
+                style = typography.h4
             )
             Text(
                 text = workout.workout.endTime.formatSimple(),
-                modifier = Modifier.padding(horizontal = 24.dp),
+                modifier = Modifier.padding(horizontal = 24.dp)
             )
             Text(
                 text = workout.workout.duration.pretty(),
-                modifier = Modifier.padding(horizontal = 24.dp),
+                modifier = Modifier.padding(horizontal = 24.dp)
             )
         }
 
@@ -101,7 +101,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                     .fillMaxWidth()
                     .animateItemPlacement()
                     .padding(top = 24.dp),
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(24.dp)
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
@@ -126,61 +126,69 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )
-                            if (exercise?.logReps == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_reps),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logReps == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_reps),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logWeight == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_weight),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logWeight == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_weight),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logTime == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_time),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logTime == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_time),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logDistance == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_distance),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logDistance == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_distance),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
                             Box(
                                 Modifier
@@ -214,7 +222,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                                 color = colors.onSurface.copy(
                                                     alpha = 0.1f
                                                 ),
-                                                shape = RoundedCornerShape(8.dp),
+                                                shape = RoundedCornerShape(8.dp)
                                             ) {
                                                 Box(
                                                     Modifier
@@ -244,10 +252,13 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .size(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(
-                                            if (set.complete) colors.secondary
-                                            else colors.onSurface.copy(
-                                                alpha = 0.1f
-                                            )
+                                            if (set.complete) {
+                                                colors.secondary
+                                            } else {
+                                                colors.onSurface.copy(
+                                                    alpha = 0.1f
+                                                )
+                                            }
                                         ),
                                     contentAlignment = Alignment.Center
                                 ) {

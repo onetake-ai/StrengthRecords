@@ -46,7 +46,7 @@ fun AutoSelectTextField(
     cursorColor: Color = LocalContentColor.current,
     maxLines: Int = Int.MAX_VALUE,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = { it() },
-    singleLine: Boolean = false,
+    singleLine: Boolean = false
 ) {
     var textFieldValue by remember(value) {
         mutableStateOf(TextFieldValue(value, TextRange(value.length)))
@@ -88,7 +88,7 @@ fun AutoSelectTextField(
         cursorBrush = SolidColor(cursorColor),
         maxLines = maxLines,
         decorationBox = decorationBox,
-        singleLine = singleLine,
+        singleLine = singleLine
     )
 }
 

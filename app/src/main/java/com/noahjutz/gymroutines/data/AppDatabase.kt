@@ -38,7 +38,7 @@ import kotlinx.serialization.json.*
         RoutineSet::class,
         RoutineSetGroup::class,
         WorkoutSet::class,
-        WorkoutSetGroup::class,
+        WorkoutSetGroup::class
     ],
     version = 43,
     autoMigrations = [AutoMigration(from = 35, to = 36)],
@@ -235,7 +235,9 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO workout_table SELECT name, startTime, endTime, workoutId FROM workout_table_old")
+        db.execSQL(
+            "INSERT INTO workout_table SELECT name, startTime, endTime, workoutId FROM workout_table_old"
+        )
         db.execSQL("DROP TABLE workout_table_old")
     }
 }
@@ -279,7 +281,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         var routineSetGroupId = 0
 
         val routineSetCursor =
-            db.query("SELECT routineId, exerciseId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+            db.query(
+                "SELECT routineId, exerciseId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old"
+            )
         while (routineSetCursor.moveToNext()) {
             val routineId = routineSetCursor.getInt(0)
             val exerciseId = routineSetCursor.getInt(1)
@@ -291,7 +295,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             val setId = routineSetCursor.getInt(7)
 
             val setGroupIds =
-                db.query("SELECT id FROM routine_set_group_table WHERE routineId=$routineId AND exerciseId=$exerciseId")
+                db.query(
+                    "SELECT id FROM routine_set_group_table WHERE routineId=$routineId AND exerciseId=$exerciseId"
+                )
 
             val groupId = if (setGroupIds.count == 0) {
                 if (db.query("SELECT id FROM routine_set_group_table WHERE routineId=$routineId").count == 0) {
@@ -299,7 +305,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 }
                 // Insert new routine set group
                 routineSetGroupId++
-                db.execSQL("INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $routineSetGroupPosition, $routineSetGroupId)")
+                db.execSQL(
+                    "INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $routineSetGroupPosition, $routineSetGroupId)"
+                )
                 routineSetGroupPosition++
                 routineSetGroupId
             } else {
@@ -310,7 +318,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             }
             setGroupIds.close()
 
-            db.execSQL("INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
+            db.execSQL(
+                "INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)"
+            )
         }
         routineSetCursor.close()
         db.execSQL("DROP TABLE routine_set_table_old ")
@@ -350,7 +360,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         var workoutSetGroupId = 0
 
         val workoutSetCursor =
-            db.query("SELECT workoutId, exerciseId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+            db.query(
+                "SELECT workoutId, exerciseId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old"
+            )
         while (workoutSetCursor.moveToNext()) {
             val workoutId = workoutSetCursor.getInt(0)
             val exerciseId = workoutSetCursor.getInt(1)
@@ -363,7 +375,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             val setId = workoutSetCursor.getInt(8)
 
             val setGroupIds =
-                db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId AND exerciseId=$exerciseId")
+                db.query(
+                    "SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId AND exerciseId=$exerciseId"
+                )
 
             val groupId = if (setGroupIds.count == 0) {
                 if (
@@ -374,7 +388,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 }
                 // Insert new workout set group
                 workoutSetGroupId++
-                db.execSQL("INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $workoutSetGroupPosition, $workoutSetGroupId)")
+                db.execSQL(
+                    "INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $workoutSetGroupPosition, $workoutSetGroupId)"
+                )
                 workoutSetGroupPosition++
                 workoutSetGroupId
             } else {
@@ -385,7 +401,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             }
             setGroupIds.close()
 
-            db.execSQL("INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $complete, $setId)")
+            db.execSQL(
+                "INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $complete, $setId)"
+            )
         }
         workoutSetCursor.close()
         db.execSQL("DROP TABLE workout_set_table_old ")
@@ -417,7 +435,9 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO routine_set_group_table SELECT routineId, exerciseId, position, id FROM routine_set_group_table_old")
+        db.execSQL(
+            "INSERT INTO routine_set_group_table SELECT routineId, exerciseId, position, id FROM routine_set_group_table_old"
+        )
         db.execSQL("DROP TABLE routine_set_group_table_old")
 
         // Add foreign key to routine_set_table
@@ -436,7 +456,9 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO routine_set_table SELECT groupId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+        db.execSQL(
+            "INSERT INTO routine_set_table SELECT groupId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old"
+        )
         db.execSQL("DROP TABLE routine_set_table_old")
 
         // Add foreign key to workout_set_group_table
@@ -452,7 +474,9 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO workout_set_group_table SELECT workoutId, exerciseId, position, id FROM workout_set_group_table_old")
+        db.execSQL(
+            "INSERT INTO workout_set_group_table SELECT workoutId, exerciseId, position, id FROM workout_set_group_table_old"
+        )
         db.execSQL("DROP TABLE workout_set_group_table_old")
 
         // Add foreign key to workout_set_table
@@ -472,7 +496,9 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO workout_set_table SELECT groupId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+        db.execSQL(
+            "INSERT INTO workout_set_table SELECT groupId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old"
+        )
         db.execSQL("DROP TABLE workout_set_table_old")
     }
 }
@@ -486,9 +512,13 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
  */
 val MIGRATION_40_41 = object : Migration(40, 41) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("CREATE INDEX index_routine_set_group_table_routineId ON routine_set_group_table(routineId)")
+        db.execSQL(
+            "CREATE INDEX index_routine_set_group_table_routineId ON routine_set_group_table(routineId)"
+        )
         db.execSQL("CREATE INDEX index_routine_set_table_groupId ON routine_set_table(groupId)")
-        db.execSQL("CREATE INDEX index_workout_set_group_table_workoutId ON workout_set_group_table(workoutId)")
+        db.execSQL(
+            "CREATE INDEX index_workout_set_group_table_workoutId ON workout_set_group_table(workoutId)"
+        )
         db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
     }
 }
@@ -514,7 +544,9 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO routine_set_table SELECT groupId, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+        db.execSQL(
+            "INSERT INTO routine_set_table SELECT groupId, reps, weight, time, distance, routineSetId FROM routine_set_table_old"
+        )
         db.execSQL("CREATE INDEX index_routine_set_table_groupId ON routine_set_table(groupId)")
         db.execSQL("DROP TABLE routine_set_table_old")
 
@@ -534,7 +566,9 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
             )
             """.trimIndent()
         )
-        db.execSQL("INSERT INTO workout_set_table SELECT groupId, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+        db.execSQL(
+            "INSERT INTO workout_set_table SELECT groupId, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old"
+        )
         db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
         db.execSQL("DROP TABLE workout_set_table_old")
     }
@@ -604,7 +638,9 @@ val MIGRATION_42_43 = object : Migration(42, 43) {
                                     id
                                 }
                         }
-                    db.execSQL("INSERT INTO workout_table VALUES ($nextRoutineId, $startTime, $endTime, $workoutId)")
+                    db.execSQL(
+                        "INSERT INTO workout_table VALUES ($nextRoutineId, $startTime, $endTime, $workoutId)"
+                    )
                 }
             }
         }

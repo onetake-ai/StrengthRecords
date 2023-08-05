@@ -75,7 +75,9 @@ fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
                                 initial = -1
                             )
                             val navToWorkoutScreen = {
-                                navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId")
+                                navController.navigate(
+                                    "${Screen.workoutInProgress}/$currentWorkoutId"
+                                )
                             }
                             if (currentWorkoutId >= 0) {
                                 WorkoutBottomSheet(navToWorkoutScreen)

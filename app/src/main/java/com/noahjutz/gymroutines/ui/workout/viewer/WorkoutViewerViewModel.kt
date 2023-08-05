@@ -17,7 +17,7 @@ class WorkoutViewerViewModel(
     private val workoutId: Int,
     private val workoutRepository: WorkoutRepository,
     private val exerciseRepository: ExerciseRepository,
-    private val routineRepository: RoutineRepository,
+    private val routineRepository: RoutineRepository
 ) : ViewModel() {
     private val _workout = MutableStateFlow<WorkoutWithSetGroups?>(null)
     val workout = _workout.asStateFlow()

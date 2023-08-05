@@ -32,7 +32,7 @@ data class Workout(
     val endTime: Date = startTime,
 
     @PrimaryKey(autoGenerate = true)
-    val workoutId: Int = 0,
+    val workoutId: Int = 0
 )
 
 data class WorkoutWithSetGroups(

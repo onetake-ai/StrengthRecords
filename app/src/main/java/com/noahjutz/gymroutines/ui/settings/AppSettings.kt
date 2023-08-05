@@ -40,7 +40,7 @@ fun AppSettings(
     navToAbout: () -> Unit,
     navToAppearanceSettings: () -> Unit,
     navToDataSettings: () -> Unit,
-    navToGeneralSettings: () -> Unit,
+    navToGeneralSettings: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -73,7 +73,7 @@ fun AppSettings(
             ListItem(
                 modifier = Modifier.clickable(onClick = navToDataSettings),
                 text = { Text(stringResource(R.string.screen_data_settings)) },
-                icon = { Icon(Icons.Default.Shield, null) },
+                icon = { Icon(Icons.Default.Shield, null) }
             )
             Divider()
             ListItem(

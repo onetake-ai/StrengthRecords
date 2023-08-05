@@ -34,12 +34,12 @@ import com.noahjutz.gymroutines.data.domain.WorkoutSet
 import com.noahjutz.gymroutines.data.domain.WorkoutSetGroup
 import com.noahjutz.gymroutines.data.domain.WorkoutSetGroupWithSets
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+import java.util.Calendar
+import java.util.Date
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.Date
 
 class WorkoutInProgressViewModel(
     private val preferences: DataStore<Preferences>,
@@ -47,7 +47,7 @@ class WorkoutInProgressViewModel(
     private val exerciseRepository: ExerciseRepository,
     private val routineRepository: RoutineRepository,
     private val application: Application,
-    workoutId: Int,
+    workoutId: Int
 ) : ViewModel() {
     val workout = workoutRepository.getWorkoutFlow(workoutId)
     private var _workout: WorkoutWithSetGroups? = null
@@ -93,7 +93,7 @@ class WorkoutInProgressViewModel(
                     reps = lastSet?.reps,
                     weight = lastSet?.weight,
                     time = lastSet?.time,
-                    distance = lastSet?.distance,
+                    distance = lastSet?.distance
                 )
             )
         }
@@ -106,11 +106,11 @@ class WorkoutInProgressViewModel(
                     val setGroup = WorkoutSetGroup(
                         exerciseId = exerciseId,
                         workoutId = workout.workout.workoutId,
-                        position = workout.setGroups.size,
+                        position = workout.setGroups.size
                     )
                     val groupId = workoutRepository.insert(setGroup)
                     val set = WorkoutSet(
-                        groupId = groupId.toInt(),
+                        groupId = groupId.toInt()
                     )
                     workoutRepository.insert(set)
                 }

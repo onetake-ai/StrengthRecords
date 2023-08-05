@@ -39,7 +39,7 @@ fun WorkoutCompleted(
             Modifier
                 .padding(16.dp)
                 .height(40.dp),
-            shape = RoundedCornerShape(percent = 100),
+            shape = RoundedCornerShape(percent = 100)
         ) {
             Icon(Icons.Default.Undo, null)
             Spacer(Modifier.width(8.dp))
@@ -51,7 +51,9 @@ fun WorkoutCompleted(
                 Text(stringResource(R.string.title_workout_completed), style = typography.h2)
                 Text(stringResource(R.string.body_workout_completed), style = typography.h5)
             }
-            val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(initial = false)
+            val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(
+                initial = false
+            )
             Row(
                 Modifier
                     .toggleable(
@@ -60,7 +62,7 @@ fun WorkoutCompleted(
                     )
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
                     checked = isUpdateRoutineChecked,
@@ -77,7 +79,7 @@ fun WorkoutCompleted(
                 .padding(16.dp)
                 .height(40.dp)
                 .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(percent = 100),
+            shape = RoundedCornerShape(percent = 100)
         ) {
             Text(stringResource(R.string.btn_close))
         }

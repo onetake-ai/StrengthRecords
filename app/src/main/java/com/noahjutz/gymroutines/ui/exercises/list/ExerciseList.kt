@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 fun ExerciseList(
     navToExerciseEditor: (Int) -> Unit,
     navToSettings: () -> Unit,
-    viewModel: ExerciseListViewModel = getViewModel(),
+    viewModel: ExerciseListViewModel = getViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -79,9 +79,9 @@ fun ExerciseList(
             ExtendedFloatingActionButton(
                 onClick = { navToExerciseEditor(-1) },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.btn_new_exercise)) },
+                text = { Text(stringResource(R.string.btn_new_exercise)) }
             )
-        },
+        }
     ) { paddingValues ->
         val exercises by viewModel.exercises.collectAsState(null)
 
@@ -142,7 +142,7 @@ private fun ExerciseListContent(
                             Text(
                                 text = exercise.name,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         trailing = {
@@ -176,7 +176,7 @@ private fun ExerciseListContent(
                 ConfirmDeleteExerciseDialog(
                     onDismiss = { scope.launch { dismissState.reset() } },
                     exerciseName = exercise.name,
-                    onConfirm = { viewModel.delete(exercise) },
+                    onConfirm = { viewModel.delete(exercise) }
                 )
             }
         }
@@ -191,7 +191,7 @@ private fun ExerciseListContent(
 private fun ConfirmDeleteExerciseDialog(
     exerciseName: String,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit,
+    onConfirm: () -> Unit
 ) {
     AlertDialog(
         title = {
@@ -211,6 +211,6 @@ private fun ConfirmDeleteExerciseDialog(
                 content = { Text(stringResource(R.string.btn_cancel)) }
             )
         },
-        onDismissRequest = onDismiss,
+        onDismissRequest = onDismiss
     )
 }

@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class ExerciseListViewModel(
-    private val repository: ExerciseRepository,
+    private val repository: ExerciseRepository
 ) : ViewModel() {
     private val _nameFilter = MutableStateFlow("")
     val nameFilter = _nameFilter.asStateFlow()

@@ -12,7 +12,7 @@ val WhiteColorPalette = lightColors(
     secondary = Secondary,
     secondaryVariant = SecondaryDark,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
+    onSecondary = Color.Black
 )
 
 val BlackColorPalette = darkColors(
@@ -21,13 +21,13 @@ val BlackColorPalette = darkColors(
     secondary = Secondary,
     secondaryVariant = Secondary,
     onPrimary = Color.Black,
-    onSecondary = Color.Black,
+    onSecondary = Color.Black
 )
 
 @Composable
 fun GymRoutinesTheme(
     isDark: Boolean,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     MaterialTheme(
         colors = if (isDark) BlackColorPalette else WhiteColorPalette,

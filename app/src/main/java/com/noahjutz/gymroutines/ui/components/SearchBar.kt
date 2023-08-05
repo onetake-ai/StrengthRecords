@@ -24,7 +24,7 @@ import com.noahjutz.gymroutines.R
 fun SearchBar(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     BasicTextField(
         modifier = modifier,

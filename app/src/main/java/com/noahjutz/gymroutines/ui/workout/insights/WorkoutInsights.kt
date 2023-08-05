@@ -70,9 +70,9 @@ import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.SimpleLineChart
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import kotlin.time.ExperimentalTime
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -81,7 +81,7 @@ import kotlin.time.ExperimentalTime
 fun WorkoutInsights(
     viewModel: WorkoutInsightsViewModel = getViewModel(),
     navToSettings: () -> Unit,
-    navToWorkoutEditor: (Int) -> Unit,
+    navToWorkoutEditor: (Int) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -144,14 +144,14 @@ fun WorkoutInsights(
                             onClick = { navToWorkoutEditor(workout.workoutId) },
                             elevation = animateDpAsState(
                                 if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                            ).value,
+                            ).value
                         ) {
                             ListItem(
                                 text = {
                                     Text(
                                         text = routineName,
                                         maxLines = 2,
-                                        overflow = TextOverflow.Ellipsis,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 },
                                 trailing = {
@@ -170,7 +170,9 @@ fun WorkoutInsights(
                                                 onClick = {
                                                     expanded = false
                                                     scope.launch {
-                                                        dismissState.dismiss(DismissDirection.StartToEnd)
+                                                        dismissState.dismiss(
+                                                            DismissDirection.StartToEnd
+                                                        )
                                                     }
                                                 }
                                             ) {
@@ -209,7 +211,7 @@ fun WorkoutInsights(
 private fun DeleteConfirmation(
     name: String,
     onConfirm: () -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     AlertDialog(
         title = {
@@ -239,7 +241,7 @@ private fun DeleteConfirmation(
 @ExperimentalTime
 @Composable
 private fun WorkoutCharts(
-    workouts: List<Workout>?,
+    workouts: List<Workout>?
 ) {
     ChartCard(title = stringResource(R.string.chart_workout_duration)) {
         when {
@@ -286,14 +288,14 @@ private fun WorkoutCharts(
 @Composable
 private fun ChartCard(
     title: String,
-    chart: @Composable () -> Unit,
+    chart: @Composable () -> Unit
 ) {
     Card(
         Modifier
             .fillMaxWidth()
             .height(200.dp),
         shape = RoundedCornerShape(30.dp),
-        elevation = 2.dp,
+        elevation = 2.dp
     ) {
         Column(Modifier.fillMaxWidth()) {
             Surface(

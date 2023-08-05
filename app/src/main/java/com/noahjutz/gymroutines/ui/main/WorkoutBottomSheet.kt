@@ -24,7 +24,7 @@ fun WorkoutBottomSheet(navToWorkoutInProgress: () -> Unit) {
     ) {
         Row(
             Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier

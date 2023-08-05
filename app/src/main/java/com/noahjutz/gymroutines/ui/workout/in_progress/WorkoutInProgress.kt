@@ -101,7 +101,7 @@ fun WorkoutInProgress(
     popBackStack: () -> Unit,
     workoutId: Int,
     exerciseIdsToAdd: List<Int>,
-    viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId) },
+    viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId) }
 ) {
     LaunchedEffect(exerciseIdsToAdd) {
         viewModel.addExercises(exerciseIdsToAdd)
@@ -115,7 +115,7 @@ fun WorkoutInProgress(
                     IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
                 }
             )
-        },
+        }
     ) { paddingValues ->
         val workout by viewModel.workout.collectAsState(initial = null)
 
@@ -131,7 +131,7 @@ fun WorkoutInProgress(
                         viewModel = viewModel,
                         popBackStack = popBackStack,
                         navToExercisePicker = navToExercisePicker,
-                        navToWorkoutCompleted = navToWorkoutCompleted,
+                        navToWorkoutCompleted = navToWorkoutCompleted
                     )
                 }
             }
@@ -149,25 +149,29 @@ private fun WorkoutInProgressContent(
     viewModel: WorkoutInProgressViewModel,
     popBackStack: () -> Unit,
     navToExercisePicker: () -> Unit,
-    navToWorkoutCompleted: (Int, Int) -> Unit,
+    navToWorkoutCompleted: (Int, Int) -> Unit
 ) {
     var showFinishWorkoutDialog by remember { mutableStateOf(false) }
-    if (showFinishWorkoutDialog) FinishWorkoutDialog(
-        onDismiss = { showFinishWorkoutDialog = false },
-        finishWorkout = {
-            viewModel.finishWorkout {
-                navToWorkoutCompleted(workout.workout.workoutId, workout.workout.routineId)
+    if (showFinishWorkoutDialog) {
+        FinishWorkoutDialog(
+            onDismiss = { showFinishWorkoutDialog = false },
+            finishWorkout = {
+                viewModel.finishWorkout {
+                    navToWorkoutCompleted(workout.workout.workoutId, workout.workout.routineId)
+                }
             }
-        }
-    )
+        )
+    }
 
     var showCancelWorkoutDialog by remember { mutableStateOf(false) }
-    if (showCancelWorkoutDialog) CancelWorkoutDialog(
-        onDismiss = { showCancelWorkoutDialog = false },
-        cancelWorkout = {
-            viewModel.cancelWorkout(popBackStack)
-        }
-    )
+    if (showCancelWorkoutDialog) {
+        CancelWorkoutDialog(
+            onDismiss = { showCancelWorkoutDialog = false },
+            cancelWorkout = {
+                viewModel.cancelWorkout(popBackStack)
+            }
+        )
+    }
 
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
@@ -182,7 +186,7 @@ private fun WorkoutInProgressContent(
                 Text(
                     text = routineName,
                     modifier = Modifier.padding(24.dp),
-                    style = typography.h3,
+                    style = typography.h3
                 )
             }
             Text(
@@ -202,7 +206,7 @@ private fun WorkoutInProgressContent(
                     .fillMaxWidth()
                     .animateItemPlacement()
                     .padding(top = 24.dp),
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(24.dp)
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
@@ -275,61 +279,69 @@ private fun WorkoutInProgressContent(
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )
-                            if (exercise?.logReps == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_reps),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logReps == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_reps),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logWeight == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_weight),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logWeight == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_weight),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logTime == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_time),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logTime == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_time),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise?.logDistance == true) Box(
-                                Modifier
-                                    .padding(4.dp)
-                                    .weight(1f)
-                                    .height(56.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_distance),
-                                    style = headerTextStyle
-                                )
+                            if (exercise?.logDistance == true) {
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .weight(1f)
+                                        .height(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_distance),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
                             Box(
                                 Modifier
@@ -356,7 +368,7 @@ private fun WorkoutInProgressContent(
                                 }
                                 SwipeToDismiss(
                                     state = dismissState,
-                                    background = { SwipeToDeleteBackground(dismissState) },
+                                    background = { SwipeToDeleteBackground(dismissState) }
                                 ) {
                                     Surface {
                                         Row(
@@ -370,7 +382,7 @@ private fun WorkoutInProgressContent(
                                                 { innerTextField ->
                                                     Surface(
                                                         color = colors.onSurface.copy(alpha = 0.1f),
-                                                        shape = RoundedCornerShape(8.dp),
+                                                        shape = RoundedCornerShape(8.dp)
                                                     ) {
                                                         Box(
                                                             Modifier
@@ -383,7 +395,11 @@ private fun WorkoutInProgressContent(
                                                     }
                                                 }
                                             if (exercise?.logReps == true) {
-                                                val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }
+                                                val (reps, setReps) = remember {
+                                                    mutableStateOf(
+                                                        set.reps.toStringOrBlank()
+                                                    )
+                                                }
                                                 LaunchedEffect(reps) {
                                                     val repsInt = reps.toIntOrNull()
                                                     viewModel.updateReps(set, repsInt)
@@ -394,14 +410,17 @@ private fun WorkoutInProgressContent(
                                                         .padding(4.dp),
                                                     value = reps,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.integer))
+                                                        if (it.matches(RegexPatterns.integer)) {
                                                             setReps(it)
+                                                        }
                                                     },
                                                     textStyle = textFieldStyle,
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     cursorColor = colors.onSurface,
-                                                    decorationBox = decorationBox,
+                                                    decorationBox = decorationBox
                                                 )
                                             }
                                             if (exercise?.logWeight == true) {
@@ -420,10 +439,13 @@ private fun WorkoutInProgressContent(
                                                         .padding(4.dp),
                                                     value = weight,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.float))
+                                                        if (it.matches(RegexPatterns.float)) {
                                                             setWeight(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colors.onSurface,
@@ -431,7 +453,11 @@ private fun WorkoutInProgressContent(
                                                 )
                                             }
                                             if (exercise?.logTime == true) {
-                                                val (time, setTime) = remember { mutableStateOf(set.time.toStringOrBlank()) }
+                                                val (time, setTime) = remember {
+                                                    mutableStateOf(
+                                                        set.time.toStringOrBlank()
+                                                    )
+                                                }
                                                 LaunchedEffect(time) {
                                                     val timeInt = time.toIntOrNull()
                                                     viewModel.updateTime(set, timeInt)
@@ -442,10 +468,13 @@ private fun WorkoutInProgressContent(
                                                         .padding(4.dp),
                                                     value = time,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.duration))
+                                                        if (it.matches(RegexPatterns.duration)) {
                                                             setTime(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     visualTransformation = durationVisualTransformation,
@@ -469,10 +498,13 @@ private fun WorkoutInProgressContent(
                                                         .padding(4.dp),
                                                     value = distance,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.float))
+                                                        if (it.matches(RegexPatterns.float)) {
                                                             setDistance(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colors.onSurface,
@@ -488,13 +520,17 @@ private fun WorkoutInProgressContent(
                                                         value = set.complete,
                                                         onValueChange = {
                                                             viewModel.updateChecked(set, it)
-                                                        },
+                                                        }
                                                     )
                                                     .background(
                                                         animateColorAsState(
-                                                            if (set.complete) colors.secondary else colors.onSurface.copy(
-                                                                alpha = 0.1f
-                                                            )
+                                                            if (set.complete) {
+                                                                colors.secondary
+                                                            } else {
+                                                                colors.onSurface.copy(
+                                                                    alpha = 0.1f
+                                                                )
+                                                            }
                                                         ).value
                                                     ),
                                                 contentAlignment = Alignment.Center
@@ -521,7 +557,7 @@ private fun WorkoutInProgressContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(64.dp),
-                        onClick = { viewModel.addSet(setGroup) },
+                        onClick = { viewModel.addSet(setGroup) }
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
@@ -549,12 +585,12 @@ private fun WorkoutInProgressContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(24.dp),
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedButton(
                     modifier = Modifier.height(40.dp),
                     shape = RoundedCornerShape(percent = 100),
-                    onClick = { showCancelWorkoutDialog = true },
+                    onClick = { showCancelWorkoutDialog = true }
                 ) {
                     Text(stringResource(R.string.btn_discard_workout))
                 }
@@ -576,25 +612,49 @@ private fun WorkoutInProgressContent(
 @Composable
 private fun CancelWorkoutDialog(
     onDismiss: () -> Unit,
-    cancelWorkout: () -> Unit,
+    cancelWorkout: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.dialog_title_discard_workout)) },
-        confirmButton = { Button(onClick = cancelWorkout) { Text(stringResource(R.string.btn_delete)) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.btn_cancel)) } },
+        confirmButton = {
+            Button(onClick = cancelWorkout) {
+                Text(
+                    stringResource(R.string.btn_delete)
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    stringResource(R.string.btn_cancel)
+                )
+            }
+        }
     )
 }
 
 @Composable
 private fun FinishWorkoutDialog(
     onDismiss: () -> Unit,
-    finishWorkout: () -> Unit,
+    finishWorkout: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.dialog_title_finish_workout)) },
-        confirmButton = { Button(onClick = finishWorkout) { Text(stringResource(R.string.dialog_confirm_finish_workout)) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.btn_cancel)) } },
+        confirmButton = {
+            Button(onClick = finishWorkout) {
+                Text(
+                    stringResource(R.string.dialog_confirm_finish_workout)
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    stringResource(R.string.btn_cancel)
+                )
+            }
+        }
     )
 }

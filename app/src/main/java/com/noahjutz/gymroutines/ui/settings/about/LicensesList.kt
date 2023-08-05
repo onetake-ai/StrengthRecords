@@ -30,7 +30,7 @@ enum class Licenses(val fullName: String) {
 data class Dependency(
     val name: String,
     val license: Licenses,
-    val url: String,
+    val url: String
 )
 
 val dependencies = listOf(
@@ -84,7 +84,7 @@ val dependencies = listOf(
 @ExperimentalMaterialApi
 @Composable
 fun LicensesList(
-    popBackStack: () -> Unit,
+    popBackStack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -97,7 +97,7 @@ fun LicensesList(
                         )
                     }
                 },
-                title = stringResource(R.string.screen_licenses),
+                title = stringResource(R.string.screen_licenses)
             )
         }
     ) { paddingValues ->

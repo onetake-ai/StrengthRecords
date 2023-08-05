@@ -60,7 +60,9 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate35To36() {
         var db = helper.createDatabase(TEST_DB, 35).use {
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 36, true)
@@ -70,8 +72,12 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate36To37() {
         var db = helper.createDatabase(TEST_DB, 36).use {
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
-            it.execSQL("INSERT INTO routine_table VALUES ('Legs', '[{\"exerciseId\":0,\"sets\":[{\"reps\":6}]}]', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
+            it.execSQL(
+                "INSERT INTO routine_table VALUES ('Legs', '[{\"exerciseId\":0,\"sets\":[{\"reps\":6}]}]', 0)"
+            )
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 37, true, MIGRATION_36_37)
@@ -81,8 +87,12 @@ class MigrationTest {
     @Throws(IOException::class)
     fun migrate37to38() {
         var db = helper.createDatabase(TEST_DB, 37).use {
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
-            it.execSQL("INSERT INTO routine_table VALUES ('Legs', '[{\"exerciseId\":0,\"reps\":6}]', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
+            it.execSQL(
+                "INSERT INTO routine_table VALUES ('Legs', '[{\"exerciseId\":0,\"reps\":6}]', 0)"
+            )
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 38, true, MIGRATION_37_38)
@@ -93,7 +103,9 @@ class MigrationTest {
     fun migrate38to39() {
         var db = helper.createDatabase(TEST_DB, 38).use {
             it.execSQL("INSERT INTO routine_table VALUES ('Legs', 0)")
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'false', 'true', 'false', 'false', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'false', 'true', 'false', 'false', 0)"
+            )
             it.execSQL("INSERT INTO routine_set_table VALUES (0, 0, 0, 12, null, 10, null, 0)")
             it
         }
@@ -115,7 +127,9 @@ class MigrationTest {
     fun migrate40to41() {
         var db = helper.createDatabase(TEST_DB, 40).use {
             it.execSQL("INSERT INTO routine_table VALUES ('Full Body', 0)")
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
             it.execSQL("INSERT INTO routine_set_group_table VALUES (0, 0, 0, 0)")
             it.execSQL("INSERT INTO routine_set_table VALUES (0, 0, 12, 5, null, null, 0)")
             it
@@ -128,7 +142,9 @@ class MigrationTest {
     fun migrate41to42() {
         var db = helper.createDatabase(TEST_DB, 41).use {
             it.execSQL("INSERT INTO routine_table VALUES ('Full Body', 0)")
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
             it.execSQL("INSERT INTO routine_set_group_table VALUES (0, 0, 0, 0)")
             it.execSQL("INSERT INTO routine_set_table VALUES (0, 0, 12, 5, null, null, 0)")
             it
@@ -141,7 +157,9 @@ class MigrationTest {
     fun migrate42to43() {
         var db = helper.createDatabase(TEST_DB, 42).use {
             it.execSQL("INSERT INTO routine_table VALUES ('Full Body', 12)")
-            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL(
+                "INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)"
+            )
             it.execSQL("INSERT INTO workout_table VALUES ('Legs', 0, 0, 0)")
             it.execSQL("INSERT INTO workout_table VALUES ('Full Body', 0, 0, 1)")
             it

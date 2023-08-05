@@ -17,21 +17,21 @@ class DateUtilTest {
         Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
     )
 
     private val dates3StreakInterrupted = listOf(
         now,
         Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
     )
 
     private val datesNoStreak = listOf(
         Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
     )
 
     private val dates5StreakMultipleADay = listOf(
@@ -44,7 +44,7 @@ class DateUtilTest {
         Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
     )
 
     private val datesNoStreak2 = listOf(
@@ -52,7 +52,7 @@ class DateUtilTest {
         Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
         Date((now.time - 110.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 134.hours.absoluteValue.inMilliseconds).toLong()),
+        Date((now.time - 134.hours.absoluteValue.inMilliseconds).toLong())
     )
 
     @Test

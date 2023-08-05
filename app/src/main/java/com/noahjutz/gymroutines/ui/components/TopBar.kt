@@ -15,7 +15,7 @@ fun TopBar(
     modifier: Modifier = Modifier,
     title: String,
     navigationIcon: (@Composable () -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {},
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         modifier = modifier,

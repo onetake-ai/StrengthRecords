@@ -40,7 +40,7 @@ import org.koin.core.parameter.parametersOf
 fun ExerciseEditor(
     popBackStack: () -> Unit,
     exerciseId: Int,
-    viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
+    viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) }
 ) {
     var showDiscardAlert by remember { mutableStateOf(false) }
     if (showDiscardAlert) {
@@ -83,7 +83,7 @@ fun ExerciseEditor(
                                 Icons.Default.Close,
                                 stringResource(R.string.btn_cancel)
                             )
-                        },
+                        }
                     )
                 },
                 title = stringResource(R.string.screen_edit_exercise),
@@ -113,7 +113,7 @@ fun ExerciseEditor(
                         value = name,
                         onValueChange = viewModel::setName,
                         label = { Text(stringResource(R.string.label_exercise_name)) },
-                        singleLine = true,
+                        singleLine = true
                     )
                     val notes by viewModel.notes.collectAsState()
                     OutlinedTextField(
@@ -122,7 +122,7 @@ fun ExerciseEditor(
                             .padding(16.dp),
                         value = notes,
                         onValueChange = viewModel::setNotes,
-                        label = { Text(stringResource(R.string.label_exercise_notes)) },
+                        label = { Text(stringResource(R.string.label_exercise_notes)) }
                     )
                     val logReps by viewModel.logReps.collectAsState()
                     ListItem(
@@ -131,7 +131,7 @@ fun ExerciseEditor(
                             onValueChange = viewModel::setLogReps
                         ),
                         text = { Text(stringResource(R.string.checkbox_log_reps)) },
-                        icon = { Checkbox(checked = logReps, null) },
+                        icon = { Checkbox(checked = logReps, null) }
                     )
                     val logWeight by viewModel.logWeight.collectAsState()
                     ListItem(
@@ -140,7 +140,7 @@ fun ExerciseEditor(
                             onValueChange = viewModel::setLogWeight
                         ),
                         text = { Text(stringResource(R.string.checkbox_log_weight)) },
-                        icon = { Checkbox(checked = logWeight, null) },
+                        icon = { Checkbox(checked = logWeight, null) }
                     )
                     val logTime by viewModel.logTime.collectAsState()
                     ListItem(
@@ -149,7 +149,7 @@ fun ExerciseEditor(
                             onValueChange = viewModel::setLogTime
                         ),
                         text = { Text(stringResource(R.string.checkbox_log_time)) },
-                        icon = { Checkbox(checked = logTime, null) },
+                        icon = { Checkbox(checked = logTime, null) }
                     )
                     val logDistance by viewModel.logDistance.collectAsState()
                     ListItem(
@@ -158,7 +158,7 @@ fun ExerciseEditor(
                             onValueChange = viewModel::setLogDistance
                         ),
                         text = { Text(stringResource(R.string.checkbox_log_distance)) },
-                        icon = { Checkbox(checked = logDistance, null) },
+                        icon = { Checkbox(checked = logDistance, null) }
                     )
                 }
             }

@@ -49,7 +49,7 @@ private object Urls {
 @Composable
 fun AboutApp(
     popBackStack: () -> Unit,
-    navToLicenses: () -> Unit,
+    navToLicenses: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -70,19 +70,19 @@ fun AboutApp(
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Surface(
                         shape = RoundedCornerShape(4.dp),
                         color = colorResource(id = R.color.ic_launcher_background),
-                        elevation = 4.dp,
+                        elevation = 4.dp
                     ) {
                         Image(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .size(48.dp),
                             imageVector = ImageVector.vectorResource(R.drawable.ic_gymroutines),
-                            contentDescription = null,
+                            contentDescription = null
                         )
                     }
                     Spacer(Modifier.width(12.dp))
@@ -92,18 +92,18 @@ fun AboutApp(
                 ListItem(
                     text = { Text(stringResource(R.string.about_app_version)) },
                     secondaryText = { Text(BuildConfig.VERSION_NAME) },
-                    icon = { Icon(Icons.Default.Update, null) },
+                    icon = { Icon(Icons.Default.Update, null) }
                 )
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToLicenses),
                     text = { Text(stringResource(R.string.screen_licenses)) },
-                    icon = { Icon(Icons.Default.ListAlt, null) },
+                    icon = { Icon(Icons.Default.ListAlt, null) }
                 )
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
                     text = { Text(stringResource(R.string.about_app_source_code)) },
                     icon = { Icon(Icons.Default.Code, null) },
-                    trailing = { Icon(Icons.Default.Launch, null) },
+                    trailing = { Icon(Icons.Default.Launch, null) }
                 )
 
                 Divider()
@@ -111,7 +111,7 @@ fun AboutApp(
                 ListItem(
                     text = { Text(stringResource(R.string.about_contact)) },
                     secondaryText = { Text("noahjutz@tutanota.de") },
-                    icon = { Icon(Icons.Default.ContactMail, null) },
+                    icon = { Icon(Icons.Default.ContactMail, null) }
                 )
             }
         }

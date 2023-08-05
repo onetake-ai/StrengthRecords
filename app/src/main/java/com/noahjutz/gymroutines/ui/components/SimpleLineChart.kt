@@ -17,7 +17,7 @@ fun SimpleLineChart(
     data: List<Pair<Float, Float>>,
     secondaryData: List<Pair<Float, Float>> = emptyList(),
     color: Color = colors.primary,
-    secondaryColor: Color = colors.onSurface.copy(alpha = 0.12f),
+    secondaryColor: Color = colors.onSurface.copy(alpha = 0.12f)
 ) {
     check(data.isNotEmpty()) { "data passed to SimpleLineChart must not be empty" }
 

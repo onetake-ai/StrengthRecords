@@ -60,10 +60,14 @@ interface RoutineDao {
     @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
     suspend fun getSetGroupsInRoutine(routineId: Int): List<RoutineSetGroup>
 
-    @Query("SELECT * FROM routine_set_table WHERE groupId in (SELECT groupId FROM routine_set_group_table WHERE routineId == :routineId)")
+    @Query(
+        "SELECT * FROM routine_set_table WHERE groupId in (SELECT groupId FROM routine_set_group_table WHERE routineId == :routineId)"
+    )
     suspend fun getSetsInRoutine(routineId: Int): List<RoutineSet>
 
-    @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
+    @Query(
+        "SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)"
+    )
     fun getSetsFlow(routineId: Int): Flow<List<RoutineSet>>
 
     @Transaction

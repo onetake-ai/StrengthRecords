@@ -48,7 +48,7 @@ val koinModule = module {
                 MIGRATION_39_40,
                 MIGRATION_40_41,
                 MIGRATION_41_42,
-                MIGRATION_42_43,
+                MIGRATION_42_43
             )
             .build()
     }
@@ -114,7 +114,7 @@ val koinModule = module {
             exerciseRepository = get(),
             routineRepository = get(),
             application = androidApplication(),
-            workoutId = params.get(),
+            workoutId = params.get()
         )
     }
 
@@ -122,7 +122,7 @@ val koinModule = module {
         WorkoutInsightsViewModel(
             workoutRepository = get(),
             routineRepository = get(),
-            preferences = get(),
+            preferences = get()
         )
     }
 
@@ -131,7 +131,7 @@ val koinModule = module {
             workoutId = params.get(),
             workoutRepository = get(),
             exerciseRepository = get(),
-            routineRepository = get(),
+            routineRepository = get()
         )
     }
 
@@ -151,7 +151,7 @@ val koinModule = module {
         DataSettingsViewModel(
             database = get(),
             application = androidApplication(),
-            preferences = get(),
+            preferences = get()
         )
     }
 
@@ -167,7 +167,7 @@ val koinModule = module {
             routineId = params[1],
             preferences = get(),
             routineRepository = get(),
-            workoutRepository = get(),
+            workoutRepository = get()
         )
     }
 }

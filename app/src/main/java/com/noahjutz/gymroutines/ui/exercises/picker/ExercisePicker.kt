@@ -46,7 +46,7 @@ import org.koin.androidx.compose.getViewModel
 fun ExercisePickerSheet(
     viewModel: ExercisePickerViewModel = getViewModel(),
     onExercisesSelected: (List<Int>) -> Unit,
-    navToExerciseEditor: () -> Unit,
+    navToExerciseEditor: () -> Unit
 ) {
     val allExercises by viewModel.allExercises.collectAsState(emptyList())
     val selectedExerciseIds by viewModel.selectedExerciseIds.collectAsState(initial = emptyList())
@@ -83,11 +83,14 @@ fun ExercisePickerSheet(
                     Modifier.toggleable(
                         value = checked,
                         onValueChange = {
-                            if (it) viewModel.addExercise(exercise)
-                            else viewModel.removeExercise(exercise)
+                            if (it) {
+                                viewModel.addExercise(exercise)
+                            } else {
+                                viewModel.removeExercise(exercise)
+                            }
                         }
                     ),
-                    icon = { Checkbox(checked = checked, onCheckedChange = null) },
+                    icon = { Checkbox(checked = checked, onCheckedChange = null) }
                 ) {
                     Text(exercise.name)
                 }
@@ -102,7 +105,7 @@ fun ExercisePickerSheet(
                             stringResource(R.string.btn_new_exercise),
                             color = colors.primary
                         )
-                    },
+                    }
                 )
             }
         }

@@ -49,7 +49,8 @@ fun AppearanceSettings(
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(paddingValues)) {
+                .padding(paddingValues)
+        ) {
             val appTheme by viewModel.appTheme.collectAsState(initial = ColorTheme.FollowSystem)
             Row(
                 Modifier
@@ -73,7 +74,7 @@ fun AppearanceSettings(
                     OutlinedButton(
                         onClick = { viewModel.setAppTheme(ColorTheme.FollowSystem) },
                         modifier = Modifier.height(40.dp),
-                        shape = RoundedCornerShape(percent = 100),
+                        shape = RoundedCornerShape(percent = 100)
                     ) {
                         Text(stringResource(R.string.btn_reset))
                     }
@@ -84,7 +85,7 @@ fun AppearanceSettings(
                     colors = WhiteColorPalette,
                     name = stringResource(ColorTheme.White.themeName),
                     selected = appTheme == ColorTheme.White || (appTheme == ColorTheme.FollowSystem && !isSystemInDarkTheme()),
-                    onClick = { viewModel.setAppTheme(ColorTheme.White) },
+                    onClick = { viewModel.setAppTheme(ColorTheme.White) }
                 )
                 Spacer(Modifier.width(16.dp))
                 ThemePreview(
@@ -104,7 +105,7 @@ private fun RowScope.ThemePreview(
     colors: Colors,
     name: String,
     selected: Boolean,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Column(
         Modifier
@@ -118,7 +119,7 @@ private fun RowScope.ThemePreview(
                     .weight(1f),
                 onClick = onClick,
                 elevation = 4.dp,
-                shape = RoundedCornerShape(30.dp),
+                shape = RoundedCornerShape(30.dp)
             ) {
                 Box(Modifier.fillMaxSize()) {
                     Column {
@@ -126,13 +127,13 @@ private fun RowScope.ThemePreview(
                             Modifier
                                 .fillMaxWidth()
                                 .height(60.dp)
-                                .background(colors.primary),
+                                .background(colors.primary)
                         )
                         Text(
                             "Theme theme",
                             Modifier
                                 .padding(16.dp)
-                                .placeholder(visible = true),
+                                .placeholder(visible = true)
                         )
                     }
                     Box(

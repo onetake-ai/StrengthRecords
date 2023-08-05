@@ -22,7 +22,7 @@ import com.noahjutz.gymroutines.ui.Screen
 sealed class BottomNavItem(
     val route: String,
     @StringRes val name: Int,
-    val icon: ImageVector,
+    val icon: ImageVector
 ) {
     data object Routines : BottomNavItem(
         route = Screen.routineList.name,
@@ -46,13 +46,13 @@ sealed class BottomNavItem(
 val bottomNavItems = listOf(
     BottomNavItem.Routines,
     BottomNavItem.Exercises,
-    BottomNavItem.Workouts,
+    BottomNavItem.Workouts
 )
 
 @Composable
 fun BottomBar(
     navController: NavController,
-    showLabels: Boolean,
+    showLabels: Boolean
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
@@ -71,7 +71,7 @@ fun BottomBar(
                     }
                 },
                 label = (@Composable { Text(stringResource(item.name)) }).takeIf { showLabels },
-                selected = item.route == currentRoute,
+                selected = item.route == currentRoute
             )
         }
     }

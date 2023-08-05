@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 fun RoutineList(
     navToRoutineEditor: (Long) -> Unit,
     navToSettings: () -> Unit,
-    viewModel: RoutineListViewModel = getViewModel(),
+    viewModel: RoutineListViewModel = getViewModel()
 ) {
     Scaffold(
         topBar = {
@@ -85,9 +85,9 @@ fun RoutineList(
                     )
                 },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.btn_new_routine)) },
+                text = { Text(stringResource(R.string.btn_new_routine)) }
             )
-        },
+        }
     ) { paddingValues ->
         val routines by viewModel.routines.collectAsState(null)
 
@@ -149,7 +149,7 @@ fun RoutineListContent(
                                 text = routine.name.takeIf { it.isNotBlank() }
                                     ?: stringResource(R.string.unnamed_routine),
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
+                                overflow = TextOverflow.Ellipsis
                             )
                         },
                         trailing = {

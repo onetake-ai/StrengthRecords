@@ -21,7 +21,7 @@ class WorkoutCompletedViewModel(
     private val routineId: Int,
     private val preferences: DataStore<Preferences>,
     private val workoutRepository: WorkoutRepository,
-    private val routineRepository: RoutineRepository,
+    private val routineRepository: RoutineRepository
 ) : ViewModel() {
     private val routineSetGroupsOld = viewModelScope.async {
         routineRepository.getSetGroupsInRoutine(routineId)
@@ -75,7 +75,7 @@ class WorkoutCompletedViewModel(
             val routineSetGroup = RoutineSetGroup(
                 routineId = routineId,
                 exerciseId = setGroup.exerciseId,
-                position = setGroup.position,
+                position = setGroup.position
             )
             val groupId = routineRepository.insert(routineSetGroup)
             for (set in workoutSets.filter { it.groupId == setGroup.id }) {
@@ -84,7 +84,7 @@ class WorkoutCompletedViewModel(
                     reps = set.reps,
                     weight = set.weight,
                     time = set.time,
-                    distance = set.distance,
+                    distance = set.distance
                 )
                 routineRepository.insert(routineSet)
             }

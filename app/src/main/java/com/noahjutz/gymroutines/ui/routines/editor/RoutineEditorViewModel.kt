@@ -44,7 +44,7 @@ class RoutineEditorViewModel(
     private val exerciseRepository: ExerciseRepository,
     private val workoutRepository: WorkoutRepository,
     private val preferences: DataStore<Preferences>,
-    routineId: Int,
+    routineId: Int
 ) : ViewModel() {
     val isWorkoutInProgress: Flow<Boolean> =
         preferences.data.map { it[AppPrefs.CurrentWorkout.key]?.let { it >= 0 } ?: false }
@@ -95,7 +95,7 @@ class RoutineEditorViewModel(
                     reps = lastSet?.reps,
                     weight = lastSet?.weight,
                     time = lastSet?.time,
-                    distance = lastSet?.distance,
+                    distance = lastSet?.distance
                 )
             )
         }
@@ -108,11 +108,11 @@ class RoutineEditorViewModel(
                     val setGroup = RoutineSetGroup(
                         exerciseId = exerciseId,
                         routineId = routine.routineId,
-                        position = _setGroups.size,
+                        position = _setGroups.size
                     )
                     val groupId = routineRepository.insert(setGroup)
                     val set = RoutineSet(
-                        groupId = groupId.toInt(),
+                        groupId = groupId.toInt()
                     )
                     routineRepository.insert(set)
                 }

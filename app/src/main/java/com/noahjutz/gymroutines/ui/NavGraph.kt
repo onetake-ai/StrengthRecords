@@ -82,12 +82,13 @@ enum class Screen {
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    bottomSheetNavigator: BottomSheetNavigator,
+    bottomSheetNavigator: BottomSheetNavigator
 ) {
     val uri = "https://gymroutines.com"
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         AnimatedNavHost(
-            navController, startDestination = Screen.routineList.name,
+            navController,
+            startDestination = Screen.routineList.name,
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None },
@@ -95,7 +96,11 @@ fun NavGraph(
         ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
-                    navToWorkoutEditor = { workoutId -> navController.navigate("${Screen.workoutViewer}/$workoutId") },
+                    navToWorkoutEditor = { workoutId ->
+                        navController.navigate(
+                            "${Screen.workoutViewer}/$workoutId"
+                        )
+                    },
                     navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
@@ -106,12 +111,16 @@ fun NavGraph(
                 val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 WorkoutViewer(
                     workoutId = workoutId,
-                    popBackStack = { navController.popBackStack() },
+                    popBackStack = { navController.popBackStack() }
                 )
             }
             composable(Screen.routineList.name) {
                 RoutineList(
-                    navToRoutineEditor = { routineId -> navController.navigate("${Screen.routineEditor}/$routineId") },
+                    navToRoutineEditor = { routineId ->
+                        navController.navigate(
+                            "${Screen.routineEditor}/$routineId"
+                        )
+                    },
                     navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
@@ -140,7 +149,11 @@ fun NavGraph(
             }
             composable(Screen.exerciseList.name) {
                 ExerciseList(
-                    navToExerciseEditor = { exerciseId -> navController.navigate("${Screen.exerciseEditor}?exerciseId=$exerciseId") },
+                    navToExerciseEditor = { exerciseId ->
+                        navController.navigate(
+                            "${Screen.exerciseEditor}?exerciseId=$exerciseId"
+                        )
+                    },
                     navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
@@ -155,13 +168,15 @@ fun NavGraph(
             ) { backStackEntry ->
                 ExerciseEditor(
                     exerciseId = backStackEntry.arguments!!.getInt("exerciseId"),
-                    popBackStack = { navController.popBackStack() },
+                    popBackStack = { navController.popBackStack() }
                 )
             }
             composable(
                 "${Screen.workoutInProgress}/{workoutId}",
                 arguments = listOf(navArgument("workoutId") { type = NavType.IntType }),
-                deepLinks = listOf(navDeepLink { uriPattern = "$uri/workoutInProgress/{workoutId}" })
+                deepLinks = listOf(
+                    navDeepLink { uriPattern = "$uri/workoutInProgress/{workoutId}" }
+                )
             ) { backStackEntry ->
                 val exerciseIdsToAdd by backStackEntry
                     .savedStateHandle
@@ -187,7 +202,11 @@ fun NavGraph(
                 AppSettings(
                     popBackStack = { navController.popBackStack() },
                     navToAbout = { navController.navigate(Screen.about.name) },
-                    navToAppearanceSettings = { navController.navigate(Screen.appearanceSettings.name) },
+                    navToAppearanceSettings = {
+                        navController.navigate(
+                            Screen.appearanceSettings.name
+                        )
+                    },
                     navToDataSettings = { navController.navigate(Screen.dataSettings.name) },
                     navToGeneralSettings = { navController.navigate(Screen.generalSettings.name) }
                 )

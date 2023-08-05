@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 
 class ExercisePickerViewModel(
-    exerciseRepository: ExerciseRepository,
+    exerciseRepository: ExerciseRepository
 ) : ViewModel() {
     private val _nameFilter = MutableStateFlow("")
     private val exercises = exerciseRepository.exercises

@@ -22,7 +22,7 @@ data class WorkoutSetGroup(
     val position: Int,
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Int = 0
 )
 
 data class WorkoutSetGroupWithSets(

@@ -65,7 +65,7 @@ fun RoutineEditor(
     popBackStack: () -> Unit,
     routineId: Int,
     exerciseIdsToAdd: List<Int>,
-    viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
+    viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) }
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -85,7 +85,7 @@ fun RoutineEditor(
                         }
                     },
                     icon = { Icon(Icons.Default.PlayArrow, null) },
-                    text = { Text(stringResource(R.string.btn_start_workout)) },
+                    text = { Text(stringResource(R.string.btn_start_workout)) }
                 )
             }
         },
@@ -96,7 +96,7 @@ fun RoutineEditor(
                         Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 },
-                title = stringResource(R.string.screen_edit_routine),
+                title = stringResource(R.string.screen_edit_routine)
             )
         }
     ) { paddingValues ->
@@ -130,7 +130,6 @@ private fun RoutineEditorContent(
         Modifier.fillMaxHeight(),
         contentPadding = PaddingValues(bottom = 70.dp)
     ) {
-
         item {
             val (name, setName) = remember { mutableStateOf(routine.name) }
             LaunchedEffect(name) {
@@ -154,7 +153,7 @@ private fun RoutineEditorContent(
                     ) {
                         Row(
                             Modifier.padding(start = 30.dp, end = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Box(
                                 Modifier
@@ -197,7 +196,7 @@ private fun RoutineEditorContent(
                     .fillMaxWidth()
                     .animateItemPlacement()
                     .padding(top = 30.dp),
-                shape = RoundedCornerShape(30.dp),
+                shape = RoundedCornerShape(30.dp)
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
@@ -270,45 +269,53 @@ private fun RoutineEditorContent(
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )
-                            if (exercise.logReps) Surface(
-                                Modifier
-                                    .padding(horizontal = 4.dp, vertical = 8.dp)
-                                    .weight(1f),
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_reps),
-                                    style = headerTextStyle
-                                )
+                            if (exercise.logReps) {
+                                Surface(
+                                    Modifier
+                                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                                        .weight(1f)
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_reps),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise.logWeight) Surface(
-                                Modifier
-                                    .padding(horizontal = 4.dp, vertical = 8.dp)
-                                    .weight(1f),
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_weight),
-                                    style = headerTextStyle
-                                )
+                            if (exercise.logWeight) {
+                                Surface(
+                                    Modifier
+                                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                                        .weight(1f)
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_weight),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise.logTime) Surface(
-                                Modifier
-                                    .padding(horizontal = 4.dp, vertical = 8.dp)
-                                    .weight(1f),
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_time),
-                                    style = headerTextStyle
-                                )
+                            if (exercise.logTime) {
+                                Surface(
+                                    Modifier
+                                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                                        .weight(1f)
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_time),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
-                            if (exercise.logDistance) Surface(
-                                Modifier
-                                    .padding(horizontal = 4.dp, vertical = 8.dp)
-                                    .weight(1f),
-                            ) {
-                                Text(
-                                    stringResource(R.string.column_distance),
-                                    style = headerTextStyle
-                                )
+                            if (exercise.logDistance) {
+                                Surface(
+                                    Modifier
+                                        .padding(horizontal = 4.dp, vertical = 8.dp)
+                                        .weight(1f)
+                                ) {
+                                    Text(
+                                        stringResource(R.string.column_distance),
+                                        style = headerTextStyle
+                                    )
+                                }
                             }
                         }
                         for (set in setGroup.sets) {
@@ -321,7 +328,7 @@ private fun RoutineEditorContent(
                                 }
                                 SwipeToDismiss(
                                     state = dismissState,
-                                    background = { SwipeToDeleteBackground(dismissState) },
+                                    background = { SwipeToDeleteBackground(dismissState) }
                                 ) {
                                     Surface {
                                         Row(
@@ -335,7 +342,7 @@ private fun RoutineEditorContent(
                                                 { innerTextField ->
                                                     Surface(
                                                         color = colors.onSurface.copy(alpha = 0.1f),
-                                                        shape = RoundedCornerShape(8.dp),
+                                                        shape = RoundedCornerShape(8.dp)
                                                     ) {
                                                         Box(
                                                             Modifier.padding(
@@ -349,7 +356,11 @@ private fun RoutineEditorContent(
                                                     }
                                                 }
                                             if (exercise.logReps) {
-                                                val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }
+                                                val (reps, setReps) = remember {
+                                                    mutableStateOf(
+                                                        set.reps.toStringOrBlank()
+                                                    )
+                                                }
                                                 LaunchedEffect(reps) {
                                                     val repsInt = reps.toIntOrNull()
                                                     viewModel.updateReps(set, repsInt)
@@ -360,14 +371,17 @@ private fun RoutineEditorContent(
                                                         .padding(4.dp),
                                                     value = reps,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.integer))
+                                                        if (it.matches(RegexPatterns.integer)) {
                                                             setReps(it)
+                                                        }
                                                     },
                                                     textStyle = textFieldStyle,
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     cursorColor = colors.onSurface,
-                                                    decorationBox = decorationBox,
+                                                    decorationBox = decorationBox
                                                 )
                                             }
                                             if (exercise.logWeight) {
@@ -386,10 +400,13 @@ private fun RoutineEditorContent(
                                                         .padding(4.dp),
                                                     value = weight,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.float))
+                                                        if (it.matches(RegexPatterns.float)) {
                                                             setWeight(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colors.onSurface,
@@ -397,7 +414,11 @@ private fun RoutineEditorContent(
                                                 )
                                             }
                                             if (exercise.logTime) {
-                                                val (time, setTime) = remember { mutableStateOf(set.time.toStringOrBlank()) }
+                                                val (time, setTime) = remember {
+                                                    mutableStateOf(
+                                                        set.time.toStringOrBlank()
+                                                    )
+                                                }
                                                 LaunchedEffect(time) {
                                                     val timeInt = time.toIntOrNull()
                                                     viewModel.updateTime(set, timeInt)
@@ -408,10 +429,13 @@ private fun RoutineEditorContent(
                                                         .padding(4.dp),
                                                     value = time,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.duration))
+                                                        if (it.matches(RegexPatterns.duration)) {
                                                             setTime(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     visualTransformation = durationVisualTransformation,
@@ -435,10 +459,13 @@ private fun RoutineEditorContent(
                                                         .padding(4.dp),
                                                     value = distance,
                                                     onValueChange = {
-                                                        if (it.matches(RegexPatterns.float))
+                                                        if (it.matches(RegexPatterns.float)) {
                                                             setDistance(it)
+                                                        }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                                    keyboardOptions = KeyboardOptions(
+                                                        keyboardType = KeyboardType.Number
+                                                    ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colors.onSurface,
@@ -455,7 +482,7 @@ private fun RoutineEditorContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(64.dp),
-                        onClick = { viewModel.addSet(setGroup) },
+                        onClick = { viewModel.addSet(setGroup) }
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))

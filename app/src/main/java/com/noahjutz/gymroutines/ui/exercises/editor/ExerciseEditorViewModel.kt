@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
-    private val exerciseId: Int,
+    private val exerciseId: Int
 ) : ViewModel() {
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
@@ -53,7 +53,7 @@ class ExerciseEditorViewModel(
     val isSavingEnabled = combine(
         _originalExercise,
         _currentExercise,
-        name,
+        name
     ) { old, current, name ->
         val isExerciseEqual = current == old
         val isNameBlank = name.isBlank()
@@ -147,7 +147,7 @@ class ExerciseEditorViewModel(
                 logWeight = logWeight.value,
                 logTime = logTime.value,
                 logDistance = logDistance.value,
-                hidden = false,
+                hidden = false
             )
             if (exerciseId < 0) {
                 repository.insert(exercise.copy(exerciseId = 0))

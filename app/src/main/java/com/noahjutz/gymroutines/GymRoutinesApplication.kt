@@ -102,8 +102,11 @@ class GymRoutinesApplication : Application() {
                         )
 
                         val flag =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
-                            else PendingIntent.FLAG_UPDATE_CURRENT
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                PendingIntent.FLAG_IMMUTABLE
+                            } else {
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                            }
 
                         val pending: PendingIntent =
                             TaskStackBuilder.create(applicationContext).run {
@@ -117,7 +120,9 @@ class GymRoutinesApplication : Application() {
                                     PERSISTENT_WORKOUT_CHANNEL_ID
                                 )
                                     .setSmallIcon(R.drawable.ic_gymroutines)
-                                    .setContentTitle(getString(R.string.notif_title_current_workout))
+                                    .setContentTitle(
+                                        getString(R.string.notif_title_current_workout)
+                                    )
                                     .setContentText(getString(R.string.notif_text_current_workout))
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                     .setContentIntent(pending)

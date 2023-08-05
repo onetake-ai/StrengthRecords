@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 class WorkoutInsightsViewModel(
     private val workoutRepository: WorkoutRepository,
     private val routineRepository: RoutineRepository,
-    preferences: DataStore<Preferences>,
+    preferences: DataStore<Preferences>
 ) : ViewModel() {
     val workouts = workoutRepository.workouts.combine(preferences.data) { workouts, prefs ->
         workouts.filter {
