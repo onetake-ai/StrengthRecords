@@ -42,31 +42,37 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.DismissValue
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.SwipeToDismiss
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DragHandle
-import androidx.compose.material.rememberDismissState
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -81,7 +87,7 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
@@ -93,7 +99,6 @@ import org.koin.core.parameter.parametersOf
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @Composable
 fun WorkoutInProgress(
     navToExercisePicker: () -> Unit,
@@ -112,7 +117,12 @@ fun WorkoutInProgress(
             TopBar(
                 title = stringResource(R.string.screen_perform_workout),
                 navigationIcon = {
-                    IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
+                    IconButton(onClick = popBackStack) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            null
+                        )
+                    }
                 }
             )
         }
@@ -140,7 +150,6 @@ fun WorkoutInProgress(
 }
 
 @OptIn(
-    ExperimentalMaterialApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -179,14 +188,14 @@ private fun WorkoutInProgressContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-                color = colors.onSurface.copy(alpha = 0.1f),
+                color = colorScheme.onSurface.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(24.dp)
             ) {
                 val routineName by viewModel.routineName.collectAsState("")
                 Text(
                     text = routineName,
                     modifier = Modifier.padding(24.dp),
-                    style = typography.h3
+                    style = typography.headlineSmall
                 )
             }
             Text(
@@ -194,7 +203,7 @@ private fun WorkoutInProgressContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-                style = typography.h4.copy(textAlign = TextAlign.Center)
+                style = typography.headlineSmall.copy(textAlign = TextAlign.Center)
             )
         }
 
@@ -209,14 +218,14 @@ private fun WorkoutInProgressContent(
                 shape = RoundedCornerShape(24.dp)
             ) {
                 Column {
-                    Surface(Modifier.fillMaxWidth(), color = colors.primary) {
+                    Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
                                 exercise?.name.toString(),
-                                style = typography.h5,
+                                style = typography.headlineSmall,
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .weight(1f)
@@ -248,10 +257,11 @@ private fun WorkoutInProgressContent(
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_move_up))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_move_up))
-                                    }
+                                    )
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
@@ -263,10 +273,11 @@ private fun WorkoutInProgressContent(
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_move_down))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_move_down))
-                                    }
+                                    )
                                 }
                             }
                         }
@@ -274,7 +285,7 @@ private fun WorkoutInProgressContent(
                     Column(Modifier.padding(vertical = 16.dp)) {
                         Row(Modifier.padding(horizontal = 4.dp)) {
                             val headerTextStyle = TextStyle(
-                                color = colors.onSurface,
+                                color = colorScheme.onSurface,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
@@ -286,7 +297,7 @@ private fun WorkoutInProgressContent(
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -302,7 +313,7 @@ private fun WorkoutInProgressContent(
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -318,7 +329,7 @@ private fun WorkoutInProgressContent(
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -334,7 +345,7 @@ private fun WorkoutInProgressContent(
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -348,7 +359,7 @@ private fun WorkoutInProgressContent(
                                     .padding(4.dp)
                                     .size(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                    .background(colorScheme.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -359,29 +370,29 @@ private fun WorkoutInProgressContent(
                         }
                         for (set in setGroup.sets) {
                             key(set.workoutSetId) {
-                                val dismissState = rememberDismissState()
+                                val dismissState = rememberSwipeToDismissBoxState()
                                 LaunchedEffect(dismissState.currentValue) {
-                                    if (dismissState.currentValue != DismissValue.Default) {
+                                    if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
                                         viewModel.deleteSet(set)
-                                        dismissState.snapTo(DismissValue.Default)
+                                        dismissState.snapTo(SwipeToDismissBoxValue.Settled)
                                     }
                                 }
-                                SwipeToDismiss(
+                                SwipeToDismissBox(
                                     state = dismissState,
-                                    background = { SwipeToDeleteBackground(dismissState) }
+                                    backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }
                                 ) {
                                     Surface {
                                         Row(
                                             Modifier.padding(horizontal = 4.dp)
                                         ) {
-                                            val textFieldStyle = typography.body1.copy(
+                                            val textFieldStyle = typography.bodyMedium.copy(
                                                 textAlign = TextAlign.Center,
-                                                color = colors.onSurface
+                                                color = colorScheme.onSurface
                                             )
                                             val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
                                                 { innerTextField ->
                                                     Surface(
-                                                        color = colors.onSurface.copy(alpha = 0.1f),
+                                                        color = colorScheme.onSurface.copy(alpha = 0.1f),
                                                         shape = RoundedCornerShape(8.dp)
                                                     ) {
                                                         Box(
@@ -419,7 +430,7 @@ private fun WorkoutInProgressContent(
                                                         keyboardType = KeyboardType.Number
                                                     ),
                                                     singleLine = true,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -448,7 +459,7 @@ private fun WorkoutInProgressContent(
                                                     ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -478,7 +489,7 @@ private fun WorkoutInProgressContent(
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     visualTransformation = durationVisualTransformation,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -507,7 +518,7 @@ private fun WorkoutInProgressContent(
                                                     ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -525,9 +536,9 @@ private fun WorkoutInProgressContent(
                                                     .background(
                                                         animateColorAsState(
                                                             if (set.complete) {
-                                                                colors.secondary
+                                                                colorScheme.secondary
                                                             } else {
-                                                                colors.onSurface.copy(
+                                                                colorScheme.onSurface.copy(
                                                                     alpha = 0.1f
                                                                 )
                                                             }
@@ -543,7 +554,7 @@ private fun WorkoutInProgressContent(
                                                     Icon(
                                                         Icons.Default.Check,
                                                         stringResource(R.string.column_set_complete),
-                                                        tint = colors.onSecondary
+                                                        tint = colorScheme.onSecondary
                                                     )
                                                 }
                                             }
