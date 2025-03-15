@@ -9,14 +9,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.filled.SettingsBackupRestore
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,21 +33,20 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun DataSettings(
     popBackStack: () -> Unit,
     viewModel: DataSettingsViewModel = getViewModel()
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopBar(
                 title = stringResource(R.string.screen_data_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -82,8 +89,8 @@ fun DataSettings(
                 modifier = Modifier.clickable {
                     if (isWorkoutInProgress) {
                         scope.launch {
-                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                            scaffoldState.snackbarHostState.showSnackbar(alertFinishWorkout)
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            snackbarHostState.showSnackbar(alertFinishWorkout)
                         }
                     } else {
                         exportDatabaseLauncher.launch(
@@ -91,24 +98,24 @@ fun DataSettings(
                         )
                     }
                 },
-                text = { Text(stringResource(R.string.pref_back_up_data)) },
-                secondaryText = { Text(stringResource(R.string.pref_detail_back_up_data)) },
-                icon = { Icon(Icons.Default.SaveAlt, null) }
+                headlineContent = { Text(stringResource(R.string.pref_back_up_data)) },
+                supportingContent = { Text(stringResource(R.string.pref_detail_back_up_data)) },
+                leadingContent = { Icon(Icons.Default.SaveAlt, null) }
             )
             ListItem(
                 modifier = Modifier.clickable {
                     if (isWorkoutInProgress) {
                         scope.launch {
-                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                            scaffoldState.snackbarHostState.showSnackbar(alertFinishWorkout)
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            snackbarHostState.showSnackbar(alertFinishWorkout)
                         }
                     } else {
                         importDatabaseLauncher.launch(emptyArray())
                     }
                 },
-                text = { Text(stringResource(R.string.pref_restore_data)) },
-                secondaryText = { Text(stringResource(R.string.pref_detail_restore_data)) },
-                icon = { Icon(Icons.Default.SettingsBackupRestore, null) }
+                headlineContent = { Text(stringResource(R.string.pref_restore_data)) },
+                supportingContent = { Text(stringResource(R.string.pref_detail_restore_data)) },
+                leadingContent = { Icon(Icons.Default.SettingsBackupRestore, null) }
             )
         }
     }
