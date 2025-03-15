@@ -29,27 +29,27 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.DismissDirection
-import androidx.compose.material.DismissValue
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.ListItem
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.SwipeToDismiss
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -69,13 +69,13 @@ import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.SimpleLineChart
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalFoundationApi
-@ExperimentalMaterialApi
 @ExperimentalTime
 @Composable
 fun WorkoutInsights(
@@ -86,26 +86,22 @@ fun WorkoutInsights(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.screen_insights),
-                actions = {
+                title = stringResource(R.string.screen_insights), actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
                             Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            DropdownMenuItem(onClick = navToSettings) {
-                                Text(stringResource(R.string.screen_settings))
-                            }
+                            expanded = expanded, onDismissRequest = { expanded = false }) {
+                            DropdownMenuItem(
+                                onClick = navToSettings,
+                                text = { Text(stringResource(R.string.screen_settings)) },
+                            )
                         }
                     }
-                }
-            )
-        }
-    ) { paddingValues ->
+                })
+        }) { paddingValues ->
         val scope = rememberCoroutineScope()
         val workouts by viewModel.workouts.collectAsState(initial = null)
         val routineNames by viewModel.routineNames.collectAsState(initial = null)
@@ -122,85 +118,73 @@ fun WorkoutInsights(
                     Text(
                         stringResource(R.string.screen_workout_history),
                         Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
-                        style = typography.h4
+                        style = typography.headlineSmall
                     )
                 }
             }
 
             if (workouts != null && routineNames != null) {
                 items(workouts ?: emptyList(), { it.workoutId }) { workout ->
-                    val dismissState = rememberDismissState()
-                    val routineName = routineNames?.get(workout.workoutId)
-                        ?.takeIf { it.isNotBlank() }
-                        ?: stringResource(R.string.unnamed_routine)
+                    val dismissState = rememberSwipeToDismissBoxState()
+                    val routineName =
+                        routineNames?.get(workout.workoutId)?.takeIf { it.isNotBlank() }
+                            ?: stringResource(R.string.unnamed_routine)
 
-                    SwipeToDismiss(
-                        modifier = Modifier
-                            .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                    SwipeToDismissBox(
+                        //modifier = Modifier.zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                         state = dismissState,
-                        background = { SwipeToDeleteBackground(dismissState) }
-                    ) {
+                        backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }) {
                         Card(
                             onClick = { navToWorkoutEditor(workout.workoutId) },
-                            elevation = animateDpAsState(
-                                if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                            ).value
+                            elevation = CardDefaults.cardElevation(
+                                defaultElevation = 0.dp, draggedElevation = 4.dp
+                            )
                         ) {
-                            ListItem(
-                                text = {
-                                    Text(
-                                        text = routineName,
-                                        maxLines = 2,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                },
-                                trailing = {
-                                    var expanded by remember { mutableStateOf(false) }
+                            ListItem(headlineContent = {
+                                Text(
+                                    text = routineName,
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }, trailingContent = {
+                                var expanded by remember { mutableStateOf(false) }
 
-                                    Box {
-                                        IconButton(onClick = { expanded = !expanded }) {
-                                            Icon(Icons.Default.MoreVert, null)
-                                        }
+                                Box {
+                                    IconButton(onClick = { expanded = !expanded }) {
+                                        Icon(Icons.Default.MoreVert, null)
+                                    }
 
-                                        DropdownMenu(
-                                            expanded = expanded,
-                                            onDismissRequest = { expanded = false }
-                                        ) {
-                                            DropdownMenuItem(
-                                                onClick = {
-                                                    expanded = false
-                                                    scope.launch {
-                                                        dismissState.dismiss(
-                                                            DismissDirection.StartToEnd
-                                                        )
-                                                    }
-                                                }
-                                            ) {
-                                                Text(stringResource(R.string.btn_delete))
+                                    DropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = { expanded = false }) {
+                                        DropdownMenuItem(onClick = {
+                                            expanded = false
+                                            scope.launch {
+                                                dismissState.dismiss(SwipeToDismissBoxValue.StartToEnd)
                                             }
-                                        }
+                                        }, text = {
+                                            Text(stringResource(R.string.btn_delete))
+                                        })
                                     }
                                 }
-                            )
+                            })
                         }
                     }
 
-                    if (dismissState.targetValue != DismissValue.Default) {
+                    if (dismissState.targetValue != SwipeToDismissBoxValue.Settled) {
                         DeleteConfirmation(
                             name = routineName,
                             onConfirm = { viewModel.delete(workout) },
-                            onDismiss = { scope.launch { dismissState.reset() } }
-                        )
+                            onDismiss = { scope.launch { dismissState.reset() } })
                     }
                 }
             } else {
                 items(5) {
-                    ListItem {
+                    ListItem(headlineContent = {
                         Text(
-                            "A".repeat((5..15).random()),
-                            Modifier.placeholder(visible = true)
+                            "A".repeat((5..15).random()), Modifier.placeholder(visible = true)
                         )
-                    }
+                    })
                 }
             }
         }
@@ -209,32 +193,22 @@ fun WorkoutInsights(
 
 @Composable
 private fun DeleteConfirmation(
-    name: String,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
+    name: String, onConfirm: () -> Unit, onDismiss: () -> Unit
 ) {
     AlertDialog(
         title = {
             Text(
                 stringResource(
-                    R.string.dialog_title_delete,
-                    name
+                    R.string.dialog_title_delete, name
                 )
             )
-        },
-        confirmButton = {
+        }, confirmButton = {
             Button(
-                onClick = onConfirm,
-                content = { Text(stringResource(R.string.btn_delete)) }
-            )
-        },
-        dismissButton = {
+                onClick = onConfirm, content = { Text(stringResource(R.string.btn_delete)) })
+        }, dismissButton = {
             TextButton(
-                onClick = onDismiss,
-                content = { Text(stringResource(R.string.btn_cancel)) }
-            )
-        },
-        onDismissRequest = onDismiss
+                onClick = onDismiss, content = { Text(stringResource(R.string.btn_cancel)) })
+        }, onDismissRequest = onDismiss
     )
 }
 
@@ -252,34 +226,30 @@ private fun WorkoutCharts(
                         .placeholder(visible = true)
                 )
             }
+
             workouts.size < 3 -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         stringResource(R.string.chart_insufficient_data),
-                        color = colors.onSurface.copy(alpha = 0.6f)
+                        color = colorScheme.onSurface.copy(alpha = 0.6f)
                     )
                 }
             }
+
             else -> {
                 SimpleLineChart(
                     Modifier
                         .fillMaxSize()
                         .padding(20.dp),
-                    data = workouts
-                        .reversed()
-                        .mapIndexed { i, workout ->
-                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                        }
-                        .chunked(3) {
-                            val avg = it.map { it.second }.average()
-                            Pair(it.first().first, avg.toFloat())
-                        },
-                    secondaryData = workouts
-                        .reversed()
-                        .mapIndexed { i, workout ->
-                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                        }
-                )
+                    data = workouts.reversed().mapIndexed { i, workout ->
+                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                    }.chunked(3) {
+                        val avg = it.map { it.second }.average()
+                        Pair(it.first().first, avg.toFloat())
+                    },
+                    secondaryData = workouts.reversed().mapIndexed { i, workout ->
+                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                    })
             }
         }
     }
@@ -287,25 +257,19 @@ private fun WorkoutCharts(
 
 @Composable
 private fun ChartCard(
-    title: String,
-    chart: @Composable () -> Unit
+    title: String, chart: @Composable () -> Unit
 ) {
-    Card(
-        Modifier
+    ElevatedCard(
+        modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp),
-        shape = RoundedCornerShape(30.dp),
-        elevation = 2.dp
+            .height(200.dp), shape = RoundedCornerShape(30.dp)
     ) {
         Column(Modifier.fillMaxWidth()) {
             Surface(
-                Modifier.fillMaxWidth(),
-                color = colors.primary
+                Modifier.fillMaxWidth(), color = colorScheme.primary
             ) {
                 Text(
-                    title,
-                    Modifier.padding(20.dp),
-                    style = typography.h6
+                    title, Modifier.padding(20.dp), style = typography.headlineSmall
                 )
             }
             chart()
