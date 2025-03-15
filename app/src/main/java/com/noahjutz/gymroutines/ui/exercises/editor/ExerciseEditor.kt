@@ -23,10 +23,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,7 +50,6 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@ExperimentalMaterialApi
 @Composable
 fun ExerciseEditor(
     popBackStack: () -> Unit,
@@ -126,39 +140,39 @@ fun ExerciseEditor(
                     )
                     val logReps by viewModel.logReps.collectAsState()
                     ListItem(
-                        Modifier.toggleable(
+                        modifier = Modifier.toggleable(
                             value = logReps,
                             onValueChange = viewModel::setLogReps
                         ),
-                        text = { Text(stringResource(R.string.checkbox_log_reps)) },
-                        icon = { Checkbox(checked = logReps, null) }
+                        headlineContent = { Text(stringResource(R.string.checkbox_log_reps)) },
+                        leadingContent = { Checkbox(checked = logReps, null) }
                     )
                     val logWeight by viewModel.logWeight.collectAsState()
                     ListItem(
-                        Modifier.toggleable(
+                        modifier = Modifier.toggleable(
                             value = logWeight,
                             onValueChange = viewModel::setLogWeight
                         ),
-                        text = { Text(stringResource(R.string.checkbox_log_weight)) },
-                        icon = { Checkbox(checked = logWeight, null) }
+                        headlineContent = { Text(stringResource(R.string.checkbox_log_weight)) },
+                        leadingContent = { Checkbox(checked = logWeight, null) }
                     )
                     val logTime by viewModel.logTime.collectAsState()
                     ListItem(
-                        Modifier.toggleable(
+                        modifier = Modifier.toggleable(
                             value = logTime,
                             onValueChange = viewModel::setLogTime
                         ),
-                        text = { Text(stringResource(R.string.checkbox_log_time)) },
-                        icon = { Checkbox(checked = logTime, null) }
+                        headlineContent = { Text(stringResource(R.string.checkbox_log_time)) },
+                        leadingContent = { Checkbox(checked = logTime, null) }
                     )
                     val logDistance by viewModel.logDistance.collectAsState()
                     ListItem(
-                        Modifier.toggleable(
+                        modifier = Modifier.toggleable(
                             value = logDistance,
                             onValueChange = viewModel::setLogDistance
                         ),
-                        text = { Text(stringResource(R.string.checkbox_log_distance)) },
-                        icon = { Checkbox(checked = logDistance, null) }
+                        headlineContent = { Text(stringResource(R.string.checkbox_log_distance)) },
+                        leadingContent = { Checkbox(checked = logDistance, null) }
                     )
                 }
             }
