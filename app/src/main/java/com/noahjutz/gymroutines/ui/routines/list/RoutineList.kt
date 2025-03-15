@@ -23,9 +23,13 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -76,33 +80,37 @@ fun RoutineList(
     navToSettings: () -> Unit,
     viewModel: RoutineListViewModel = getViewModel()
 ) {
-    Scaffold(topBar = {
-        TopBar(
-            title = stringResource(R.string.screen_routine_list), actions = {
-                Box {
-                    var expanded by remember { mutableStateOf(false) }
-                    IconButton(onClick = { expanded = !expanded }) {
-                        Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
+    Scaffold(
+        contentWindowInsets = WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal),
+        topBar = {
+            TopBar(
+                title = stringResource(R.string.screen_routine_list), actions = {
+                    Box {
+                        var expanded by remember { mutableStateOf(false) }
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
+                        }
+                        DropdownMenu(
+                            expanded = expanded, onDismissRequest = { expanded = false }) {
+                            DropdownMenuItem(
+                                onClick = navToSettings,
+                                text = { Text(stringResource(R.string.screen_settings)) })
+                        }
                     }
-                    DropdownMenu(
-                        expanded = expanded, onDismissRequest = { expanded = false }) {
-                        DropdownMenuItem(
-                            onClick = navToSettings,
-                            text = { Text(stringResource(R.string.screen_settings)) })
-                    }
-                }
-            })
-    }, floatingActionButton = {
-        ExtendedFloatingActionButton(
-            onClick = {
-                viewModel.addRoutine(
-                    onComplete = { id ->
-                        navToRoutineEditor(id)
-                    })
-            },
-            icon = { Icon(Icons.Default.Add, null) },
-            text = { Text(stringResource(R.string.btn_new_routine)) })
-    }) { paddingValues ->
+                })
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    viewModel.addRoutine(
+                        onComplete = { id ->
+                            navToRoutineEditor(id)
+                        })
+                },
+                icon = { Icon(Icons.Default.Add, null) },
+                text = { Text(stringResource(R.string.btn_new_routine)) })
+        }
+    ) { paddingValues ->
         val routines by viewModel.routines.collectAsState(null)
 
         Crossfade(routines != null, Modifier.padding(paddingValues)) { isReady ->
