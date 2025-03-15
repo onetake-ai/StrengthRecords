@@ -87,7 +87,7 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
@@ -379,7 +379,7 @@ private fun WorkoutInProgressContent(
                                 }
                                 SwipeToDismissBox(
                                     state = dismissState,
-                                    backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }
+                                    backgroundContent = { SwipeToDeleteBackground(dismissState) }
                                 ) {
                                     Surface {
                                         Row(

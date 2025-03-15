@@ -62,7 +62,6 @@ import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
@@ -347,7 +346,7 @@ private fun RoutineEditorContent(
                                 }
                                 SwipeToDismissBox(
                                     state = dismissState,
-                                    backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }
+                                    backgroundContent = { SwipeToDeleteBackground(dismissState) }
                                 ) {
                                     Surface {
                                         Row(

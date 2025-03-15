@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.ui.workout.insights
 
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,14 +61,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.google.accompanist.placeholder.material.placeholder
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.SimpleLineChart
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
@@ -133,7 +130,7 @@ fun WorkoutInsights(
                     SwipeToDismissBox(
                         //modifier = Modifier.zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                         state = dismissState,
-                        backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }) {
+                        backgroundContent = { SwipeToDeleteBackground(dismissState) }) {
                         Card(
                             onClick = { navToWorkoutEditor(workout.workoutId) },
                             elevation = CardDefaults.cardElevation(

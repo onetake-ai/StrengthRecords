@@ -67,7 +67,7 @@ import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.ui.components.SearchBar
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -155,7 +155,7 @@ fun RoutineListContent(
                     .animateItemPlacement(),
                 // .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                 state = dismissState,
-                backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }) {
+                backgroundContent = { SwipeToDeleteBackground(dismissState) }) {
                 Card(
                     elevation = CardDefaults.cardElevation(
                         defaultElevation = 0.dp,
