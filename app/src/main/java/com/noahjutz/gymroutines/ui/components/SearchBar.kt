@@ -7,10 +7,15 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +36,12 @@ fun SearchBar(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        textStyle = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.onSurface),
-        cursorBrush = SolidColor(MaterialTheme.colors.onSurface),
+        textStyle = MaterialTheme.typography.headlineSmall.copy(color = colorScheme.onSurface),
+        cursorBrush = SolidColor(colorScheme.onSurface),
         decorationBox = { innerTextField ->
             Surface(
                 modifier = Modifier.height(60.dp),
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
+                color = colorScheme.onSurface.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(30.dp)
             ) {
                 Row(
@@ -53,8 +58,8 @@ fun SearchBar(
                         if (value.isEmpty()) {
                             Text(
                                 stringResource(R.string.hint_search),
-                                style = MaterialTheme.typography.h6.copy(
-                                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
+                                style = MaterialTheme.typography.headlineSmall.copy(
+                                    color = colorScheme.onSurface.copy(alpha = 0.12f)
                                 )
                             )
                         }
