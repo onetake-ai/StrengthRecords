@@ -18,36 +18,49 @@
 
 package com.noahjutz.gymroutines.ui.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissState
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SwipeToDeleteBackground(dismissState: DismissState) {
+    // TODO replace this with SwipeToDeleteBackgroundNew
+}
+
+@Composable
+fun SwipeToDeleteBackgroundNew(dismissState: SwipeToDismissBoxState) {
     val alignment = when (dismissState.dismissDirection) {
-        DismissDirection.StartToEnd -> Alignment.CenterStart
-        DismissDirection.EndToStart -> Alignment.CenterEnd
-        else -> return
+        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+        SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
+        SwipeToDismissBoxValue.Settled -> Alignment.Center
     }
+    val color by animateColorAsState(
+        if (dismissState.dismissDirection == SwipeToDismissBoxValue.Settled) MaterialTheme.colorScheme.surface
+        else MaterialTheme.colorScheme.secondary
+    )
     Box(
-        modifier = Modifier.fillMaxSize()
-            .background(colors.secondary)
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color)
             .padding(horizontal = 20.dp),
         contentAlignment = alignment
     ) {
-        Icon(Icons.Default.Delete, null, tint = colors.onSecondary)
+        Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.onSecondary)
     }
 }

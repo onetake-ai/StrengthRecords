@@ -20,33 +20,60 @@ package com.noahjutz.gymroutines.ui.exercises.list
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Exercise
 import com.noahjutz.gymroutines.ui.components.SearchBar
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
-@ExperimentalAnimationApi
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ExerciseList(
     navToExerciseEditor: (Int) -> Unit,
@@ -54,6 +81,7 @@ fun ExerciseList(
     viewModel: ExerciseListViewModel = getViewModel()
 ) {
     Scaffold(
+        contentWindowInsets = WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal),
         topBar = {
             TopBar(
                 title = stringResource(R.string.screen_exercise_list),
@@ -67,9 +95,10 @@ fun ExerciseList(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
                         ) {
-                            DropdownMenuItem(onClick = navToSettings) {
-                                Text("Settings")
-                            }
+                            DropdownMenuItem(
+                                onClick = navToSettings,
+                                text = { Text("Settings") }
+                            )
                         }
                     }
                 }
@@ -81,7 +110,7 @@ fun ExerciseList(
                 icon = { Icon(Icons.Default.Add, null) },
                 text = { Text(stringResource(R.string.btn_new_exercise)) }
             )
-        }
+        },
     ) { paddingValues ->
         val exercises by viewModel.exercises.collectAsState(null)
 
@@ -99,9 +128,9 @@ fun ExerciseList(
     }
 }
 
-@ExperimentalFoundationApi
-@ExperimentalMaterialApi
-@ExperimentalAnimationApi
+@OptIn(
+    ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
+)
 @Composable
 private fun ExerciseListContent(
     exercises: List<Exercise>,
@@ -122,30 +151,31 @@ private fun ExerciseListContent(
         }
 
         items(exercises.filter { !it.hidden }, { it.exerciseId }) { exercise ->
-            val dismissState = rememberDismissState()
+            val dismissState = rememberSwipeToDismissBoxState()
 
-            SwipeToDismiss(
+            SwipeToDismissBox(
                 modifier = Modifier
-                    .animateItemPlacement()
-                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                    .animateItemPlacement(),
+                // .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                 state = dismissState,
-                background = { SwipeToDeleteBackground(dismissState) }
+                backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }
             ) {
                 Card(
-                    elevation = animateDpAsState(
-                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                    ).value
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 0.dp,
+                        draggedElevation = 6.dp // TODO elevation stays at 0
+                    ),
                 ) {
                     ListItem(
-                        Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
-                        text = {
+                        modifier = Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
+                        headlineContent = {
                             Text(
                                 text = exercise.name,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
                             )
                         },
-                        trailing = {
+                        trailingContent = {
                             Box {
                                 var expanded by remember { mutableStateOf(false) }
                                 IconButton(onClick = { expanded = !expanded }) {
@@ -159,12 +189,13 @@ private fun ExerciseListContent(
                                         onClick = {
                                             expanded = false
                                             scope.launch {
-                                                dismissState.dismiss(DismissDirection.StartToEnd)
+                                                dismissState.dismiss(SwipeToDismissBoxValue.StartToEnd)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_delete))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_delete))
-                                    }
+                                    )
                                 }
                             }
                         }
@@ -172,7 +203,7 @@ private fun ExerciseListContent(
                 }
             }
 
-            if (dismissState.targetValue != DismissValue.Default) {
+            if (dismissState.targetValue != SwipeToDismissBoxValue.Settled) {
                 ConfirmDeleteExerciseDialog(
                     onDismiss = { scope.launch { dismissState.reset() } },
                     exerciseName = exercise.name,
