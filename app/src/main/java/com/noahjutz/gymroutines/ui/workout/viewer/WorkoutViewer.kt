@@ -7,12 +7,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,9 +39,9 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -48,7 +55,12 @@ fun WorkoutViewer(
             TopBar(
                 title = stringResource(R.string.screen_view_workout),
                 navigationIcon = {
-                    IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
+                    IconButton(onClick = popBackStack) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            null
+                        )
+                    }
                 }
             )
         }
@@ -80,7 +92,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                 text = routineName.takeIf { it.isNotBlank() }
                     ?: stringResource(R.string.unnamed_routine),
                 modifier = Modifier.padding(horizontal = 24.dp),
-                style = typography.h4
+                style = typography.headlineSmall
             )
             Text(
                 text = workout.workout.endTime.formatSimple(),
@@ -104,14 +116,14 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                 shape = RoundedCornerShape(24.dp)
             ) {
                 Column {
-                    Surface(Modifier.fillMaxWidth(), color = colors.primary) {
+                    Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
                                 exercise?.name.toString(),
-                                style = typography.h5,
+                                style = typography.headlineSmall,
                                 modifier = Modifier
                                     .padding(24.dp)
                                     .weight(1f)
@@ -121,7 +133,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                     Column(Modifier.padding(vertical = 16.dp)) {
                         Row(Modifier.padding(horizontal = 4.dp)) {
                             val headerTextStyle = TextStyle(
-                                color = colors.onSurface,
+                                color = colorScheme.onSurface,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
@@ -133,7 +145,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -149,7 +161,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -165,7 +177,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -181,7 +193,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .weight(1f)
                                         .height(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
-                                        .background(colors.primary.copy(alpha = 0.1f)),
+                                        .background(colorScheme.primary.copy(alpha = 0.1f)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(
@@ -195,7 +207,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .padding(4.dp)
                                     .size(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                    .background(colorScheme.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(Icons.Default.Check, null)
@@ -210,16 +222,16 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                 ) -> Unit =
                                     {
                                         ProvideTextStyle(
-                                            value = typography.body1.copy(
+                                            value = typography.bodyMedium.copy(
                                                 textAlign = TextAlign.Center,
-                                                color = colors.onSurface
+                                                color = colorScheme.onSurface
                                             )
                                         ) {
                                             Surface(
                                                 modifier = Modifier
                                                     .padding(4.dp)
                                                     .weight(1f),
-                                                color = colors.onSurface.copy(
+                                                color = colorScheme.onSurface.copy(
                                                     alpha = 0.1f
                                                 ),
                                                 shape = RoundedCornerShape(8.dp)
@@ -253,9 +265,9 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(
                                             if (set.complete) {
-                                                colors.secondary
+                                                colorScheme.secondary
                                             } else {
-                                                colors.onSurface.copy(
+                                                colorScheme.onSurface.copy(
                                                     alpha = 0.1f
                                                 )
                                             }
@@ -266,7 +278,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         Icon(
                                             Icons.Default.Check,
                                             stringResource(R.string.column_set_complete),
-                                            tint = colors.onSecondary
+                                            tint = colorScheme.onSecondary
                                         )
                                     }
                                 }
