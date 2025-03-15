@@ -127,7 +127,7 @@ dependencies {
     implementation("com.jakewharton:process-phoenix:2.1.2")
 
     implementation("androidx.compose.material:material-navigation:1.7.8")
-    implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
+    implementation("com.eygraber:compose-placeholder-material3:1.0.10")
 
     androidTestImplementation("androidx.test:core:1.6.1")
     androidTestImplementation("androidx.test:core-ktx:1.6.1")

@@ -61,7 +61,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.placeholder.material.placeholder
+import com.eygraber.compose.placeholder.material3.placeholder
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
