@@ -30,13 +30,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -207,12 +211,16 @@ private fun RoutineEditorContent(
 
         items(setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
-            Card(
+            ElevatedCard(
                 Modifier
                     .fillMaxWidth()
                     .animateItemPlacement()
                     .padding(top = 30.dp),
-                shape = RoundedCornerShape(30.dp)
+                shape = RoundedCornerShape(30.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = colorScheme.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 160.dp)
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {

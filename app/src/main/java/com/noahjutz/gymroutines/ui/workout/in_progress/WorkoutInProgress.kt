@@ -50,9 +50,11 @@ import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -210,12 +212,13 @@ private fun WorkoutInProgressContent(
         items(workout.setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise by viewModel.getExercise(setGroup.group.exerciseId)
                 .collectAsState(initial = null)
-            Card(
+            ElevatedCard(
                 Modifier
                     .fillMaxWidth()
                     .animateItemPlacement()
                     .padding(top = 24.dp),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = colorScheme.surface)
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {
