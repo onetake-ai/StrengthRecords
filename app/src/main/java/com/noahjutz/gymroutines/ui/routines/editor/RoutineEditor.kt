@@ -26,11 +26,26 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +62,7 @@ import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
@@ -55,7 +71,6 @@ import com.noahjutz.gymroutines.util.toStringOrBlank
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
-@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
@@ -67,14 +82,16 @@ fun RoutineEditor(
     exerciseIdsToAdd: List<Int>,
     viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) }
 ) {
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(exerciseIdsToAdd) {
         viewModel.addExercises(exerciseIdsToAdd)
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(snackbarHostState)
+        },
         floatingActionButton = {
             val isWorkoutRunning by viewModel.isWorkoutInProgress.collectAsState(initial = false)
             if (!isWorkoutRunning) {
@@ -118,7 +135,7 @@ fun RoutineEditor(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun RoutineEditorContent(
     routine: Routine,
@@ -143,12 +160,12 @@ private fun RoutineEditorContent(
                 value = name,
                 onValueChange = setName,
                 onTextLayout = { setNameLineCount(it.lineCount) },
-                textStyle = typography.h6.copy(color = colors.onSurface),
-                cursorBrush = SolidColor(colors.onSurface),
+                textStyle = typography.headlineSmall.copy(color = colorScheme.onSurface),
+                cursorBrush = SolidColor(colorScheme.onSurface),
                 decorationBox = { innerTextField ->
                     Surface(
                         modifier = if (nameLineCount <= 1) Modifier.height(60.dp) else Modifier,
-                        color = colors.onSurface.copy(alpha = 0.1f),
+                        color = colorScheme.onSurface.copy(alpha = 0.1f),
                         shape = RoundedCornerShape(30.dp)
                     ) {
                         Row(
@@ -163,8 +180,8 @@ private fun RoutineEditorContent(
                                 if (routine.name.isEmpty()) {
                                     Text(
                                         stringResource(R.string.unnamed_routine),
-                                        style = typography.h6.copy(
-                                            color = colors.onSurface.copy(alpha = 0.12f)
+                                        style = typography.headlineSmall.copy(
+                                            color = colorScheme.onSurface.copy(alpha = 0.12f)
                                         )
                                     )
                                 }
@@ -199,14 +216,14 @@ private fun RoutineEditorContent(
                 shape = RoundedCornerShape(30.dp)
             ) {
                 Column {
-                    Surface(Modifier.fillMaxWidth(), color = colors.primary) {
+                    Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
                                 exercise.name,
-                                style = typography.h5,
+                                style = typography.headlineSmall,
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .weight(1f)
@@ -238,10 +255,11 @@ private fun RoutineEditorContent(
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_move_up))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_move_up))
-                                    }
+                                    )
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
@@ -253,10 +271,11 @@ private fun RoutineEditorContent(
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_move_down))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_move_down))
-                                    }
+                                    )
                                 }
                             }
                         }
@@ -264,7 +283,7 @@ private fun RoutineEditorContent(
                     Column(Modifier.padding(vertical = 16.dp)) {
                         Row(Modifier.padding(horizontal = 4.dp)) {
                             val headerTextStyle = TextStyle(
-                                color = colors.onSurface,
+                                color = colorScheme.onSurface,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
@@ -320,28 +339,28 @@ private fun RoutineEditorContent(
                         }
                         for (set in setGroup.sets) {
                             key(set.routineSetId) {
-                                val dismissState = rememberDismissState()
+                                val dismissState = rememberSwipeToDismissBoxState()
                                 LaunchedEffect(dismissState.currentValue) {
-                                    if (dismissState.currentValue != DismissValue.Default) {
+                                    if (dismissState.currentValue != SwipeToDismissBoxValue.Settled) {
                                         viewModel.deleteSet(set)
                                     }
                                 }
-                                SwipeToDismiss(
+                                SwipeToDismissBox(
                                     state = dismissState,
-                                    background = { SwipeToDeleteBackground(dismissState) }
+                                    backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }
                                 ) {
                                     Surface {
                                         Row(
                                             Modifier.padding(horizontal = 4.dp)
                                         ) {
-                                            val textFieldStyle = typography.body1.copy(
+                                            val textFieldStyle = typography.bodyMedium.copy(
                                                 textAlign = TextAlign.Center,
-                                                color = colors.onSurface
+                                                color = colorScheme.onSurface
                                             )
                                             val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
                                                 { innerTextField ->
                                                     Surface(
-                                                        color = colors.onSurface.copy(alpha = 0.1f),
+                                                        color = colorScheme.onSurface.copy(alpha = 0.1f),
                                                         shape = RoundedCornerShape(8.dp)
                                                     ) {
                                                         Box(
@@ -380,7 +399,7 @@ private fun RoutineEditorContent(
                                                         keyboardType = KeyboardType.Number
                                                     ),
                                                     singleLine = true,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -409,7 +428,7 @@ private fun RoutineEditorContent(
                                                     ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -439,7 +458,7 @@ private fun RoutineEditorContent(
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     visualTransformation = durationVisualTransformation,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
@@ -468,7 +487,7 @@ private fun RoutineEditorContent(
                                                     ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
-                                                    cursorColor = colors.onSurface,
+                                                    cursorColor = colorScheme.onSurface,
                                                     decorationBox = decorationBox
                                                 )
                                             }
