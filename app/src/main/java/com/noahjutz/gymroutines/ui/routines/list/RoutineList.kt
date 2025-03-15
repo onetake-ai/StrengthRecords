@@ -20,75 +20,89 @@ package com.noahjutz.gymroutines.ui.routines.list
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberSwipeToDismissBoxState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.ui.components.SearchBar
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackgroundNew
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
-@ExperimentalMaterialApi
 @Composable
 fun RoutineList(
     navToRoutineEditor: (Long) -> Unit,
     navToSettings: () -> Unit,
     viewModel: RoutineListViewModel = getViewModel()
 ) {
-    Scaffold(
-        topBar = {
-            TopBar(
-                title = stringResource(R.string.screen_routine_list),
-                actions = {
-                    Box {
-                        var expanded by remember { mutableStateOf(false) }
-                        IconButton(onClick = { expanded = !expanded }) {
-                            Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
-                        }
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            DropdownMenuItem(onClick = navToSettings) {
-                                Text(stringResource(R.string.screen_settings))
-                            }
-                        }
+    Scaffold(topBar = {
+        TopBar(
+            title = stringResource(R.string.screen_routine_list), actions = {
+                Box {
+                    var expanded by remember { mutableStateOf(false) }
+                    IconButton(onClick = { expanded = !expanded }) {
+                        Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
+                    }
+                    DropdownMenu(
+                        expanded = expanded, onDismissRequest = { expanded = false }) {
+                        DropdownMenuItem(
+                            onClick = navToSettings,
+                            text = { Text(stringResource(R.string.screen_settings)) })
                     }
                 }
-            )
-        },
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = {
-                    viewModel.addRoutine(
-                        onComplete = { id ->
-                            navToRoutineEditor(id)
-                        }
-                    )
-                },
-                icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.btn_new_routine)) }
-            )
-        }
-    ) { paddingValues ->
+            })
+    }, floatingActionButton = {
+        ExtendedFloatingActionButton(
+            onClick = {
+                viewModel.addRoutine(
+                    onComplete = { id ->
+                        navToRoutineEditor(id)
+                    })
+            },
+            icon = { Icon(Icons.Default.Add, null) },
+            text = { Text(stringResource(R.string.btn_new_routine)) })
+    }) { paddingValues ->
         val routines by viewModel.routines.collectAsState(null)
 
         Crossfade(routines != null, Modifier.padding(paddingValues)) { isReady ->
@@ -110,9 +124,7 @@ fun RoutineList(
 @ExperimentalMaterialApi
 @Composable
 fun RoutineListContent(
-    routines: List<Routine>,
-    navToRoutineEditor: (Long) -> Unit,
-    viewModel: RoutineListViewModel
+    routines: List<Routine>, navToRoutineEditor: (Long) -> Unit, viewModel: RoutineListViewModel
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn(Modifier.fillMaxHeight()) {
@@ -128,82 +140,69 @@ fun RoutineListContent(
         }
 
         items(items = routines, key = { it.routineId }) { routine ->
-            val dismissState = rememberDismissState()
+            val dismissState = rememberSwipeToDismissBoxState()
 
-            SwipeToDismiss(
+            SwipeToDismissBox(
                 modifier = Modifier
-                    .animateItemPlacement()
-                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                    .animateItemPlacement(),
+                // .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                 state = dismissState,
-                background = { SwipeToDeleteBackground(dismissState) }
-            ) {
+                backgroundContent = { SwipeToDeleteBackgroundNew(dismissState) }) {
                 Card(
-                    elevation = animateDpAsState(
-                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                    ).value
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 0.dp,
+                        draggedElevation = 4.dp
+                    )
                 ) {
                     ListItem(
-                        Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
-                        text = {
-                            Text(
-                                text = routine.name.takeIf { it.isNotBlank() }
-                                    ?: stringResource(R.string.unnamed_routine),
+                        modifier = Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
+                        headlineContent = {
+                            Text(text = routine.name.takeIf { it.isNotBlank() }
+                                ?: stringResource(R.string.unnamed_routine),
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                                overflow = TextOverflow.Ellipsis)
                         },
-                        trailing = {
+                        trailingContent = {
                             Box {
                                 var expanded by remember { mutableStateOf(false) }
                                 IconButton(onClick = { expanded = !expanded }) {
                                     Icon(Icons.Default.MoreVert, null)
                                 }
                                 DropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }
-                                ) {
+                                    expanded = expanded, onDismissRequest = { expanded = false }) {
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
                                             scope.launch {
-                                                dismissState.dismiss(DismissDirection.StartToEnd)
+                                                dismissState.dismiss(SwipeToDismissBoxValue.StartToEnd)
                                             }
+                                        },
+                                        text = {
+                                            Text(stringResource(R.string.btn_delete))
                                         }
-                                    ) {
-                                        Text(stringResource(R.string.btn_delete))
-                                    }
+                                    )
                                 }
                             }
-                        }
-                    )
+                        })
                 }
             }
 
-            if (dismissState.targetValue != DismissValue.Default) {
-                AlertDialog(
-                    title = {
-                        Text(
-                            stringResource(
-                                R.string.dialog_title_delete,
-                                routine.name.takeIf { it.isNotBlank() }
-                                    ?: stringResource(R.string.unnamed_routine)
-                            )
-                        )
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = { viewModel.deleteRoutine(routine.routineId) },
-                            content = { Text(stringResource(R.string.btn_delete)) }
-                        )
-                    },
-                    dismissButton = {
-                        TextButton(
-                            onClick = { scope.launch { dismissState.reset() } },
-                            content = { Text(stringResource(R.string.btn_cancel)) }
-                        )
-                    },
-                    onDismissRequest = { scope.launch { dismissState.reset() } }
-                )
+            if (dismissState.targetValue != SwipeToDismissBoxValue.Settled) {
+                AlertDialog(title = {
+                    Text(
+                        stringResource(
+                            R.string.dialog_title_delete,
+                            routine.name.takeIf { it.isNotBlank() }
+                                ?: stringResource(R.string.unnamed_routine)))
+                }, confirmButton = {
+                    Button(
+                        onClick = { viewModel.deleteRoutine(routine.routineId) },
+                        content = { Text(stringResource(R.string.btn_delete)) })
+                }, dismissButton = {
+                    TextButton(
+                        onClick = { scope.launch { dismissState.reset() } },
+                        content = { Text(stringResource(R.string.btn_cancel)) })
+                }, onDismissRequest = { scope.launch { dismissState.reset() } })
             }
         }
         item {
