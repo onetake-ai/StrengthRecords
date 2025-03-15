@@ -3,10 +3,17 @@ package com.noahjutz.gymroutines.ui.settings.general
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.RestartAlt
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,7 +23,6 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.TopBar
 import org.koin.androidx.compose.getViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun GeneralSettings(
     popBackStack: () -> Unit,
@@ -38,8 +44,8 @@ fun GeneralSettings(
             val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
             ListItem(
                 modifier = Modifier.clickable { setIsVisible(true) },
-                text = { Text(stringResource(R.string.pref_reset_settings)) },
-                icon = { Icon(Icons.Default.RestartAlt, null) }
+                headlineContent = { Text(stringResource(R.string.pref_reset_settings)) },
+                leadingContent = { Icon(Icons.Default.RestartAlt, null) }
             )
             ResetDialog(
                 isVisible = isVisible,
