@@ -32,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -54,70 +55,72 @@ fun ExercisePickerSheet(
 ) {
     val allExercises by viewModel.allExercises.collectAsState(emptyList())
     val selectedExerciseIds by viewModel.selectedExerciseIds.collectAsState(initial = emptyList())
-    Column {
-        TopBar(
-            title = stringResource(R.string.screen_pick_exercise),
-            navigationIcon = {
-                IconButton(
-                    onClick = { onExercisesSelected(emptyList()) }
-                ) { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) }
-            },
-            actions = {
-                TextButton(
-                    onClick = { onExercisesSelected(selectedExerciseIds) },
-                    enabled = selectedExerciseIds.isNotEmpty()
-                ) {
-                    Text(stringResource(R.string.btn_select_option))
+    Scaffold { contentPadding ->
+        Column(Modifier.padding(contentPadding)) {
+            TopBar(
+                title = stringResource(R.string.screen_pick_exercise),
+                navigationIcon = {
+                    IconButton(
+                        onClick = { onExercisesSelected(emptyList()) }
+                    ) { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) }
+                },
+                actions = {
+                    TextButton(
+                        onClick = { onExercisesSelected(selectedExerciseIds) },
+                        enabled = selectedExerciseIds.isNotEmpty()
+                    ) {
+                        Text(stringResource(R.string.btn_select_option))
+                    }
                 }
-            }
-        )
-        val searchQuery by viewModel.nameFilter.collectAsState()
-        SearchBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-            value = searchQuery,
-            onValueChange = viewModel::search
-        )
-        LazyColumn(Modifier.weight(1f)) {
-            items(allExercises.filter { !it.hidden }) { exercise ->
-                val checked by viewModel.exercisesContains(exercise)
-                    .collectAsState(initial = false)
-                ListItem(
-                    modifier = Modifier.toggleable(
-                        value = checked,
-                        onValueChange = {
-                            if (it) {
-                                viewModel.addExercise(exercise)
-                            } else {
-                                viewModel.removeExercise(exercise)
+            )
+            val searchQuery by viewModel.nameFilter.collectAsState()
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                value = searchQuery,
+                onValueChange = viewModel::search
+            )
+            LazyColumn(Modifier.weight(1f)) {
+                items(allExercises.filter { !it.hidden }) { exercise ->
+                    val checked by viewModel.exercisesContains(exercise)
+                        .collectAsState(initial = false)
+                    ListItem(
+                        modifier = Modifier.toggleable(
+                            value = checked,
+                            onValueChange = {
+                                if (it) {
+                                    viewModel.addExercise(exercise)
+                                } else {
+                                    viewModel.removeExercise(exercise)
+                                }
                             }
+                        ),
+                        leadingContent = { Checkbox(checked = checked, onCheckedChange = null) },
+                        headlineContent = {
+                            Text(exercise.name)
                         }
-                    ),
-                    leadingContent = { Checkbox(checked = checked, onCheckedChange = null) },
-                    headlineContent = {
-                        Text(exercise.name)
-                    }
-                )
-            }
+                    )
+                }
 
-            item {
-                ListItem(
-                    modifier = Modifier.clickable(onClick = navToExerciseEditor),
-                    leadingContent = {
-                        Icon(
-                            Icons.Default.Add,
-                            null,
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    },
-                    headlineContent = {
-                        Text(
-                            stringResource(R.string.btn_new_exercise),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                )
+                item {
+                    ListItem(
+                        modifier = Modifier.clickable(onClick = navToExerciseEditor),
+                        leadingContent = {
+                            Icon(
+                                Icons.Default.Add,
+                                null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        headlineContent = {
+                            Text(
+                                stringResource(R.string.btn_new_exercise),
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    )
+                }
             }
         }
     }
