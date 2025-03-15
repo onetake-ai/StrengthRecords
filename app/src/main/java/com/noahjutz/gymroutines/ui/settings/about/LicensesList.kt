@@ -8,11 +8,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.OpenInBrowser
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -81,7 +86,6 @@ val dependencies = listOf(
     )
 )
 
-@ExperimentalMaterialApi
 @Composable
 fun LicensesList(
     popBackStack: () -> Unit
@@ -92,7 +96,7 @@ fun LicensesList(
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
                         Icon(
-                            Icons.Default.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             stringResource(R.string.btn_pop_back)
                         )
                     }
@@ -108,12 +112,12 @@ fun LicensesList(
                     shape = RoundedCornerShape(30.dp)
                 ) {
                     Box(Modifier.padding(20.dp)) {
-                        Text(stringResource(R.string.app_license), style = typography.body2)
+                        Text(stringResource(R.string.app_license), style = typography.bodySmall)
                     }
                 }
                 Text(
                     stringResource(R.string.title_dependencies_list),
-                    style = typography.h4,
+                    style = typography.displaySmall,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 )
                 Spacer(Modifier.height(16.dp))
@@ -123,9 +127,9 @@ fun LicensesList(
                 val context = LocalContext.current
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(dependency.url) },
-                    text = { Text(dependency.name) },
-                    secondaryText = { Text(dependency.license.fullName) },
-                    trailing = {
+                    headlineContent = { Text(dependency.name) },
+                    supportingContent = { Text(dependency.license.fullName) },
+                    trailingContent = {
                         Icon(
                             Icons.Default.OpenInBrowser,
                             stringResource(R.string.btn_open_in_browser)
