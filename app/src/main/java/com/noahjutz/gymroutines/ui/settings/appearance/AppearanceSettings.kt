@@ -3,15 +3,37 @@ package com.noahjutz.gymroutines.ui.settings.appearance
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,11 +46,8 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.components.TopBar
-import com.noahjutz.gymroutines.ui.theme.BlackColorPalette
-import com.noahjutz.gymroutines.ui.theme.WhiteColorPalette
 import org.koin.androidx.compose.getViewModel
 
-@ExperimentalMaterialApi
 @Composable
 fun AppearanceSettings(
     popBackStack: () -> Unit,
@@ -40,7 +59,7 @@ fun AppearanceSettings(
                 title = stringResource(R.string.screen_appearance_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -63,7 +82,7 @@ fun AppearanceSettings(
                     modifier = Modifier
                         .height(40.dp)
                         .weight(1f),
-                    style = typography.h4
+                    style = typography.displaySmall
                 )
                 AnimatedVisibility(
                     appTheme != ColorTheme.FollowSystem,
@@ -82,14 +101,14 @@ fun AppearanceSettings(
             }
             Row(Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
                 ThemePreview(
-                    colors = WhiteColorPalette,
+                    colors = lightColorScheme(),
                     name = stringResource(ColorTheme.White.themeName),
                     selected = appTheme == ColorTheme.White || (appTheme == ColorTheme.FollowSystem && !isSystemInDarkTheme()),
                     onClick = { viewModel.setAppTheme(ColorTheme.White) }
                 )
                 Spacer(Modifier.width(16.dp))
                 ThemePreview(
-                    colors = BlackColorPalette,
+                    colors = darkColorScheme(),
                     name = stringResource(ColorTheme.Black.themeName),
                     selected = appTheme == ColorTheme.Black || (appTheme == ColorTheme.FollowSystem && isSystemInDarkTheme()),
                     onClick = { viewModel.setAppTheme(ColorTheme.Black) }
@@ -99,10 +118,9 @@ fun AppearanceSettings(
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun RowScope.ThemePreview(
-    colors: Colors,
+    colors: ColorScheme,
     name: String,
     selected: Boolean,
     onClick: () -> Unit
@@ -113,12 +131,12 @@ private fun RowScope.ThemePreview(
             .height(240.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MaterialTheme(colors = colors) {
+        MaterialTheme(colorScheme = colors) {
             Surface(
                 modifier = Modifier
                     .weight(1f),
                 onClick = onClick,
-                elevation = 4.dp,
+                shadowElevation = 4.dp,
                 shape = RoundedCornerShape(30.dp)
             ) {
                 Box(Modifier.fillMaxSize()) {
@@ -142,7 +160,7 @@ private fun RowScope.ThemePreview(
                             .size(60.dp)
                             .align(Alignment.BottomEnd)
                             .clip(CircleShape)
-                            .background(MaterialTheme.colors.secondary)
+                            .background(colors.secondary)
                     ) {
                         if (selected) {
                             Icon(
