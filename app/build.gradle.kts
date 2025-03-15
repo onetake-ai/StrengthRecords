@@ -84,24 +84,24 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     implementation("com.google.android.material:material:1.12.0")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
-    implementation("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
-    implementation("androidx.room:room-runtime:2.5.2")
-    testImplementation("androidx.room:room-testing:2.5.2")
-    androidTestImplementation("androidx.room:room-testing:2.5.2")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-runtime:2.6.1")
+    testImplementation("androidx.room:room-testing:2.6.1")
+    androidTestImplementation("androidx.room:room-testing:2.6.1")
 
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
-    implementation("androidx.lifecycle:lifecycle-process:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-process:2.8.7")
 
     implementation("androidx.navigation:navigation-compose:2.8.9")
 
@@ -122,15 +122,15 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
     testImplementation("io.insert-koin:koin-test:3.3.3")
 
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.3")
 
     implementation("com.jakewharton:process-phoenix:2.1.2")
 
     implementation("androidx.compose.material:material-navigation:1.7.8")
     implementation("com.google.accompanist:accompanist-placeholder-material:0.30.1")
 
-    androidTestImplementation("androidx.test:core:1.5.0")
-    androidTestImplementation("androidx.test:core-ktx:1.5.0")
+    androidTestImplementation("androidx.test:core:1.6.1")
+    androidTestImplementation("androidx.test:core-ktx:1.6.1")
 
     testImplementation("io.mockk:mockk:1.13.4")
     androidTestImplementation("io.mockk:mockk-android:1.13.4")

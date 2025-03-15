@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -67,7 +67,7 @@ fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
                     ?.route in bottomNavItems.map { it.route }
 
                 if (isCurrentDestinationHomeTab) {
-                    Surface(elevation = 8.dp) {
+                    Surface(shadowElevation = 8.dp) {
                         Column {
                             val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(
                                 initial = -1
