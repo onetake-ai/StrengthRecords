@@ -23,6 +23,9 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.navigation.BottomSheetNavigator
+import androidx.compose.material.navigation.ModalBottomSheetLayout
+import androidx.compose.material.navigation.bottomSheet
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,14 +33,10 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.material.BottomSheetNavigator
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.bottomSheet
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditor
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseList
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -74,7 +73,6 @@ enum class Screen {
     workoutCompleted
 }
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalTime
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -86,7 +84,7 @@ fun NavGraph(
 ) {
     val uri = "https://gymroutines.com"
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
-        AnimatedNavHost(
+        NavHost(
             navController,
             startDestination = Screen.routineList.name,
             enterTransition = { EnterTransition.None },

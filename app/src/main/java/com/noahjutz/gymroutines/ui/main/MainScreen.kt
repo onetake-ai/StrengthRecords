@@ -27,23 +27,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import androidx.navigation.compose.rememberNavController
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.NavGraph
 import com.noahjutz.gymroutines.ui.Screen
 import com.noahjutz.gymroutines.ui.theme.GymRoutinesTheme
-import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
+import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalTime
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
@@ -51,7 +49,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
-    val navController = rememberAnimatedNavController(bottomSheetNavigator)
+    val navController = rememberNavController(bottomSheetNavigator)
 
     val colorTheme by viewModel.colorTheme.collectAsState(initial = ColorTheme.FollowSystem)
     val isDark = when (colorTheme) {

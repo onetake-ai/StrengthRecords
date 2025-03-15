@@ -1,15 +1,13 @@
 package com.noahjutz.gymroutines.ui.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.Text
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
@@ -19,16 +17,10 @@ fun TopBar(
 ) {
     TopAppBar(
         modifier = modifier,
-        elevation = 0.dp,
-        backgroundColor = colors.surface
-    ) {
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                if (navigationIcon != null) navigationIcon()
-                Spacer(Modifier.weight(1f))
-                actions()
-            }
-            Text(title, style = typography.h6)
-        }
-    }
+        title = {
+            Text(title)
+        },
+        actions = actions,
+        navigationIcon = navigationIcon ?: {}
+    )
 }

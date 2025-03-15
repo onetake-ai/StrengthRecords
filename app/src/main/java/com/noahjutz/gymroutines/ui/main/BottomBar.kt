@@ -1,14 +1,14 @@
 package com.noahjutz.gymroutines.ui.main
 
 import androidx.annotation.StringRes
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.ViewAgenda
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -57,9 +57,9 @@ fun BottomBar(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
-    BottomNavigation {
+    BottomAppBar {
         for (item in bottomNavItems) {
-            BottomNavigationItem(
+            NavigationBarItem(
                 icon = { Icon(item.icon, null) },
                 onClick = {
                     navController.navigate(item.route) {
