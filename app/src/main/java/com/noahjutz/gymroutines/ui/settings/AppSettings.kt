@@ -24,16 +24,24 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Construction
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.TopBar
 
-@ExperimentalMaterialApi
 @Composable
 fun AppSettings(
     popBackStack: () -> Unit,
@@ -48,7 +56,7 @@ fun AppSettings(
                 title = stringResource(R.string.screen_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -62,24 +70,24 @@ fun AppSettings(
         ) {
             ListItem(
                 modifier = Modifier.clickable(onClick = navToGeneralSettings),
-                text = { Text(stringResource(R.string.screen_general_settings)) },
-                icon = { Icon(Icons.Default.Construction, null) }
+                headlineContent = { Text(stringResource(R.string.screen_general_settings)) },
+                leadingContent = { Icon(Icons.Default.Construction, null) }
             )
             ListItem(
                 modifier = Modifier.clickable(onClick = navToAppearanceSettings),
-                text = { Text(stringResource(R.string.screen_appearance_settings)) },
-                icon = { Icon(Icons.Default.DarkMode, null) }
+                headlineContent = { Text(stringResource(R.string.screen_appearance_settings)) },
+                leadingContent = { Icon(Icons.Default.DarkMode, null) }
             )
             ListItem(
                 modifier = Modifier.clickable(onClick = navToDataSettings),
-                text = { Text(stringResource(R.string.screen_data_settings)) },
-                icon = { Icon(Icons.Default.Shield, null) }
+                headlineContent = { Text(stringResource(R.string.screen_data_settings)) },
+                leadingContent = { Icon(Icons.Default.Shield, null) }
             )
-            Divider()
+            HorizontalDivider()
             ListItem(
                 modifier = Modifier.clickable(onClick = navToAbout),
-                text = { Text(stringResource(R.string.screen_about)) },
-                icon = { Icon(Icons.Default.Info, null) }
+                headlineContent = { Text(stringResource(R.string.screen_about)) },
+                leadingContent = { Icon(Icons.Default.Info, null) }
             )
         }
     }
