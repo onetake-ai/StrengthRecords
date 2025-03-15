@@ -1,7 +1,7 @@
 package com.noahjutz.gymroutines.ui.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -16,8 +16,8 @@ fun SimpleLineChart(
     modifier: Modifier,
     data: List<Pair<Float, Float>>,
     secondaryData: List<Pair<Float, Float>> = emptyList(),
-    color: Color = colors.primary,
-    secondaryColor: Color = colors.onSurface.copy(alpha = 0.12f)
+    color: Color = colorScheme.primary,
+    secondaryColor: Color = colorScheme.onSurface.copy(alpha = 0.12f)
 ) {
     check(data.isNotEmpty()) { "data passed to SimpleLineChart must not be empty" }
     Canvas(modifier) {
