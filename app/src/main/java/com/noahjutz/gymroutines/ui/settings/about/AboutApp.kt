@@ -23,10 +23,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Launch
+import androidx.compose.material.icons.automirrored.filled.ListAlt
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContactMail
+import androidx.compose.material.icons.filled.Update
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +56,6 @@ private object Urls {
     const val sourceCode = "https://codeberg.org/noahjutz/GymRoutines"
 }
 
-@ExperimentalMaterialApi
 @Composable
 fun AboutApp(
     popBackStack: () -> Unit,
@@ -57,7 +67,7 @@ fun AboutApp(
                 title = stringResource(R.string.screen_about),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -75,7 +85,7 @@ fun AboutApp(
                     Surface(
                         shape = RoundedCornerShape(4.dp),
                         color = colorResource(id = R.color.ic_launcher_background),
-                        elevation = 4.dp
+                        shadowElevation = 4.dp
                     ) {
                         Image(
                             modifier = Modifier
@@ -86,32 +96,32 @@ fun AboutApp(
                         )
                     }
                     Spacer(Modifier.width(12.dp))
-                    Text(stringResource(R.string.app_name), style = typography.h4)
+                    Text(stringResource(R.string.app_name), style = typography.displaySmall)
                 }
 
                 ListItem(
-                    text = { Text(stringResource(R.string.about_app_version)) },
-                    secondaryText = { Text(BuildConfig.VERSION_NAME) },
-                    icon = { Icon(Icons.Default.Update, null) }
+                    headlineContent = { Text(stringResource(R.string.about_app_version)) },
+                    supportingContent = { Text(BuildConfig.VERSION_NAME) },
+                    leadingContent = { Icon(Icons.Default.Update, null) }
                 )
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToLicenses),
-                    text = { Text(stringResource(R.string.screen_licenses)) },
-                    icon = { Icon(Icons.Default.ListAlt, null) }
+                    headlineContent = { Text(stringResource(R.string.screen_licenses)) },
+                    leadingContent = { Icon(Icons.AutoMirrored.Filled.ListAlt, null) }
                 )
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
-                    text = { Text(stringResource(R.string.about_app_source_code)) },
-                    icon = { Icon(Icons.Default.Code, null) },
-                    trailing = { Icon(Icons.Default.Launch, null) }
+                    headlineContent = { Text(stringResource(R.string.about_app_source_code)) },
+                    leadingContent = { Icon(Icons.Default.Code, null) },
+                    trailingContent = { Icon(Icons.AutoMirrored.Filled.Launch, null) }
                 )
 
-                Divider()
+                HorizontalDivider()
 
                 ListItem(
-                    text = { Text(stringResource(R.string.about_contact)) },
-                    secondaryText = { Text("noahjutz@tutanota.de") },
-                    icon = { Icon(Icons.Default.ContactMail, null) }
+                    headlineContent = { Text(stringResource(R.string.about_contact)) },
+                    supportingContent = { Text("noahjutz@tutanota.de") },
+                    leadingContent = { Icon(Icons.Default.ContactMail, null) }
                 )
             }
         }

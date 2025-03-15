@@ -20,7 +20,6 @@ fun SimpleLineChart(
     secondaryColor: Color = colors.onSurface.copy(alpha = 0.12f)
 ) {
     check(data.isNotEmpty()) { "data passed to SimpleLineChart must not be empty" }
-Q
     Canvas(modifier) {
         val minX = minOf(data.minOf { it.first }, secondaryData.minOf { it.first })
         val maxX = maxOf(data.maxOf { it.first }, secondaryData.maxOf { it.first })
