@@ -24,11 +24,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,7 +45,6 @@ import com.noahjutz.gymroutines.ui.components.SearchBar
 import com.noahjutz.gymroutines.ui.components.TopBar
 import org.koin.androidx.compose.getViewModel
 
-@ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun ExercisePickerSheet(
@@ -80,7 +84,7 @@ fun ExercisePickerSheet(
                 val checked by viewModel.exercisesContains(exercise)
                     .collectAsState(initial = false)
                 ListItem(
-                    Modifier.toggleable(
+                    modifier = Modifier.toggleable(
                         value = checked,
                         onValueChange = {
                             if (it) {
@@ -90,20 +94,27 @@ fun ExercisePickerSheet(
                             }
                         }
                     ),
-                    icon = { Checkbox(checked = checked, onCheckedChange = null) }
-                ) {
-                    Text(exercise.name)
-                }
+                    leadingContent = { Checkbox(checked = checked, onCheckedChange = null) },
+                    headlineContent = {
+                        Text(exercise.name)
+                    }
+                )
             }
 
             item {
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToExerciseEditor),
-                    icon = { Icon(Icons.Default.Add, null, tint = colors.primary) },
-                    text = {
+                    leadingContent = {
+                        Icon(
+                            Icons.Default.Add,
+                            null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
+                    headlineContent = {
                         Text(
                             stringResource(R.string.btn_new_exercise),
-                            color = colors.primary
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 )
