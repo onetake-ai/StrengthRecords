@@ -19,8 +19,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    kotlin("plugin.serialization") version "1.9.0"
-    id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
+    kotlin("plugin.serialization") version "2.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
 }
@@ -87,7 +87,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
 
     implementation("com.google.android.material:material:1.12.0")
 
