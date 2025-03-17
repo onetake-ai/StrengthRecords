@@ -1,0 +1,10 @@
+Features
+* Updated UI components to Material 3
+* Now targeting Android 15 (API level 35)
+* Enabled Edge-to-Edge display
+
+Development
+* Upgraded dependencies
+* Fixed F-Droid badge in README
+* Fixed homepage link in README
+* Fixed CONTRIBUTING.md (@XabMS)
