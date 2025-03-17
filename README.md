@@ -2,7 +2,7 @@
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200px">
 </a>
 <a href="https://f-droid.org/packages/com.noahjutz.gymroutines">
-    <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-us.png" width="200px">
+    <img src="https://f-droid.org/badge/get-it-on.png" width="200px">
 </a>
 
 # GymRoutines
