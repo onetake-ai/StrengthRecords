@@ -33,8 +33,8 @@ android {
         applicationId = "com.noahjutz.gymroutines"
         minSdk = 21
         targetSdk = 35
-        versionCode = 47
-        versionName = "0.1.0-beta15"
+        versionCode = 48
+        versionName = "0.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
