@@ -30,12 +30,12 @@ import androidx.room.PrimaryKey
             entity = WorkoutSetGroup::class,
             childColumns = ["groupId"],
             parentColumns = ["id"],
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
     indices = [
-        Index(value = ["groupId"])
-    ]
+        Index(value = ["groupId"]),
+    ],
 )
 data class WorkoutSet(
     val groupId: Int,
@@ -44,7 +44,6 @@ data class WorkoutSet(
     val time: Int? = null,
     val distance: Double? = null,
     val complete: Boolean = false,
-
     @PrimaryKey(autoGenerate = true)
-    val workoutSetId: Int = 0
+    val workoutSetId: Int = 0,
 )

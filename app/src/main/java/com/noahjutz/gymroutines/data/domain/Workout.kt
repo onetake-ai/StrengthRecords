@@ -30,9 +30,8 @@ data class Workout(
     val routineId: Int,
     val startTime: Date = Calendar.getInstance().time,
     val endTime: Date = startTime,
-
     @PrimaryKey(autoGenerate = true)
-    val workoutId: Int = 0
+    val workoutId: Int = 0,
 )
 
 data class WorkoutWithSetGroups(
@@ -40,8 +39,8 @@ data class WorkoutWithSetGroups(
     @Relation(
         entity = WorkoutSetGroup::class,
         parentColumn = "workoutId",
-        entityColumn = "workoutId"
-    ) val setGroups: List<WorkoutSetGroupWithSets>
+        entityColumn = "workoutId",
+    ) val setGroups: List<WorkoutSetGroupWithSets>,
 )
 
 val Workout.duration get() = (endTime.time - startTime.time).milliseconds

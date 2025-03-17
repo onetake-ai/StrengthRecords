@@ -33,22 +33,25 @@ import kotlinx.coroutines.launch
 class WorkoutInsightsViewModel(
     private val workoutRepository: WorkoutRepository,
     private val routineRepository: RoutineRepository,
-    preferences: DataStore<Preferences>
+    preferences: DataStore<Preferences>,
 ) : ViewModel() {
-    val workouts = workoutRepository.workouts.combine(preferences.data) { workouts, prefs ->
-        workouts.filter {
-            prefs[AppPrefs.CurrentWorkout.key] != it.workoutId
+    val workouts =
+        workoutRepository.workouts.combine(preferences.data) { workouts, prefs ->
+            workouts.filter {
+                prefs[AppPrefs.CurrentWorkout.key] != it.workoutId
+            }
         }
-    }
-    val routineNames = workouts.map { workouts ->
-        workouts.associate {
-            Pair(it.workoutId, getRoutineName(it.routineId))
+    val routineNames =
+        workouts.map { workouts ->
+            workouts.associate {
+                Pair(it.workoutId, getRoutineName(it.routineId))
+            }
         }
-    }
 
-    fun delete(workout: Workout) = viewModelScope.launch {
-        workoutRepository.delete(workout)
-    }
+    fun delete(workout: Workout) =
+        viewModelScope.launch {
+            workoutRepository.delete(workout)
+        }
 
     private suspend fun getRoutineName(routineId: Int): String {
         val routine = routineRepository.getRoutine(routineId)

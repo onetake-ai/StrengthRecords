@@ -8,7 +8,7 @@ import com.noahjutz.gymroutines.data.resetAppSettings
 import kotlinx.coroutines.launch
 
 class GeneralSettingsViewModel(
-    private val preferences: DataStore<Preferences>
+    private val preferences: DataStore<Preferences>,
 ) : ViewModel() {
     fun resetSettings() {
         viewModelScope.launch {

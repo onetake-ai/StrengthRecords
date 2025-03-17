@@ -32,7 +32,6 @@ data class Exercise(
     var logTime: Boolean = false,
     var logDistance: Boolean = false,
     var hidden: Boolean = false,
-
     @PrimaryKey(autoGenerate = true)
-    val exerciseId: Int = 0
+    val exerciseId: Int = 0,
 )

@@ -36,7 +36,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun DataSettings(
     popBackStack: () -> Unit,
-    viewModel: DataSettingsViewModel = getViewModel()
+    viewModel: DataSettingsViewModel = getViewModel(),
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
@@ -48,74 +48,81 @@ fun DataSettings(
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
-        val exportDatabaseLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.CreateDocument("application/vnd.sqlite3")
-        ) { uri ->
-            if (uri != null) {
-                viewModel.exportDatabase(uri)
-                viewModel.restartApp()
-            }
-        }
-
-        val importDatabaseLauncher = rememberLauncherForActivityResult(
-            object : ActivityResultContracts.OpenDocument() {
-                override fun createIntent(context: Context, input: Array<String>): Intent {
-                    super.createIntent(context, input)
-                    return Intent(Intent.ACTION_OPEN_DOCUMENT)
-                        .addCategory(Intent.CATEGORY_OPENABLE)
-                        .setType("*/*")
+        val exportDatabaseLauncher =
+            rememberLauncherForActivityResult(
+                ActivityResultContracts.CreateDocument("application/vnd.sqlite3"),
+            ) { uri ->
+                if (uri != null) {
+                    viewModel.exportDatabase(uri)
+                    viewModel.restartApp()
                 }
             }
-        ) { uri ->
-            if (uri != null) {
-                viewModel.importDatabase(uri)
-                viewModel.restartApp()
+
+        val importDatabaseLauncher =
+            rememberLauncherForActivityResult(
+                object : ActivityResultContracts.OpenDocument() {
+                    override fun createIntent(
+                        context: Context,
+                        input: Array<String>,
+                    ): Intent {
+                        super.createIntent(context, input)
+                        return Intent(Intent.ACTION_OPEN_DOCUMENT)
+                            .addCategory(Intent.CATEGORY_OPENABLE)
+                            .setType("*/*")
+                    }
+                },
+            ) { uri ->
+                if (uri != null) {
+                    viewModel.importDatabase(uri)
+                    viewModel.restartApp()
+                }
             }
-        }
 
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
             val isWorkoutInProgress by viewModel.isWorkoutInProgress.collectAsState(initial = true)
             val scope = rememberCoroutineScope()
             val alertFinishWorkout = stringResource(R.string.alert_must_finish_workout)
             ListItem(
-                modifier = Modifier.clickable {
-                    if (isWorkoutInProgress) {
-                        scope.launch {
-                            snackbarHostState.currentSnackbarData?.dismiss()
-                            snackbarHostState.showSnackbar(alertFinishWorkout)
+                modifier =
+                    Modifier.clickable {
+                        if (isWorkoutInProgress) {
+                            scope.launch {
+                                snackbarHostState.currentSnackbarData?.dismiss()
+                                snackbarHostState.showSnackbar(alertFinishWorkout)
+                            }
+                        } else {
+                            exportDatabaseLauncher.launch(
+                                "gymroutines_${viewModel.getCurrentTimeIso()}.db",
+                            )
                         }
-                    } else {
-                        exportDatabaseLauncher.launch(
-                            "gymroutines_${viewModel.getCurrentTimeIso()}.db"
-                        )
-                    }
-                },
+                    },
                 headlineContent = { Text(stringResource(R.string.pref_back_up_data)) },
                 supportingContent = { Text(stringResource(R.string.pref_detail_back_up_data)) },
-                leadingContent = { Icon(Icons.Default.SaveAlt, null) }
+                leadingContent = { Icon(Icons.Default.SaveAlt, null) },
             )
             ListItem(
-                modifier = Modifier.clickable {
-                    if (isWorkoutInProgress) {
-                        scope.launch {
-                            snackbarHostState.currentSnackbarData?.dismiss()
-                            snackbarHostState.showSnackbar(alertFinishWorkout)
+                modifier =
+                    Modifier.clickable {
+                        if (isWorkoutInProgress) {
+                            scope.launch {
+                                snackbarHostState.currentSnackbarData?.dismiss()
+                                snackbarHostState.showSnackbar(alertFinishWorkout)
+                            }
+                        } else {
+                            importDatabaseLauncher.launch(emptyArray())
                         }
-                    } else {
-                        importDatabaseLauncher.launch(emptyArray())
-                    }
-                },
+                    },
                 headlineContent = { Text(stringResource(R.string.pref_restore_data)) },
                 supportingContent = { Text(stringResource(R.string.pref_detail_restore_data)) },
-                leadingContent = { Icon(Icons.Default.SettingsBackupRestore, null) }
+                leadingContent = { Icon(Icons.Default.SettingsBackupRestore, null) },
             )
         }
     }

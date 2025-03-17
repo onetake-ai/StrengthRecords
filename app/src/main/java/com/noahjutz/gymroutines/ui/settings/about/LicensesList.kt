@@ -29,67 +29,66 @@ import com.noahjutz.gymroutines.util.openUrl
 
 enum class Licenses(val fullName: String) {
     APACHE2("Apache License 2.0"),
-    EPL1("Eclipse Public License 1.0")
+    EPL1("Eclipse Public License 1.0"),
 }
 
 data class Dependency(
     val name: String,
     val license: Licenses,
-    val url: String
+    val url: String,
 )
 
-val dependencies = listOf(
-    Dependency(
-        name = "Koin",
-        license = Licenses.APACHE2,
-        url = "https://github.com/InsertKoinIO/koin"
-    ),
-    Dependency(
-        name = "Android Jetpack",
-        license = Licenses.APACHE2,
-        url = "https://developer.android.com/jetpack"
-    ),
-    Dependency(
-        name = "Kotlinx Coroutines",
-        license = Licenses.APACHE2,
-        url = "https://github.com/Kotlin/kotlinx.coroutines"
-    ),
-    Dependency(
-        name = "Kotlinx Serialization",
-        license = Licenses.APACHE2,
-        url = "https://github.com/Kotlin/kotlinx.serialization"
-    ),
-    Dependency(
-        name = "ProcessPhoenix",
-        license = Licenses.APACHE2,
-        url = "https://github.com/JakeWharton/ProcessPhoenix"
-    ),
-    Dependency(
-        name = "Junit 4",
-        license = Licenses.EPL1,
-        url = "https://github.com/junit-team/junit4"
-    ),
-    Dependency(
-        name = "AssertJ",
-        license = Licenses.APACHE2,
-        url = "https://github.com/assertj/assertj-core"
-    ),
-    Dependency(
-        name = "MockK",
-        license = Licenses.APACHE2,
-        url = "https://github.com/mockk/mockk"
-    ),
-    Dependency(
-        name = "Accompanist",
-        license = Licenses.APACHE2,
-        url = "https://github.com/google/accompanist"
+val dependencies =
+    listOf(
+        Dependency(
+            name = "Koin",
+            license = Licenses.APACHE2,
+            url = "https://github.com/InsertKoinIO/koin",
+        ),
+        Dependency(
+            name = "Android Jetpack",
+            license = Licenses.APACHE2,
+            url = "https://developer.android.com/jetpack",
+        ),
+        Dependency(
+            name = "Kotlinx Coroutines",
+            license = Licenses.APACHE2,
+            url = "https://github.com/Kotlin/kotlinx.coroutines",
+        ),
+        Dependency(
+            name = "Kotlinx Serialization",
+            license = Licenses.APACHE2,
+            url = "https://github.com/Kotlin/kotlinx.serialization",
+        ),
+        Dependency(
+            name = "ProcessPhoenix",
+            license = Licenses.APACHE2,
+            url = "https://github.com/JakeWharton/ProcessPhoenix",
+        ),
+        Dependency(
+            name = "Junit 4",
+            license = Licenses.EPL1,
+            url = "https://github.com/junit-team/junit4",
+        ),
+        Dependency(
+            name = "AssertJ",
+            license = Licenses.APACHE2,
+            url = "https://github.com/assertj/assertj-core",
+        ),
+        Dependency(
+            name = "MockK",
+            license = Licenses.APACHE2,
+            url = "https://github.com/mockk/mockk",
+        ),
+        Dependency(
+            name = "Accompanist",
+            license = Licenses.APACHE2,
+            url = "https://github.com/google/accompanist",
+        ),
     )
-)
 
 @Composable
-fun LicensesList(
-    popBackStack: () -> Unit
-) {
+fun LicensesList(popBackStack: () -> Unit) {
     Scaffold(
         topBar = {
             TopBar(
@@ -97,19 +96,19 @@ fun LicensesList(
                     IconButton(onClick = popBackStack) {
                         Icon(
                             Icons.AutoMirrored.Filled.ArrowBack,
-                            stringResource(R.string.btn_pop_back)
+                            stringResource(R.string.btn_pop_back),
                         )
                     }
                 },
-                title = stringResource(R.string.screen_licenses)
+                title = stringResource(R.string.screen_licenses),
             )
-        }
+        },
     ) { paddingValues ->
         LazyColumn(contentPadding = paddingValues) {
             item {
                 Card(
                     Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                    shape = RoundedCornerShape(30.dp)
+                    shape = RoundedCornerShape(30.dp),
                 ) {
                     Box(Modifier.padding(20.dp)) {
                         Text(stringResource(R.string.app_license), style = typography.bodySmall)
@@ -118,7 +117,7 @@ fun LicensesList(
                 Text(
                     stringResource(R.string.title_dependencies_list),
                     style = typography.displaySmall,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
                 )
                 Spacer(Modifier.height(16.dp))
             }
@@ -132,9 +131,9 @@ fun LicensesList(
                     trailingContent = {
                         Icon(
                             Icons.Default.OpenInBrowser,
-                            stringResource(R.string.btn_open_in_browser)
+                            stringResource(R.string.btn_open_in_browser),
                         )
-                    }
+                    },
                 )
             }
         }

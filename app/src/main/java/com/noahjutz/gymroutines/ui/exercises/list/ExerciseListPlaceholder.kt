@@ -23,16 +23,16 @@ fun ExerciseListPlaceholder() {
                 .fillMaxWidth()
                 .height(60.dp)
                 .clip(RoundedCornerShape(percent = 100))
-                .placeholder(visible = true)
+                .placeholder(visible = true),
         )
         repeat(10) {
             ListItem(
                 headlineContent = {
                     Text(
                         "A".repeat((5..15).random()),
-                        modifier = Modifier.placeholder(visible = true)
+                        modifier = Modifier.placeholder(visible = true),
                     )
-                }
+                },
             )
         }
     }

@@ -1,14 +1,14 @@
 package com.noahjutz.gymroutines.ui.main
 
 import androidx.annotation.StringRes
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.ViewAgenda
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -22,37 +22,38 @@ import com.noahjutz.gymroutines.ui.Screen
 sealed class BottomNavItem(
     val route: String,
     @StringRes val name: Int,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
     data object Routines : BottomNavItem(
         route = Screen.routineList.name,
         name = R.string.screen_routine_list,
-        icon = Icons.Default.ViewAgenda
+        icon = Icons.Default.ViewAgenda,
     )
 
     data object Exercises : BottomNavItem(
         route = Screen.exerciseList.name,
         name = R.string.screen_exercise_list,
-        icon = Icons.Default.FitnessCenter
+        icon = Icons.Default.FitnessCenter,
     )
 
     data object Workouts : BottomNavItem(
         route = Screen.insights.name,
         name = R.string.screen_insights,
-        icon = Icons.Default.Insights
+        icon = Icons.Default.Insights,
     )
 }
 
-val bottomNavItems = listOf(
-    BottomNavItem.Routines,
-    BottomNavItem.Exercises,
-    BottomNavItem.Workouts
-)
+val bottomNavItems =
+    listOf(
+        BottomNavItem.Routines,
+        BottomNavItem.Exercises,
+        BottomNavItem.Workouts,
+    )
 
 @Composable
 fun BottomBar(
     navController: NavController,
-    showLabels: Boolean
+    showLabels: Boolean,
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
@@ -71,7 +72,7 @@ fun BottomBar(
                     }
                 },
                 label = (@Composable { Text(stringResource(item.name)) }).takeIf { showLabels },
-                selected = item.route == currentRoute
+                selected = item.route == currentRoute,
             )
         }
     }

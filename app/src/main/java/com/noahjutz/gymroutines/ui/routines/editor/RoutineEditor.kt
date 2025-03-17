@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -49,7 +48,6 @@ import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
@@ -107,7 +105,7 @@ fun RoutineEditor(
     popBackStack: () -> Unit,
     routineId: Int,
     exerciseIdsToAdd: List<Int>,
-    viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) }
+    viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -129,7 +127,7 @@ fun RoutineEditor(
                         }
                     },
                     icon = { Icon(Icons.Default.PlayArrow, null) },
-                    text = { Text(stringResource(R.string.btn_start_workout)) }
+                    text = { Text(stringResource(R.string.btn_start_workout)) },
                 )
             }
         },
@@ -140,9 +138,9 @@ fun RoutineEditor(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 },
-                title = stringResource(R.string.screen_edit_routine)
+                title = stringResource(R.string.screen_edit_routine),
             )
-        }
+        },
     ) { paddingValues ->
         val routine by viewModel.routine.collectAsState(initial = null)
         Crossfade(routine != null, Modifier.padding(paddingValues)) { isReady ->
@@ -154,7 +152,7 @@ fun RoutineEditor(
                         routine = routine.routine,
                         setGroups = routine.setGroups,
                         viewModel = viewModel,
-                        navToExercisePicker = navToExercisePicker
+                        navToExercisePicker = navToExercisePicker,
                     )
                 }
             }
@@ -168,11 +166,11 @@ private fun RoutineEditorContent(
     routine: Routine,
     setGroups: List<RoutineSetGroupWithSets>,
     viewModel: RoutineEditorViewModel,
-    navToExercisePicker: () -> Unit
+    navToExercisePicker: () -> Unit,
 ) {
     LazyColumn(
         Modifier.fillMaxHeight(),
-        contentPadding = PaddingValues(bottom = 70.dp)
+        contentPadding = PaddingValues(bottom = 70.dp),
     ) {
         item {
             val (name, setName) = remember { mutableStateOf(routine.name) }
@@ -181,9 +179,10 @@ private fun RoutineEditorContent(
             }
             val (nameLineCount, setNameLineCount) = remember { mutableStateOf(0) }
             BasicTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, start = 30.dp, end = 30.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, start = 30.dp, end = 30.dp),
                 value = name,
                 onValueChange = setName,
                 onTextLayout = { setNameLineCount(it.lineCount) },
@@ -193,23 +192,24 @@ private fun RoutineEditorContent(
                     Surface(
                         modifier = if (nameLineCount <= 1) Modifier.height(60.dp) else Modifier,
                         color = colorScheme.onSurface.copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(30.dp)
+                        shape = RoundedCornerShape(30.dp),
                     ) {
                         Row(
                             Modifier.padding(start = 30.dp, end = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Box(
                                 Modifier
                                     .padding(vertical = 16.dp)
-                                    .weight(1f)
+                                    .weight(1f),
                             ) {
                                 if (routine.name.isEmpty()) {
                                     Text(
                                         stringResource(R.string.unnamed_routine),
-                                        style = typography.headlineSmall.copy(
-                                            color = colorScheme.onSurface.copy(alpha = 0.12f)
-                                        )
+                                        style =
+                                            typography.headlineSmall.copy(
+                                                color = colorScheme.onSurface.copy(alpha = 0.12f),
+                                            ),
                                     )
                                 }
                                 innerTextField()
@@ -217,19 +217,19 @@ private fun RoutineEditorContent(
                             AnimatedVisibility(
                                 name.isNotEmpty(),
                                 enter = fadeIn(),
-                                exit = fadeOut()
+                                exit = fadeOut(),
                             ) {
                                 Spacer(Modifier.width(8.dp))
                                 IconButton(onClick = { setName("") }) {
                                     Icon(
                                         Icons.Default.Clear,
-                                        stringResource(R.string.btn_clear_text)
+                                        stringResource(R.string.btn_clear_text),
                                     )
                                 }
                             }
                         }
                     }
-                }
+                },
             )
         }
 
@@ -241,70 +241,74 @@ private fun RoutineEditorContent(
                     .animateItemPlacement()
                     .padding(top = 30.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = colorScheme.surface
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = colorScheme.surface,
+                    ),
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colorScheme.primary) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
                                 exercise.name,
                                 style = typography.headlineSmall,
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .weight(1f)
+                                modifier =
+                                    Modifier
+                                        .padding(16.dp)
+                                        .weight(1f),
                             )
 
                             Box {
                                 var expanded by remember { mutableStateOf(false) }
                                 IconButton(
                                     modifier = Modifier.padding(16.dp),
-                                    onClick = { expanded = !expanded }
+                                    onClick = { expanded = !expanded },
                                 ) {
                                     Icon(
                                         Icons.Default.DragHandle,
-                                        stringResource(R.string.btn_more)
+                                        stringResource(R.string.btn_more),
                                     )
                                 }
                                 DropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { expanded = false }
+                                    onDismissRequest = { expanded = false },
                                 ) {
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
                                             val id = setGroup.group.id
-                                            val toId = setGroups
-                                                .find { it.group.position == setGroup.group.position - 1 }
-                                                ?.group
-                                                ?.id
+                                            val toId =
+                                                setGroups
+                                                    .find { it.group.position == setGroup.group.position - 1 }
+                                                    ?.group
+                                                    ?.id
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
                                         },
                                         text = {
                                             Text(stringResource(R.string.btn_move_up))
-                                        }
+                                        },
                                     )
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
                                             val id = setGroup.group.id
-                                            val toId = setGroups
-                                                .find { it.group.position == setGroup.group.position + 1 }
-                                                ?.group
-                                                ?.id
+                                            val toId =
+                                                setGroups
+                                                    .find { it.group.position == setGroup.group.position + 1 }
+                                                    ?.group
+                                                    ?.id
                                             if (toId != null) {
                                                 viewModel.swapSetGroups(id, toId)
                                             }
                                         },
                                         text = {
                                             Text(stringResource(R.string.btn_move_down))
-                                        }
+                                        },
                                     )
                                 }
                             }
@@ -312,21 +316,22 @@ private fun RoutineEditorContent(
                     }
                     Column(Modifier.padding(vertical = 16.dp)) {
                         Row(Modifier.padding(horizontal = 4.dp)) {
-                            val headerTextStyle = TextStyle(
-                                color = colorScheme.onSurface,
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center
-                            )
+                            val headerTextStyle =
+                                TextStyle(
+                                    color = colorScheme.onSurface,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center,
+                                )
                             if (exercise.logReps) {
                                 Surface(
                                     Modifier
                                         .padding(horizontal = 4.dp, vertical = 8.dp)
-                                        .weight(1f)
+                                        .weight(1f),
                                 ) {
                                     Text(
                                         stringResource(R.string.column_reps),
-                                        style = headerTextStyle
+                                        style = headerTextStyle,
                                     )
                                 }
                             }
@@ -334,11 +339,11 @@ private fun RoutineEditorContent(
                                 Surface(
                                     Modifier
                                         .padding(horizontal = 4.dp, vertical = 8.dp)
-                                        .weight(1f)
+                                        .weight(1f),
                                 ) {
                                     Text(
                                         stringResource(R.string.column_weight),
-                                        style = headerTextStyle
+                                        style = headerTextStyle,
                                     )
                                 }
                             }
@@ -346,11 +351,11 @@ private fun RoutineEditorContent(
                                 Surface(
                                     Modifier
                                         .padding(horizontal = 4.dp, vertical = 8.dp)
-                                        .weight(1f)
+                                        .weight(1f),
                                 ) {
                                     Text(
                                         stringResource(R.string.column_time),
-                                        style = headerTextStyle
+                                        style = headerTextStyle,
                                     )
                                 }
                             }
@@ -358,11 +363,11 @@ private fun RoutineEditorContent(
                                 Surface(
                                     Modifier
                                         .padding(horizontal = 4.dp, vertical = 8.dp)
-                                        .weight(1f)
+                                        .weight(1f),
                                 ) {
                                     Text(
                                         stringResource(R.string.column_distance),
-                                        style = headerTextStyle
+                                        style = headerTextStyle,
                                     )
                                 }
                             }
@@ -377,47 +382,50 @@ private fun RoutineEditorContent(
                                 }
                                 SwipeToDismissBox(
                                     state = dismissState,
-                                    backgroundContent = { SwipeToDeleteBackground(dismissState) }
+                                    backgroundContent = { SwipeToDeleteBackground(dismissState) },
                                 ) {
                                     Surface {
                                         Row(
-                                            Modifier.padding(horizontal = 4.dp)
+                                            Modifier.padding(horizontal = 4.dp),
                                         ) {
-                                            val textFieldStyle = typography.bodyMedium.copy(
-                                                textAlign = TextAlign.Center,
-                                                color = colorScheme.onSurface
-                                            )
+                                            val textFieldStyle =
+                                                typography.bodyMedium.copy(
+                                                    textAlign = TextAlign.Center,
+                                                    color = colorScheme.onSurface,
+                                                )
                                             val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
                                                 { innerTextField ->
                                                     Surface(
                                                         color = colorScheme.onSurface.copy(alpha = 0.1f),
-                                                        shape = RoundedCornerShape(8.dp)
+                                                        shape = RoundedCornerShape(8.dp),
                                                     ) {
                                                         Box(
                                                             Modifier.padding(
                                                                 vertical = 16.dp,
-                                                                horizontal = 4.dp
+                                                                horizontal = 4.dp,
                                                             ),
-                                                            contentAlignment = Alignment.Center
+                                                            contentAlignment = Alignment.Center,
                                                         ) {
                                                             innerTextField()
                                                         }
                                                     }
                                                 }
                                             if (exercise.logReps) {
-                                                val (reps, setReps) = remember {
-                                                    mutableStateOf(
-                                                        set.reps.toStringOrBlank()
-                                                    )
-                                                }
+                                                val (reps, setReps) =
+                                                    remember {
+                                                        mutableStateOf(
+                                                            set.reps.toStringOrBlank(),
+                                                        )
+                                                    }
                                                 LaunchedEffect(reps) {
                                                     val repsInt = reps.toIntOrNull()
                                                     viewModel.updateReps(set, repsInt)
                                                 }
                                                 AutoSelectTextField(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(4.dp),
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .padding(4.dp),
                                                     value = reps,
                                                     onValueChange = {
                                                         if (it.matches(RegexPatterns.integer)) {
@@ -425,100 +433,110 @@ private fun RoutineEditorContent(
                                                         }
                                                     },
                                                     textStyle = textFieldStyle,
-                                                    keyboardOptions = KeyboardOptions(
-                                                        keyboardType = KeyboardType.Number
-                                                    ),
+                                                    keyboardOptions =
+                                                        KeyboardOptions(
+                                                            keyboardType = KeyboardType.Number,
+                                                        ),
                                                     singleLine = true,
                                                     cursorColor = colorScheme.onSurface,
-                                                    decorationBox = decorationBox
+                                                    decorationBox = decorationBox,
                                                 )
                                             }
                                             if (exercise.logWeight) {
-                                                val (weight, setWeight) = remember {
-                                                    mutableStateOf(
-                                                        set.weight.formatSimple()
-                                                    )
-                                                }
+                                                val (weight, setWeight) =
+                                                    remember {
+                                                        mutableStateOf(
+                                                            set.weight.formatSimple(),
+                                                        )
+                                                    }
                                                 LaunchedEffect(weight) {
                                                     val weightDouble = weight.toDoubleOrNull()
                                                     viewModel.updateWeight(set, weightDouble)
                                                 }
                                                 AutoSelectTextField(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(4.dp),
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .padding(4.dp),
                                                     value = weight,
                                                     onValueChange = {
                                                         if (it.matches(RegexPatterns.float)) {
                                                             setWeight(it)
                                                         }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(
-                                                        keyboardType = KeyboardType.Number
-                                                    ),
+                                                    keyboardOptions =
+                                                        KeyboardOptions(
+                                                            keyboardType = KeyboardType.Number,
+                                                        ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colorScheme.onSurface,
-                                                    decorationBox = decorationBox
+                                                    decorationBox = decorationBox,
                                                 )
                                             }
                                             if (exercise.logTime) {
-                                                val (time, setTime) = remember {
-                                                    mutableStateOf(
-                                                        set.time.toStringOrBlank()
-                                                    )
-                                                }
+                                                val (time, setTime) =
+                                                    remember {
+                                                        mutableStateOf(
+                                                            set.time.toStringOrBlank(),
+                                                        )
+                                                    }
                                                 LaunchedEffect(time) {
                                                     val timeInt = time.toIntOrNull()
                                                     viewModel.updateTime(set, timeInt)
                                                 }
                                                 AutoSelectTextField(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(4.dp),
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .padding(4.dp),
                                                     value = time,
                                                     onValueChange = {
                                                         if (it.matches(RegexPatterns.duration)) {
                                                             setTime(it)
                                                         }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(
-                                                        keyboardType = KeyboardType.Number
-                                                    ),
+                                                    keyboardOptions =
+                                                        KeyboardOptions(
+                                                            keyboardType = KeyboardType.Number,
+                                                        ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     visualTransformation = durationVisualTransformation,
                                                     cursorColor = colorScheme.onSurface,
-                                                    decorationBox = decorationBox
+                                                    decorationBox = decorationBox,
                                                 )
                                             }
                                             if (exercise.logDistance) {
-                                                val (distance, setDistance) = remember {
-                                                    mutableStateOf(
-                                                        set.distance.formatSimple()
-                                                    )
-                                                }
+                                                val (distance, setDistance) =
+                                                    remember {
+                                                        mutableStateOf(
+                                                            set.distance.formatSimple(),
+                                                        )
+                                                    }
                                                 LaunchedEffect(distance) {
                                                     val distanceDouble = distance.toDoubleOrNull()
                                                     viewModel.updateDistance(set, distanceDouble)
                                                 }
                                                 AutoSelectTextField(
-                                                    modifier = Modifier
-                                                        .weight(1f)
-                                                        .padding(4.dp),
+                                                    modifier =
+                                                        Modifier
+                                                            .weight(1f)
+                                                            .padding(4.dp),
                                                     value = distance,
                                                     onValueChange = {
                                                         if (it.matches(RegexPatterns.float)) {
                                                             setDistance(it)
                                                         }
                                                     },
-                                                    keyboardOptions = KeyboardOptions(
-                                                        keyboardType = KeyboardType.Number
-                                                    ),
+                                                    keyboardOptions =
+                                                        KeyboardOptions(
+                                                            keyboardType = KeyboardType.Number,
+                                                        ),
                                                     singleLine = true,
                                                     textStyle = textFieldStyle,
                                                     cursorColor = colorScheme.onSurface,
-                                                    decorationBox = decorationBox
+                                                    decorationBox = decorationBox,
                                                 )
                                             }
                                         }
@@ -528,10 +546,11 @@ private fun RoutineEditorContent(
                         }
                     }
                     TextButton(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(64.dp),
-                        onClick = { viewModel.addSet(setGroup) }
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .height(64.dp),
+                        onClick = { viewModel.addSet(setGroup) },
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
@@ -543,12 +562,13 @@ private fun RoutineEditorContent(
 
         item {
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(30.dp)
-                    .height(120.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(30.dp)
+                        .height(120.dp),
                 shape = RoundedCornerShape(30.dp),
-                onClick = navToExercisePicker
+                onClick = navToExercisePicker,
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))

@@ -26,7 +26,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun GeneralSettings(
     popBackStack: () -> Unit,
-    viewModel: GeneralSettingsViewModel = getViewModel()
+    viewModel: GeneralSettingsViewModel = getViewModel(),
 ) {
     Scaffold(
         topBar = {
@@ -36,21 +36,21 @@ fun GeneralSettings(
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
             val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
             ListItem(
                 modifier = Modifier.clickable { setIsVisible(true) },
                 headlineContent = { Text(stringResource(R.string.pref_reset_settings)) },
-                leadingContent = { Icon(Icons.Default.RestartAlt, null) }
+                leadingContent = { Icon(Icons.Default.RestartAlt, null) },
             )
             ResetDialog(
                 isVisible = isVisible,
                 onDismiss = { setIsVisible(false) },
-                onReset = { viewModel.resetSettings() }
+                onReset = { viewModel.resetSettings() },
             )
         }
     }
@@ -60,7 +60,7 @@ fun GeneralSettings(
 private fun ResetDialog(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    onReset: () -> Unit
+    onReset: () -> Unit,
 ) {
     if (isVisible) {
         AlertDialog(
@@ -73,7 +73,7 @@ private fun ResetDialog(
                     onClick = {
                         onReset()
                         onDismiss()
-                    }
+                    },
                 ) {
                     Text(stringResource(R.string.dialog_confirm_reset_settings))
                 }
@@ -82,7 +82,7 @@ private fun ResetDialog(
                 TextButton(onClick = onDismiss) {
                     Text(stringResource(R.string.btn_cancel))
                 }
-            }
+            },
         )
     }
 }

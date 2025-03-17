@@ -11,13 +11,14 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class AppearanceSettingsViewModel(
-    private val preferences: DataStore<Preferences>
+    private val preferences: DataStore<Preferences>,
 ) : ViewModel() {
-    val appTheme = preferences.data.map {
-        it[AppPrefs.AppTheme.key]?.let { colorThemeString ->
-            ColorTheme.valueOf(colorThemeString)
-        } ?: ColorTheme.FollowSystem
-    }
+    val appTheme =
+        preferences.data.map {
+            it[AppPrefs.AppTheme.key]?.let { colorThemeString ->
+                ColorTheme.valueOf(colorThemeString)
+            } ?: ColorTheme.FollowSystem
+        }
 
     fun setAppTheme(theme: ColorTheme) {
         viewModelScope.launch {

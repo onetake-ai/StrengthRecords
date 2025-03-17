@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
-    private val exerciseId: Int
+    private val exerciseId: Int,
 ) : ViewModel() {
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
@@ -50,15 +50,16 @@ class ExerciseEditorViewModel(
     private var _originalExercise = MutableStateFlow<Exercise?>(null)
     private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
 
-    val isSavingEnabled = combine(
-        _originalExercise,
-        _currentExercise,
-        name
-    ) { old, current, name ->
-        val isExerciseEqual = current == old
-        val isNameBlank = name.isBlank()
-        !isExerciseEqual && !isNameBlank
-    }
+    val isSavingEnabled =
+        combine(
+            _originalExercise,
+            _currentExercise,
+            name,
+        ) { old, current, name ->
+            val isExerciseEqual = current == old
+            val isNameBlank = name.isBlank()
+            !isExerciseEqual && !isNameBlank
+        }
 
     init {
         viewModelScope.launch {
@@ -140,15 +141,16 @@ class ExerciseEditorViewModel(
 
     fun save(onComplete: () -> Unit) {
         viewModelScope.launch {
-            val exercise = Exercise(
-                name = name.value,
-                notes = notes.value,
-                logReps = logReps.value,
-                logWeight = logWeight.value,
-                logTime = logTime.value,
-                logDistance = logDistance.value,
-                hidden = false
-            )
+            val exercise =
+                Exercise(
+                    name = name.value,
+                    notes = notes.value,
+                    logReps = logReps.value,
+                    logWeight = logWeight.value,
+                    logTime = logTime.value,
+                    logDistance = logDistance.value,
+                    hidden = false,
+                )
             if (exerciseId < 0) {
                 repository.insert(exercise.copy(exerciseId = 0))
             } else {

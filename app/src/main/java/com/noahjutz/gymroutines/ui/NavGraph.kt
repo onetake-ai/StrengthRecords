@@ -70,7 +70,7 @@ enum class Screen {
     generalSettings,
     about,
     licenses,
-    workoutCompleted
+    workoutCompleted,
 }
 
 @ExperimentalTime
@@ -80,7 +80,7 @@ enum class Screen {
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    bottomSheetNavigator: BottomSheetNavigator
+    bottomSheetNavigator: BottomSheetNavigator,
 ) {
     val uri = "https://gymroutines.com"
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
@@ -90,41 +90,41 @@ fun NavGraph(
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
             popEnterTransition = { EnterTransition.None },
-            popExitTransition = { ExitTransition.None }
+            popExitTransition = { ExitTransition.None },
         ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
                     navToWorkoutEditor = { workoutId ->
                         navController.navigate(
-                            "${Screen.workoutViewer}/$workoutId"
+                            "${Screen.workoutViewer}/$workoutId",
                         )
                     },
-                    navToSettings = { navController.navigate(Screen.settings.name) }
+                    navToSettings = { navController.navigate(Screen.settings.name) },
                 )
             }
             composable(
                 route = "${Screen.workoutViewer}/{workoutId}",
-                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
+                arguments = listOf(navArgument("workoutId") { type = NavType.IntType }),
             ) { backStackEntry ->
                 val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 WorkoutViewer(
                     workoutId = workoutId,
-                    popBackStack = { navController.popBackStack() }
+                    popBackStack = { navController.popBackStack() },
                 )
             }
             composable(Screen.routineList.name) {
                 RoutineList(
                     navToRoutineEditor = { routineId ->
                         navController.navigate(
-                            "${Screen.routineEditor}/$routineId"
+                            "${Screen.routineEditor}/$routineId",
                         )
                     },
-                    navToSettings = { navController.navigate(Screen.settings.name) }
+                    navToSettings = { navController.navigate(Screen.settings.name) },
                 )
             }
             composable(
                 route = "${Screen.routineEditor}/{routineId}",
-                arguments = listOf(navArgument("routineId") { type = NavType.IntType })
+                arguments = listOf(navArgument("routineId") { type = NavType.IntType }),
             ) { backStackEntry ->
                 val exerciseIdsToAdd by backStackEntry
                     .savedStateHandle
@@ -142,39 +142,41 @@ fun NavGraph(
                     },
                     popBackStack = { navController.popBackStack() },
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
-                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList()
+                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList(),
                 )
             }
             composable(Screen.exerciseList.name) {
                 ExerciseList(
                     navToExerciseEditor = { exerciseId ->
                         navController.navigate(
-                            "${Screen.exerciseEditor}?exerciseId=$exerciseId"
+                            "${Screen.exerciseEditor}?exerciseId=$exerciseId",
                         )
                     },
-                    navToSettings = { navController.navigate(Screen.settings.name) }
+                    navToSettings = { navController.navigate(Screen.settings.name) },
                 )
             }
             composable(
                 route = "${Screen.exerciseEditor}?exerciseId={exerciseId}",
-                arguments = listOf(
-                    navArgument("exerciseId") {
-                        defaultValue = -1
-                        type = NavType.IntType
-                    }
-                )
+                arguments =
+                    listOf(
+                        navArgument("exerciseId") {
+                            defaultValue = -1
+                            type = NavType.IntType
+                        },
+                    ),
             ) { backStackEntry ->
                 ExerciseEditor(
                     exerciseId = backStackEntry.arguments!!.getInt("exerciseId"),
-                    popBackStack = { navController.popBackStack() }
+                    popBackStack = { navController.popBackStack() },
                 )
             }
             composable(
                 "${Screen.workoutInProgress}/{workoutId}",
                 arguments = listOf(navArgument("workoutId") { type = NavType.IntType }),
-                deepLinks = listOf(
-                    navDeepLink { uriPattern = "$uri/workoutInProgress/{workoutId}" }
-                )
+                deepLinks =
+                    listOf(
+                        navDeepLink { uriPattern = "$uri/workoutInProgress/{workoutId}" },
+                    ),
             ) { backStackEntry ->
                 val exerciseIdsToAdd by backStackEntry
                     .savedStateHandle
@@ -193,7 +195,7 @@ fun NavGraph(
                         navController.navigate("${Screen.workoutCompleted}/$workoutId/$routineId") {
                             popUpTo(navController.graph.findStartDestination().id)
                         }
-                    }
+                    },
                 )
             }
             composable(Screen.settings.name) {
@@ -202,11 +204,11 @@ fun NavGraph(
                     navToAbout = { navController.navigate(Screen.about.name) },
                     navToAppearanceSettings = {
                         navController.navigate(
-                            Screen.appearanceSettings.name
+                            Screen.appearanceSettings.name,
                         )
                     },
                     navToDataSettings = { navController.navigate(Screen.dataSettings.name) },
-                    navToGeneralSettings = { navController.navigate(Screen.generalSettings.name) }
+                    navToGeneralSettings = { navController.navigate(Screen.generalSettings.name) },
                 )
             }
             composable(Screen.appearanceSettings.name) {
@@ -221,7 +223,7 @@ fun NavGraph(
             composable(Screen.about.name) {
                 AboutApp(
                     popBackStack = { navController.popBackStack() },
-                    navToLicenses = { navController.navigate(Screen.licenses.name) }
+                    navToLicenses = { navController.navigate(Screen.licenses.name) },
                 )
             }
             composable(Screen.licenses.name) {
@@ -237,15 +239,16 @@ fun NavGraph(
                     },
                     navToExerciseEditor = {
                         navController.navigate(Screen.exerciseEditor.name)
-                    }
+                    },
                 )
             }
             composable(
                 "${Screen.workoutCompleted.name}/{workoutId}/{routineId}",
-                arguments = listOf(
-                    navArgument("workoutId") { type = NavType.IntType },
-                    navArgument("routineId") { type = NavType.IntType }
-                )
+                arguments =
+                    listOf(
+                        navArgument("workoutId") { type = NavType.IntType },
+                        navArgument("routineId") { type = NavType.IntType },
+                    ),
             ) { backStackEntry ->
                 val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 val routineId = backStackEntry.arguments!!.getInt("routineId")
@@ -257,7 +260,7 @@ fun NavGraph(
                         navController.navigate("${Screen.workoutInProgress}/$workoutId") {
                             popUpTo(navController.graph.findStartDestination().id)
                         }
-                    }
+                    },
                 )
             }
         }

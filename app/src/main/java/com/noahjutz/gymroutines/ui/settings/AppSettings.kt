@@ -48,7 +48,7 @@ fun AppSettings(
     navToAbout: () -> Unit,
     navToAppearanceSettings: () -> Unit,
     navToDataSettings: () -> Unit,
-    navToGeneralSettings: () -> Unit
+    navToGeneralSettings: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -58,36 +58,36 @@ fun AppSettings(
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             Modifier.scrollable(
                 orientation = Orientation.Vertical,
-                state = rememberScrollState()
-            ).padding(paddingValues)
+                state = rememberScrollState(),
+            ).padding(paddingValues),
         ) {
             ListItem(
                 modifier = Modifier.clickable(onClick = navToGeneralSettings),
                 headlineContent = { Text(stringResource(R.string.screen_general_settings)) },
-                leadingContent = { Icon(Icons.Default.Construction, null) }
+                leadingContent = { Icon(Icons.Default.Construction, null) },
             )
             ListItem(
                 modifier = Modifier.clickable(onClick = navToAppearanceSettings),
                 headlineContent = { Text(stringResource(R.string.screen_appearance_settings)) },
-                leadingContent = { Icon(Icons.Default.DarkMode, null) }
+                leadingContent = { Icon(Icons.Default.DarkMode, null) },
             )
             ListItem(
                 modifier = Modifier.clickable(onClick = navToDataSettings),
                 headlineContent = { Text(stringResource(R.string.screen_data_settings)) },
-                leadingContent = { Icon(Icons.Default.Shield, null) }
+                leadingContent = { Icon(Icons.Default.Shield, null) },
             )
             HorizontalDivider()
             ListItem(
                 modifier = Modifier.clickable(onClick = navToAbout),
                 headlineContent = { Text(stringResource(R.string.screen_about)) },
-                leadingContent = { Icon(Icons.Default.Info, null) }
+                leadingContent = { Icon(Icons.Default.Info, null) },
             )
         }
     }

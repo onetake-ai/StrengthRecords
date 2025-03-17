@@ -59,7 +59,7 @@ private object Urls {
 @Composable
 fun AboutApp(
     popBackStack: () -> Unit,
-    navToLicenses: () -> Unit
+    navToLicenses: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -69,9 +69,9 @@ fun AboutApp(
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         val context = LocalContext.current.applicationContext
         LazyColumn(contentPadding = paddingValues) {
@@ -80,19 +80,20 @@ fun AboutApp(
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Surface(
                         shape = RoundedCornerShape(4.dp),
                         color = colorResource(id = R.color.ic_launcher_background),
-                        shadowElevation = 4.dp
+                        shadowElevation = 4.dp,
                     ) {
                         Image(
-                            modifier = Modifier
-                                .padding(4.dp)
-                                .size(48.dp),
+                            modifier =
+                                Modifier
+                                    .padding(4.dp)
+                                    .size(48.dp),
                             imageVector = ImageVector.vectorResource(R.drawable.ic_gymroutines),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                     Spacer(Modifier.width(12.dp))
@@ -102,18 +103,18 @@ fun AboutApp(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.about_app_version)) },
                     supportingContent = { Text(BuildConfig.VERSION_NAME) },
-                    leadingContent = { Icon(Icons.Default.Update, null) }
+                    leadingContent = { Icon(Icons.Default.Update, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToLicenses),
                     headlineContent = { Text(stringResource(R.string.screen_licenses)) },
-                    leadingContent = { Icon(Icons.AutoMirrored.Filled.ListAlt, null) }
+                    leadingContent = { Icon(Icons.AutoMirrored.Filled.ListAlt, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
                     headlineContent = { Text(stringResource(R.string.about_app_source_code)) },
                     leadingContent = { Icon(Icons.Default.Code, null) },
-                    trailingContent = { Icon(Icons.AutoMirrored.Filled.Launch, null) }
+                    trailingContent = { Icon(Icons.AutoMirrored.Filled.Launch, null) },
                 )
 
                 HorizontalDivider()
@@ -121,7 +122,7 @@ fun AboutApp(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.about_contact)) },
                     supportingContent = { Text("noahjutz@tutanota.de") },
-                    leadingContent = { Icon(Icons.Default.ContactMail, null) }
+                    leadingContent = { Icon(Icons.Default.ContactMail, null) },
                 )
             }
         }

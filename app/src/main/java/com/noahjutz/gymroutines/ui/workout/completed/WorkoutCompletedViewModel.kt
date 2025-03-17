@@ -21,19 +21,22 @@ class WorkoutCompletedViewModel(
     private val routineId: Int,
     private val preferences: DataStore<Preferences>,
     private val workoutRepository: WorkoutRepository,
-    private val routineRepository: RoutineRepository
+    private val routineRepository: RoutineRepository,
 ) : ViewModel() {
-    private val routineSetGroupsOld = viewModelScope.async {
-        routineRepository.getSetGroupsInRoutine(routineId)
-    }
+    private val routineSetGroupsOld =
+        viewModelScope.async {
+            routineRepository.getSetGroupsInRoutine(routineId)
+        }
 
-    private val routineSetsOld = viewModelScope.async {
-        routineRepository.getSetsInRoutine(routineId)
-    }
+    private val routineSetsOld =
+        viewModelScope.async {
+            routineRepository.getSetsInRoutine(routineId)
+        }
 
-    val isUpdateRoutineChecked = preferences.data.map {
-        it[AppPrefs.UpdateRoutineAfterWorkout.key] ?: false
-    }
+    val isUpdateRoutineChecked =
+        preferences.data.map {
+            it[AppPrefs.UpdateRoutineAfterWorkout.key] ?: false
+        }
 
     init {
         viewModelScope.launch {
@@ -72,20 +75,22 @@ class WorkoutCompletedViewModel(
         val workoutSetGroups = workoutRepository.getSetGroupsInWorkout(workoutId)
         val workoutSets = workoutRepository.getSetsInWorkout(workoutId)
         for (setGroup in workoutSetGroups) {
-            val routineSetGroup = RoutineSetGroup(
-                routineId = routineId,
-                exerciseId = setGroup.exerciseId,
-                position = setGroup.position
-            )
+            val routineSetGroup =
+                RoutineSetGroup(
+                    routineId = routineId,
+                    exerciseId = setGroup.exerciseId,
+                    position = setGroup.position,
+                )
             val groupId = routineRepository.insert(routineSetGroup)
             for (set in workoutSets.filter { it.groupId == setGroup.id }) {
-                val routineSet = RoutineSet(
-                    groupId = groupId.toInt(),
-                    reps = set.reps,
-                    weight = set.weight,
-                    time = set.time,
-                    distance = set.distance
-                )
+                val routineSet =
+                    RoutineSet(
+                        groupId = groupId.toInt(),
+                        reps = set.reps,
+                        weight = set.weight,
+                        time = set.time,
+                        distance = set.distance,
+                    )
                 routineRepository.insert(routineSet)
             }
         }

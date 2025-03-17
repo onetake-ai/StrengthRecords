@@ -44,7 +44,7 @@ class RoutineEditorViewModel(
     private val exerciseRepository: ExerciseRepository,
     private val workoutRepository: WorkoutRepository,
     private val preferences: DataStore<Preferences>,
-    routineId: Int
+    routineId: Int,
 ) : ViewModel() {
     val isWorkoutInProgress: Flow<Boolean> =
         preferences.data.map { it[AppPrefs.CurrentWorkout.key]?.let { it >= 0 } ?: false }
@@ -95,8 +95,8 @@ class RoutineEditorViewModel(
                     reps = lastSet?.reps,
                     weight = lastSet?.weight,
                     time = lastSet?.time,
-                    distance = lastSet?.distance
-                )
+                    distance = lastSet?.distance,
+                ),
             )
         }
     }
@@ -105,22 +105,27 @@ class RoutineEditorViewModel(
         _routine?.let { routine ->
             viewModelScope.launch {
                 for (exerciseId in exerciseIds) {
-                    val setGroup = RoutineSetGroup(
-                        exerciseId = exerciseId,
-                        routineId = routine.routineId,
-                        position = _setGroups.size
-                    )
+                    val setGroup =
+                        RoutineSetGroup(
+                            exerciseId = exerciseId,
+                            routineId = routine.routineId,
+                            position = _setGroups.size,
+                        )
                     val groupId = routineRepository.insert(setGroup)
-                    val set = RoutineSet(
-                        groupId = groupId.toInt()
-                    )
+                    val set =
+                        RoutineSet(
+                            groupId = groupId.toInt(),
+                        )
                     routineRepository.insert(set)
                 }
             }
         }
     }
 
-    fun swapSetGroups(id1: Int, id2: Int) {
+    fun swapSetGroups(
+        id1: Int,
+        id2: Int,
+    ) {
         viewModelScope.launch {
             val g1 = routineRepository.getSetGroup(id1)
             val g2 = routineRepository.getSetGroup(id2)
@@ -133,25 +138,37 @@ class RoutineEditorViewModel(
         }
     }
 
-    fun updateReps(set: RoutineSet, reps: Int?) {
+    fun updateReps(
+        set: RoutineSet,
+        reps: Int?,
+    ) {
         viewModelScope.launch {
             routineRepository.update(set.copy(reps = reps))
         }
     }
 
-    fun updateWeight(set: RoutineSet, weight: Double?) {
+    fun updateWeight(
+        set: RoutineSet,
+        weight: Double?,
+    ) {
         viewModelScope.launch {
             routineRepository.update(set.copy(weight = weight))
         }
     }
 
-    fun updateTime(set: RoutineSet, time: Int?) {
+    fun updateTime(
+        set: RoutineSet,
+        time: Int?,
+    ) {
         viewModelScope.launch {
             routineRepository.update(set.copy(time = time))
         }
     }
 
-    fun updateDistance(set: RoutineSet, distance: Double?) {
+    fun updateDistance(
+        set: RoutineSet,
+        distance: Double?,
+    ) {
         viewModelScope.launch {
             routineRepository.update(set.copy(distance = distance))
         }
@@ -160,28 +177,31 @@ class RoutineEditorViewModel(
     fun startWorkout(onWorkoutStarted: (Long) -> Unit) {
         viewModelScope.launch {
             _routine?.let { _routine ->
-                val workout = Workout(
-                    routineId = _routine.routineId
-                )
+                val workout =
+                    Workout(
+                        routineId = _routine.routineId,
+                    )
                 val workoutId = workoutRepository.insert(workout)
 
                 for (routineSetGroup in _setGroups) {
-                    val workoutSetGroup = WorkoutSetGroup(
-                        workoutId = workoutId.toInt(),
-                        exerciseId = routineSetGroup.exerciseId,
-                        position = routineSetGroup.position
-                    )
+                    val workoutSetGroup =
+                        WorkoutSetGroup(
+                            workoutId = workoutId.toInt(),
+                            exerciseId = routineSetGroup.exerciseId,
+                            position = routineSetGroup.position,
+                        )
                     val setGroupId = workoutRepository.insert(workoutSetGroup)
 
                     for (routineSet in _sets.filter { it.groupId == routineSetGroup.id }) {
-                        val workoutSet = WorkoutSet(
-                            groupId = setGroupId.toInt(),
-                            reps = routineSet.reps,
-                            weight = routineSet.weight,
-                            time = routineSet.time,
-                            distance = routineSet.distance,
-                            complete = false
-                        )
+                        val workoutSet =
+                            WorkoutSet(
+                                groupId = setGroupId.toInt(),
+                                reps = routineSet.reps,
+                                weight = routineSet.weight,
+                                time = routineSet.time,
+                                distance = routineSet.distance,
+                                complete = false,
+                            )
                         workoutRepository.insert(workoutSet)
                     }
                 }

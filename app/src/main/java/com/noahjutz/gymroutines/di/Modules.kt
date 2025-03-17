@@ -38,136 +38,137 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val koinModule = module {
-    single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "workout_routines_database")
-            .addMigrations(
-                MIGRATION_36_37,
-                MIGRATION_37_38,
-                MIGRATION_38_39,
-                MIGRATION_39_40,
-                MIGRATION_40_41,
-                MIGRATION_41_42,
-                MIGRATION_42_43
+val koinModule =
+    module {
+        single {
+            Room.databaseBuilder(androidContext(), AppDatabase::class.java, "workout_routines_database")
+                .addMigrations(
+                    MIGRATION_36_37,
+                    MIGRATION_37_38,
+                    MIGRATION_38_39,
+                    MIGRATION_39_40,
+                    MIGRATION_40_41,
+                    MIGRATION_41_42,
+                    MIGRATION_42_43,
+                )
+                .build()
+        }
+
+        factory {
+            androidContext().datastore
+        }
+
+        factory {
+            get<AppDatabase>().exerciseDao
+        }
+
+        factory {
+            get<AppDatabase>().routineDao
+        }
+
+        factory {
+            get<AppDatabase>().workoutDao
+        }
+
+        factory {
+            WorkoutRepository(workoutDao = get())
+        }
+
+        factory {
+            RoutineRepository(routineDao = get())
+        }
+
+        factory {
+            ExerciseRepository(exerciseDao = get())
+        }
+
+        viewModel {
+            RoutineListViewModel(get())
+        }
+
+        viewModel {
+            ExerciseListViewModel(get())
+        }
+
+        viewModel {
+            ExercisePickerViewModel(exerciseRepository = get())
+        }
+
+        viewModel { params ->
+            ExerciseEditorViewModel(repository = get(), exerciseId = params.get())
+        }
+
+        viewModel { params ->
+            RoutineEditorViewModel(
+                preferences = get(),
+                exerciseRepository = get(),
+                routineRepository = get(),
+                workoutRepository = get(),
+                routineId = params.get(),
             )
-            .build()
-    }
+        }
 
-    factory {
-        androidContext().datastore
-    }
+        viewModel { params ->
+            WorkoutInProgressViewModel(
+                preferences = get(),
+                workoutRepository = get(),
+                exerciseRepository = get(),
+                routineRepository = get(),
+                application = androidApplication(),
+                workoutId = params.get(),
+            )
+        }
 
-    factory {
-        get<AppDatabase>().exerciseDao
-    }
+        viewModel {
+            WorkoutInsightsViewModel(
+                workoutRepository = get(),
+                routineRepository = get(),
+                preferences = get(),
+            )
+        }
 
-    factory {
-        get<AppDatabase>().routineDao
-    }
+        viewModel { params ->
+            WorkoutViewerViewModel(
+                workoutId = params.get(),
+                workoutRepository = get(),
+                exerciseRepository = get(),
+                routineRepository = get(),
+            )
+        }
 
-    factory {
-        get<AppDatabase>().workoutDao
-    }
+        viewModel {
+            MainScreenViewModel(
+                preferences = get(),
+            )
+        }
 
-    factory {
-        WorkoutRepository(workoutDao = get())
-    }
+        viewModel {
+            AppearanceSettingsViewModel(
+                preferences = get(),
+            )
+        }
 
-    factory {
-        RoutineRepository(routineDao = get())
-    }
+        viewModel {
+            DataSettingsViewModel(
+                database = get(),
+                application = androidApplication(),
+                preferences = get(),
+            )
+        }
 
-    factory {
-        ExerciseRepository(exerciseDao = get())
-    }
+        viewModel {
+            GeneralSettingsViewModel(
+                preferences = get(),
+            )
+        }
 
-    viewModel {
-        RoutineListViewModel(get())
+        viewModel { params ->
+            WorkoutCompletedViewModel(
+                workoutId = params[0],
+                routineId = params[1],
+                preferences = get(),
+                routineRepository = get(),
+                workoutRepository = get(),
+            )
+        }
     }
-
-    viewModel {
-        ExerciseListViewModel(get())
-    }
-
-    viewModel {
-        ExercisePickerViewModel(exerciseRepository = get())
-    }
-
-    viewModel { params ->
-        ExerciseEditorViewModel(repository = get(), exerciseId = params.get())
-    }
-
-    viewModel { params ->
-        RoutineEditorViewModel(
-            preferences = get(),
-            exerciseRepository = get(),
-            routineRepository = get(),
-            workoutRepository = get(),
-            routineId = params.get()
-        )
-    }
-
-    viewModel { params ->
-        WorkoutInProgressViewModel(
-            preferences = get(),
-            workoutRepository = get(),
-            exerciseRepository = get(),
-            routineRepository = get(),
-            application = androidApplication(),
-            workoutId = params.get()
-        )
-    }
-
-    viewModel {
-        WorkoutInsightsViewModel(
-            workoutRepository = get(),
-            routineRepository = get(),
-            preferences = get()
-        )
-    }
-
-    viewModel { params ->
-        WorkoutViewerViewModel(
-            workoutId = params.get(),
-            workoutRepository = get(),
-            exerciseRepository = get(),
-            routineRepository = get()
-        )
-    }
-
-    viewModel {
-        MainScreenViewModel(
-            preferences = get()
-        )
-    }
-
-    viewModel {
-        AppearanceSettingsViewModel(
-            preferences = get()
-        )
-    }
-
-    viewModel {
-        DataSettingsViewModel(
-            database = get(),
-            application = androidApplication(),
-            preferences = get()
-        )
-    }
-
-    viewModel {
-        GeneralSettingsViewModel(
-            preferences = get()
-        )
-    }
-
-    viewModel { params ->
-        WorkoutCompletedViewModel(
-            workoutId = params[0],
-            routineId = params[1],
-            preferences = get(),
-            routineRepository = get(),
-            workoutRepository = get()
-        )
-    }
-}

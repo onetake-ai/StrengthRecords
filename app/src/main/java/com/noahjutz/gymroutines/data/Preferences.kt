@@ -28,37 +28,37 @@ import com.noahjutz.gymroutines.R
 val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 enum class ColorTheme(
-    @StringRes val themeName: Int
+    @StringRes val themeName: Int,
 ) {
     FollowSystem(R.string.app_theme_follow_system),
     White(R.string.app_theme_light),
-    Black(R.string.app_theme_dark)
+    Black(R.string.app_theme_dark),
 }
 
 sealed class AppPrefs<T>(val key: Preferences.Key<T>, val defaultValue: T) {
     data object IsFirstRun : AppPrefs<Boolean>(
         key = booleanPreferencesKey("isFirstRun"),
-        defaultValue = false
+        defaultValue = false,
     )
 
     data object CurrentWorkout : AppPrefs<Int>(
         key = intPreferencesKey("currentWorkout"),
-        defaultValue = -1
+        defaultValue = -1,
     )
 
     data object ShowBottomNavLabels : AppPrefs<Boolean>(
         key = booleanPreferencesKey("showBottomNavLabels"),
-        defaultValue = true
+        defaultValue = true,
     )
 
     data object AppTheme : AppPrefs<String>(
         key = stringPreferencesKey("appTheme"),
-        defaultValue = ColorTheme.FollowSystem.name
+        defaultValue = ColorTheme.FollowSystem.name,
     )
 
     data object UpdateRoutineAfterWorkout : AppPrefs<Boolean>(
         key = booleanPreferencesKey("updateRoutineAfterWorkout"),
-        defaultValue = false
+        defaultValue = false,
     )
 }
 

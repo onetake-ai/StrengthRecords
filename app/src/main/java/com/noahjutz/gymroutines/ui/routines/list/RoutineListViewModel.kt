@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class RoutineListViewModel(
-    private val repository: RoutineRepository
+    private val repository: RoutineRepository,
 ) : ViewModel() {
     private val _nameFilter = MutableStateFlow("")
     val nameFilter = _nameFilter.asStateFlow()

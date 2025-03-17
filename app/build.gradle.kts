@@ -52,7 +52,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -76,8 +76,8 @@ android {
                 "META-INF/ASL2.0",
                 "META-INF/AL2.0",
                 "META-INF/LGPL2.1",
-                "META-INF/*.kotlin_module"
-            )
+                "META-INF/*.kotlin_module",
+            ),
         )
     }
     namespace = "com.noahjutz.gymroutines"
@@ -142,10 +142,11 @@ dependencies {
 ksp {
     arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
+
 class RoomSchemaArgProvider(
     @get:InputDirectory
     @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File
+    val schemaDir: File,
 ) : CommandLineArgumentProvider {
     override fun asArguments(): Iterable<String> {
         return listOf("room.schemaLocation=${schemaDir.path}")

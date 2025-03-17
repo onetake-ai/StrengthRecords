@@ -27,9 +27,8 @@ import androidx.room.Relation
 data class Routine(
     val name: String = "",
     val hidden: Boolean = false,
-
     @PrimaryKey(autoGenerate = true)
-    var routineId: Int = 0
+    var routineId: Int = 0,
 )
 
 data class RoutineWithSetGroups(
@@ -37,6 +36,6 @@ data class RoutineWithSetGroups(
     @Relation(
         entity = RoutineSetGroup::class,
         parentColumn = "routineId",
-        entityColumn = "routineId"
-    ) val setGroups: List<RoutineSetGroupWithSets>
+        entityColumn = "routineId",
+    ) val setGroups: List<RoutineSetGroupWithSets>,
 )

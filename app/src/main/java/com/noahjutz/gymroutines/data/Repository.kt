@@ -112,8 +112,9 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     suspend fun delete(setGroup: RoutineSetGroup) {
         routineDao.delete(setGroup)
 
-        val nextSetGroups = routineDao.getSetGroupsInRoutine(setGroup.routineId)
-            .filter { it.position > setGroup.position }
+        val nextSetGroups =
+            routineDao.getSetGroupsInRoutine(setGroup.routineId)
+                .filter { it.position > setGroup.position }
 
         for (group in nextSetGroups) {
             routineDao.update(group.copy(position = group.position - 1))
@@ -185,8 +186,9 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     suspend fun delete(setGroup: WorkoutSetGroup) {
         workoutDao.delete(setGroup)
 
-        val nextSetGroups = workoutDao.getSetGroups(setGroup.workoutId)
-            .filter { it.position > setGroup.position }
+        val nextSetGroups =
+            workoutDao.getSetGroups(setGroup.workoutId)
+                .filter { it.position > setGroup.position }
 
         for (group in nextSetGroups) {
             workoutDao.update(group.copy(position = group.position - 1))

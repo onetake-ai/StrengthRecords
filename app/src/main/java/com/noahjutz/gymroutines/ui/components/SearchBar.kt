@@ -29,7 +29,7 @@ import com.noahjutz.gymroutines.R
 fun SearchBar(
     value: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     BasicTextField(
         modifier = modifier,
@@ -42,25 +42,26 @@ fun SearchBar(
             Surface(
                 modifier = Modifier.height(60.dp),
                 color = colorScheme.onSurface.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(30.dp)
+                shape = RoundedCornerShape(30.dp),
             ) {
                 Row(
                     Modifier.padding(start = 24.dp, end = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(Icons.Default.Search, null)
                     Spacer(Modifier.width(12.dp))
                     Box(
                         Modifier
                             .padding(vertical = 16.dp)
-                            .weight(1f)
+                            .weight(1f),
                     ) {
                         if (value.isEmpty()) {
                             Text(
                                 stringResource(R.string.hint_search),
-                                style = MaterialTheme.typography.headlineSmall.copy(
-                                    color = colorScheme.onSurface.copy(alpha = 0.12f)
-                                )
+                                style =
+                                    MaterialTheme.typography.headlineSmall.copy(
+                                        color = colorScheme.onSurface.copy(alpha = 0.12f),
+                                    ),
                             )
                         }
                         innerTextField()
@@ -68,7 +69,7 @@ fun SearchBar(
                     AnimatedVisibility(
                         value.isNotEmpty(),
                         enter = fadeIn(),
-                        exit = fadeOut()
+                        exit = fadeOut(),
                     ) {
                         Spacer(Modifier.width(8.dp))
                         IconButton(onClick = { onValueChange("") }) {
@@ -77,6 +78,6 @@ fun SearchBar(
                     }
                 }
             }
-        }
+        },
     )
 }

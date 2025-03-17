@@ -1,59 +1,63 @@
 package com.noahjutz.splitfit
 
 import com.noahjutz.gymroutines.util.currentDailyStreak
+import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 import kotlin.time.hours
-import org.junit.Test
 
 @ExperimentalTime
 class DateUtilTest {
-
     private val now = Calendar.getInstance().time
 
-    private val dates5Streak = listOf(
-        now,
-        Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
-    )
+    private val dates5Streak =
+        listOf(
+            now,
+            Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        )
 
-    private val dates3StreakInterrupted = listOf(
-        now,
-        Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
-    )
+    private val dates3StreakInterrupted =
+        listOf(
+            now,
+            Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        )
 
-    private val datesNoStreak = listOf(
-        Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
-    )
+    private val datesNoStreak =
+        listOf(
+            Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        )
 
-    private val dates5StreakMultipleADay = listOf(
-        now,
-        Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong())
-    )
+    private val dates5StreakMultipleADay =
+        listOf(
+            now,
+            Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 24.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+        )
 
-    private val datesNoStreak2 = listOf(
-        Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 110.hours.absoluteValue.inMilliseconds).toLong()),
-        Date((now.time - 134.hours.absoluteValue.inMilliseconds).toLong())
-    )
+    private val datesNoStreak2 =
+        listOf(
+            Date((now.time - 48.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 72.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 96.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 110.hours.absoluteValue.inMilliseconds).toLong()),
+            Date((now.time - 134.hours.absoluteValue.inMilliseconds).toLong()),
+        )
 
     @Test
     fun `5 Day streak`() {
@@ -93,11 +97,12 @@ class DateUtilTest {
 
     @Test
     fun `1 Day streak 2`() {
-        val streak = listOf(
-            Date(1616713200000),
-            Date(0),
-            Date(1616841912690)
-        ).currentDailyStreak
+        val streak =
+            listOf(
+                Date(1616713200000),
+                Date(0),
+                Date(1616841912690),
+            ).currentDailyStreak
         assertEquals(1, streak)
     }
 

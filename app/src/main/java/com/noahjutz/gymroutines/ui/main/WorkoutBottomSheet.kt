@@ -22,23 +22,24 @@ fun WorkoutBottomSheet(navToWorkoutInProgress: () -> Unit) {
             .clickable(onClick = navToWorkoutInProgress)
             .height(60.dp)
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 16.dp),
     ) {
         Row(
             Modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier
-                    .padding(horizontal = 12.dp)
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 12.dp)
+                        .weight(1f),
                 text = stringResource(R.string.sheet_workout_in_progress),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
             Icon(
                 imageVector = Icons.Default.ExpandLess,
                 contentDescription = stringResource(R.string.btn_expand),
-                modifier = Modifier.padding(end = 8.dp)
+                modifier = Modifier.padding(end = 8.dp),
             )
         }
     }

@@ -63,27 +63,29 @@ class GymRoutinesApplication : Application() {
 
         scope.launch {
             launch {
-                val isForeground = callbackFlow {
-                    val callback = object : DefaultLifecycleObserver {
-                        override fun onStart(owner: LifecycleOwner) {
-                            super.onStart(owner)
-                            trySend(true)
+                val isForeground =
+                    callbackFlow {
+                        val callback =
+                            object : DefaultLifecycleObserver {
+                                override fun onStart(owner: LifecycleOwner) {
+                                    super.onStart(owner)
+                                    trySend(true)
+                                }
+
+                                override fun onStop(owner: LifecycleOwner) {
+                                    super.onStop(owner)
+                                    trySend(false)
+                                }
+                            }
+
+                        withContext(Dispatchers.Main) {
+                            ProcessLifecycleOwner.get().lifecycle.addObserver(callback)
                         }
 
-                        override fun onStop(owner: LifecycleOwner) {
-                            super.onStop(owner)
-                            trySend(false)
+                        awaitClose {
+                            ProcessLifecycleOwner.get().lifecycle.removeObserver(callback)
                         }
                     }
-
-                    withContext(Dispatchers.Main) {
-                        ProcessLifecycleOwner.get().lifecycle.addObserver(callback)
-                    }
-
-                    awaitClose {
-                        ProcessLifecycleOwner.get().lifecycle.removeObserver(callback)
-                    }
-                }
 
                 val currentWorkoutId = preferences.data.map { it[AppPrefs.CurrentWorkout.key] }
 
@@ -94,12 +96,13 @@ class GymRoutinesApplication : Application() {
 
                 combine(showNotification, currentWorkoutId) { p1, p2 -> Pair(p1, p2) }
                     .collect { (showNotification, currentWorkoutId) ->
-                        val workoutInProgressIntent = Intent(
-                            Intent.ACTION_VIEW,
-                            "https://gymroutines.com/workoutInProgress/$currentWorkoutId".toUri(),
-                            applicationContext,
-                            MainActivity::class.java
-                        )
+                        val workoutInProgressIntent =
+                            Intent(
+                                Intent.ACTION_VIEW,
+                                "https://gymroutines.com/workoutInProgress/$currentWorkoutId".toUri(),
+                                applicationContext,
+                                MainActivity::class.java,
+                            )
 
                         val flag =
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -117,11 +120,11 @@ class GymRoutinesApplication : Application() {
                             val builder =
                                 NotificationCompat.Builder(
                                     applicationContext,
-                                    PERSISTENT_WORKOUT_CHANNEL_ID
+                                    PERSISTENT_WORKOUT_CHANNEL_ID,
                                 )
                                     .setSmallIcon(R.drawable.ic_gymroutines)
                                     .setContentTitle(
-                                        getString(R.string.notif_title_current_workout)
+                                        getString(R.string.notif_title_current_workout),
                                     )
                                     .setContentText(getString(R.string.notif_text_current_workout))
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)

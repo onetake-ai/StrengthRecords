@@ -36,11 +36,11 @@ fun WorkoutCompleted(
     routineId: Int,
     popBackStack: () -> Unit,
     navToWorkoutInProgress: () -> Unit,
-    viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId, routineId) }
+    viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId, routineId) },
 ) {
     Column(
         Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Button(
             onClick = {
@@ -49,7 +49,7 @@ fun WorkoutCompleted(
             Modifier
                 .padding(16.dp)
                 .height(40.dp),
-            shape = RoundedCornerShape(percent = 100)
+            shape = RoundedCornerShape(percent = 100),
         ) {
             Icon(Icons.Default.Undo, null)
             Spacer(Modifier.width(8.dp))
@@ -60,29 +60,29 @@ fun WorkoutCompleted(
             Column(Modifier.padding(horizontal = 16.dp)) {
                 Text(
                     stringResource(R.string.title_workout_completed),
-                    style = typography.headlineMedium
+                    style = typography.headlineMedium,
                 )
                 Text(
                     stringResource(R.string.body_workout_completed),
-                    style = typography.headlineSmall
+                    style = typography.headlineSmall,
                 )
             }
             val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(
-                initial = false
+                initial = false,
             )
             Row(
                 Modifier
                     .toggleable(
                         value = isUpdateRoutineChecked,
-                        onValueChange = viewModel::setUpdateRoutine
+                        onValueChange = viewModel::setUpdateRoutine,
                     )
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
                     checked = isUpdateRoutineChecked,
-                    onCheckedChange = null
+                    onCheckedChange = null,
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.checkbox_update_routine))
@@ -95,7 +95,7 @@ fun WorkoutCompleted(
                 .padding(16.dp)
                 .height(40.dp)
                 .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(percent = 100)
+            shape = RoundedCornerShape(percent = 100),
         ) {
             Text(stringResource(R.string.btn_close))
         }

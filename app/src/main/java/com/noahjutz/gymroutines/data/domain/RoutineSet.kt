@@ -12,12 +12,12 @@ import androidx.room.PrimaryKey
             entity = RoutineSetGroup::class,
             parentColumns = ["id"],
             childColumns = ["groupId"],
-            onDelete = ForeignKey.CASCADE
-        )
+            onDelete = ForeignKey.CASCADE,
+        ),
     ],
     indices = [
-        Index(value = ["groupId"])
-    ]
+        Index(value = ["groupId"]),
+    ],
 )
 data class RoutineSet(
     val groupId: Int,
@@ -25,7 +25,6 @@ data class RoutineSet(
     val weight: Double? = null,
     val time: Int? = null,
     val distance: Double? = null,
-
     @PrimaryKey(autoGenerate = true)
-    val routineSetId: Int = 0
+    val routineSetId: Int = 0,
 )

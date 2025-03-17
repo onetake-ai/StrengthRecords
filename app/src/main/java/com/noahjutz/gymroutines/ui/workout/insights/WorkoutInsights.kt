@@ -68,9 +68,9 @@ import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.SimpleLineChart
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import kotlin.time.ExperimentalTime
 
 @ExperimentalFoundationApi
 @ExperimentalTime
@@ -78,27 +78,32 @@ import org.koin.androidx.compose.getViewModel
 fun WorkoutInsights(
     viewModel: WorkoutInsightsViewModel = getViewModel(),
     navToSettings: () -> Unit,
-    navToWorkoutEditor: (Int) -> Unit
+    navToWorkoutEditor: (Int) -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.screen_insights), actions = {
+                title = stringResource(R.string.screen_insights),
+                actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
                             Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
-                            expanded = expanded, onDismissRequest = { expanded = false }) {
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                        ) {
                             DropdownMenuItem(
                                 onClick = navToSettings,
                                 text = { Text(stringResource(R.string.screen_settings)) },
                             )
                         }
                     }
-                })
-        }) { paddingValues ->
+                },
+            )
+        },
+    ) { paddingValues ->
         val scope = rememberCoroutineScope()
         val workouts by viewModel.workouts.collectAsState(initial = null)
         val routineNames by viewModel.routineNames.collectAsState(initial = null)
@@ -115,7 +120,7 @@ fun WorkoutInsights(
                     Text(
                         stringResource(R.string.screen_workout_history),
                         Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
-                        style = typography.headlineSmall
+                        style = typography.headlineSmall,
                     )
                 }
             }
@@ -128,20 +133,23 @@ fun WorkoutInsights(
                             ?: stringResource(R.string.unnamed_routine)
 
                     SwipeToDismissBox(
-                        //modifier = Modifier.zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                        // modifier = Modifier.zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                         state = dismissState,
-                        backgroundContent = { SwipeToDeleteBackground(dismissState) }) {
+                        backgroundContent = { SwipeToDeleteBackground(dismissState) },
+                    ) {
                         Card(
                             onClick = { navToWorkoutEditor(workout.workoutId) },
-                            elevation = CardDefaults.cardElevation(
-                                defaultElevation = 0.dp, draggedElevation = 4.dp
-                            )
+                            elevation =
+                                CardDefaults.cardElevation(
+                                    defaultElevation = 0.dp,
+                                    draggedElevation = 4.dp,
+                                ),
                         ) {
                             ListItem(headlineContent = {
                                 Text(
                                     text = routineName,
                                     maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
+                                    overflow = TextOverflow.Ellipsis,
                                 )
                             }, trailingContent = {
                                 var expanded by remember { mutableStateOf(false) }
@@ -153,7 +161,8 @@ fun WorkoutInsights(
 
                                     DropdownMenu(
                                         expanded = expanded,
-                                        onDismissRequest = { expanded = false }) {
+                                        onDismissRequest = { expanded = false },
+                                    ) {
                                         DropdownMenuItem(onClick = {
                                             expanded = false
                                             scope.launch {
@@ -172,14 +181,16 @@ fun WorkoutInsights(
                         DeleteConfirmation(
                             name = routineName,
                             onConfirm = { viewModel.delete(workout) },
-                            onDismiss = { scope.launch { dismissState.reset() } })
+                            onDismiss = { scope.launch { dismissState.reset() } },
+                        )
                     }
                 }
             } else {
                 items(5) {
                     ListItem(headlineContent = {
                         Text(
-                            "A".repeat((5..15).random()), Modifier.placeholder(visible = true)
+                            "A".repeat((5..15).random()),
+                            Modifier.placeholder(visible = true),
                         )
                     })
                 }
@@ -190,37 +201,45 @@ fun WorkoutInsights(
 
 @Composable
 private fun DeleteConfirmation(
-    name: String, onConfirm: () -> Unit, onDismiss: () -> Unit
+    name: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         title = {
             Text(
                 stringResource(
-                    R.string.dialog_title_delete, name
-                )
+                    R.string.dialog_title_delete,
+                    name,
+                ),
             )
-        }, confirmButton = {
+        },
+        confirmButton = {
             Button(
-                onClick = onConfirm, content = { Text(stringResource(R.string.btn_delete)) })
-        }, dismissButton = {
+                onClick = onConfirm,
+                content = { Text(stringResource(R.string.btn_delete)) },
+            )
+        },
+        dismissButton = {
             TextButton(
-                onClick = onDismiss, content = { Text(stringResource(R.string.btn_cancel)) })
-        }, onDismissRequest = onDismiss
+                onClick = onDismiss,
+                content = { Text(stringResource(R.string.btn_cancel)) },
+            )
+        },
+        onDismissRequest = onDismiss,
     )
 }
 
 @ExperimentalTime
 @Composable
-private fun WorkoutCharts(
-    workouts: List<Workout>?
-) {
+private fun WorkoutCharts(workouts: List<Workout>?) {
     ChartCard(title = stringResource(R.string.chart_workout_duration)) {
         when {
             workouts == null -> {
                 Box(
                     Modifier
                         .fillMaxSize()
-                        .placeholder(visible = true)
+                        .placeholder(visible = true),
                 )
             }
 
@@ -228,7 +247,7 @@ private fun WorkoutCharts(
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
                         stringResource(R.string.chart_insufficient_data),
-                        color = colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = colorScheme.onSurface.copy(alpha = 0.6f),
                     )
                 }
             }
@@ -238,15 +257,18 @@ private fun WorkoutCharts(
                     Modifier
                         .fillMaxSize()
                         .padding(20.dp),
-                    data = workouts.reversed().mapIndexed { i, workout ->
-                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                    }.chunked(3) {
-                        val avg = it.map { it.second }.average()
-                        Pair(it.first().first, avg.toFloat())
-                    },
-                    secondaryData = workouts.reversed().mapIndexed { i, workout ->
-                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                    })
+                    data =
+                        workouts.reversed().mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        }.chunked(3) {
+                            val avg = it.map { it.second }.average()
+                            Pair(it.first().first, avg.toFloat())
+                        },
+                    secondaryData =
+                        workouts.reversed().mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        },
+                )
             }
         }
     }
@@ -254,19 +276,25 @@ private fun WorkoutCharts(
 
 @Composable
 private fun ChartCard(
-    title: String, chart: @Composable () -> Unit
+    title: String,
+    chart: @Composable () -> Unit,
 ) {
     ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp), shape = RoundedCornerShape(30.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp),
+        shape = RoundedCornerShape(30.dp),
     ) {
         Column(Modifier.fillMaxWidth()) {
             Surface(
-                Modifier.fillMaxWidth(), color = colorScheme.primary
+                Modifier.fillMaxWidth(),
+                color = colorScheme.primary,
             ) {
                 Text(
-                    title, Modifier.padding(20.dp), style = typography.headlineSmall
+                    title,
+                    Modifier.padding(20.dp),
+                    style = typography.headlineSmall,
                 )
             }
             chart()

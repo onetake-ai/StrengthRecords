@@ -50,7 +50,7 @@ fun AutoSelectTextField(
     cursorColor: Color = LocalContentColor.current,
     maxLines: Int = Int.MAX_VALUE,
     decorationBox: @Composable (innerTextField: @Composable () -> Unit) -> Unit = { it() },
-    singleLine: Boolean = false
+    singleLine: Boolean = false,
 ) {
     var textFieldValue by remember(value) {
         mutableStateOf(TextFieldValue(value, TextRange(value.length)))
@@ -69,14 +69,15 @@ fun AutoSelectTextField(
     var isValueChangeLocked = false
 
     BasicTextField(
-        modifier = modifier.onFocusChanged {
-            if (it.isFocused) {
-                if (textFieldValue.text.isNotEmpty()) {
-                    selectText()
-                    isValueChangeLocked = true
+        modifier =
+            modifier.onFocusChanged {
+                if (it.isFocused) {
+                    if (textFieldValue.text.isNotEmpty()) {
+                        selectText()
+                        isValueChangeLocked = true
+                    }
                 }
-            }
-        },
+            },
         value = textFieldValue,
         onValueChange = {
             if (!isValueChangeLocked) {
@@ -92,23 +93,26 @@ fun AutoSelectTextField(
         cursorBrush = SolidColor(cursorColor),
         maxLines = maxLines,
         decorationBox = decorationBox,
-        singleLine = singleLine
+        singleLine = singleLine,
     )
 }
 
 /** Turns string of 0-4 digits to MM:SS format */
-val durationVisualTransformation = object : VisualTransformation {
-    val offsetMap = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int) = if (offset == 0) 0 else 5
-        override fun transformedToOriginal(offset: Int) = if (offset == 0) 0 else 5 - offset
-    }
+val durationVisualTransformation =
+    object : VisualTransformation {
+        val offsetMap =
+            object : OffsetMapping {
+                override fun originalToTransformed(offset: Int) = if (offset == 0) 0 else 5
 
-    override fun filter(text: AnnotatedString): TransformedText {
-        val withZeroes = "0".repeat((4 - text.text.length).takeIf { it > 0 } ?: 0) + text.text
-        val withColon = withZeroes.let { it.substring(0, 2) + ":" + it.substring(2, 4) }
-        return TransformedText(
-            AnnotatedString(if (text.text.isEmpty()) "" else withColon),
-            offsetMap
-        )
+                override fun transformedToOriginal(offset: Int) = if (offset == 0) 0 else 5 - offset
+            }
+
+        override fun filter(text: AnnotatedString): TransformedText {
+            val withZeroes = "0".repeat((4 - text.text.length).takeIf { it > 0 } ?: 0) + text.text
+            val withColon = withZeroes.let { it.substring(0, 2) + ":" + it.substring(2, 4) }
+            return TransformedText(
+                AnnotatedString(if (text.text.isEmpty()) "" else withColon),
+                offsetMap,
+            )
+        }
     }
-}

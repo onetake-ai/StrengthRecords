@@ -78,26 +78,31 @@ import org.koin.androidx.compose.getViewModel
 fun RoutineList(
     navToRoutineEditor: (Long) -> Unit,
     navToSettings: () -> Unit,
-    viewModel: RoutineListViewModel = getViewModel()
+    viewModel: RoutineListViewModel = getViewModel(),
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal),
         topBar = {
             TopBar(
-                title = stringResource(R.string.screen_routine_list), actions = {
+                title = stringResource(R.string.screen_routine_list),
+                actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
                             Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
-                            expanded = expanded, onDismissRequest = { expanded = false }) {
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                        ) {
                             DropdownMenuItem(
                                 onClick = navToSettings,
-                                text = { Text(stringResource(R.string.screen_settings)) })
+                                text = { Text(stringResource(R.string.screen_settings)) },
+                            )
                         }
                     }
-                })
+                },
+            )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -105,11 +110,13 @@ fun RoutineList(
                     viewModel.addRoutine(
                         onComplete = { id ->
                             navToRoutineEditor(id)
-                        })
+                        },
+                    )
                 },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.btn_new_routine)) })
-        }
+                text = { Text(stringResource(R.string.btn_new_routine)) },
+            )
+        },
     ) { paddingValues ->
         val routines by viewModel.routines.collectAsState(null)
 
@@ -118,7 +125,7 @@ fun RoutineList(
                 RoutineListContent(
                     routines = routines ?: emptyList(),
                     navToRoutineEditor = navToRoutineEditor,
-                    viewModel = viewModel
+                    viewModel = viewModel,
                 )
             } else {
                 RoutineListPlaceholder()
@@ -132,18 +139,21 @@ fun RoutineList(
 @ExperimentalMaterialApi
 @Composable
 fun RoutineListContent(
-    routines: List<Routine>, navToRoutineEditor: (Long) -> Unit, viewModel: RoutineListViewModel
+    routines: List<Routine>,
+    navToRoutineEditor: (Long) -> Unit,
+    viewModel: RoutineListViewModel,
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
             val nameFilter by viewModel.nameFilter.collectAsState()
             SearchBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                 value = nameFilter,
-                onValueChange = viewModel::setNameFilter
+                onValueChange = viewModel::setNameFilter,
             )
         }
 
@@ -151,24 +161,30 @@ fun RoutineListContent(
             val dismissState = rememberSwipeToDismissBoxState()
 
             SwipeToDismissBox(
-                modifier = Modifier
-                    .animateItemPlacement(),
+                modifier =
+                    Modifier
+                        .animateItemPlacement(),
                 // .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                 state = dismissState,
-                backgroundContent = { SwipeToDeleteBackground(dismissState) }) {
+                backgroundContent = { SwipeToDeleteBackground(dismissState) },
+            ) {
                 Card(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 0.dp,
-                        draggedElevation = 4.dp
-                    )
+                    elevation =
+                        CardDefaults.cardElevation(
+                            defaultElevation = 0.dp,
+                            draggedElevation = 4.dp,
+                        ),
                 ) {
                     ListItem(
                         modifier = Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
                         headlineContent = {
-                            Text(text = routine.name.takeIf { it.isNotBlank() }
-                                ?: stringResource(R.string.unnamed_routine),
+                            Text(
+                                text =
+                                    routine.name.takeIf { it.isNotBlank() }
+                                        ?: stringResource(R.string.unnamed_routine),
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis)
+                                overflow = TextOverflow.Ellipsis,
+                            )
                         },
                         trailingContent = {
                             Box {
@@ -177,7 +193,9 @@ fun RoutineListContent(
                                     Icon(Icons.Default.MoreVert, null)
                                 }
                                 DropdownMenu(
-                                    expanded = expanded, onDismissRequest = { expanded = false }) {
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false },
+                                ) {
                                     DropdownMenuItem(
                                         onClick = {
                                             expanded = false
@@ -187,11 +205,12 @@ fun RoutineListContent(
                                         },
                                         text = {
                                             Text(stringResource(R.string.btn_delete))
-                                        }
+                                        },
                                     )
                                 }
                             }
-                        })
+                        },
+                    )
                 }
             }
 
@@ -201,15 +220,19 @@ fun RoutineListContent(
                         stringResource(
                             R.string.dialog_title_delete,
                             routine.name.takeIf { it.isNotBlank() }
-                                ?: stringResource(R.string.unnamed_routine)))
+                                ?: stringResource(R.string.unnamed_routine),
+                        ),
+                    )
                 }, confirmButton = {
                     Button(
                         onClick = { viewModel.deleteRoutine(routine.routineId) },
-                        content = { Text(stringResource(R.string.btn_delete)) })
+                        content = { Text(stringResource(R.string.btn_delete)) },
+                    )
                 }, dismissButton = {
                     TextButton(
                         onClick = { scope.launch { dismissState.reset() } },
-                        content = { Text(stringResource(R.string.btn_cancel)) })
+                        content = { Text(stringResource(R.string.btn_cancel)) },
+                    )
                 }, onDismissRequest = { scope.launch { dismissState.reset() } })
             }
         }

@@ -17,7 +17,7 @@ fun SimpleLineChart(
     data: List<Pair<Float, Float>>,
     secondaryData: List<Pair<Float, Float>> = emptyList(),
     color: Color = colorScheme.primary,
-    secondaryColor: Color = colorScheme.onSurface.copy(alpha = 0.12f)
+    secondaryColor: Color = colorScheme.onSurface.copy(alpha = 0.12f),
 ) {
     check(data.isNotEmpty()) { "data passed to SimpleLineChart must not be empty" }
     Canvas(modifier) {
@@ -26,40 +26,44 @@ fun SimpleLineChart(
         val minY = minOf(data.minOf { it.second }, secondaryData.minOf { it.second })
         val maxY = maxOf(data.maxOf { it.second }, secondaryData.maxOf { it.second })
 
-        val offsets = data.map { (x, y) ->
-            val xAdjusted = ((x - minX) / (maxX - minX)) * size.width
-            val yAdjusted = (1 - ((y - minY) / (maxY - minY))) * size.height
-            Offset(xAdjusted, yAdjusted)
-        }
+        val offsets =
+            data.map { (x, y) ->
+                val xAdjusted = ((x - minX) / (maxX - minX)) * size.width
+                val yAdjusted = (1 - ((y - minY) / (maxY - minY))) * size.height
+                Offset(xAdjusted, yAdjusted)
+            }
 
-        val secondaryOffsets = secondaryData.map { (x, y) ->
-            val xAdjusted = ((x - minX) / (maxX - minX)) * size.width
-            val yAdjusted = (1 - ((y - minY) / (maxY - minY))) * size.height
-            Offset(xAdjusted, yAdjusted)
-        }
+        val secondaryOffsets =
+            secondaryData.map { (x, y) ->
+                val xAdjusted = ((x - minX) / (maxX - minX)) * size.width
+                val yAdjusted = (1 - ((y - minY) / (maxY - minY))) * size.height
+                Offset(xAdjusted, yAdjusted)
+            }
 
         clipRect {
             drawPath(
-                path = Path().apply {
-                    moveTo(offsets.first().x, offsets.first().y)
-                    for (offset in offsets) {
-                        lineTo(offset.x, offset.y)
-                    }
-                },
+                path =
+                    Path().apply {
+                        moveTo(offsets.first().x, offsets.first().y)
+                        for (offset in offsets) {
+                            lineTo(offset.x, offset.y)
+                        }
+                    },
                 color = color,
-                style = Stroke(width = 2.dp.toPx())
+                style = Stroke(width = 2.dp.toPx()),
             )
 
             if (secondaryData.isNotEmpty()) {
                 drawPath(
-                    path = Path().apply {
-                        moveTo(secondaryOffsets.first().x, secondaryOffsets.first().y)
-                        for (offset in secondaryOffsets) {
-                            lineTo(offset.x, offset.y)
-                        }
-                    },
+                    path =
+                        Path().apply {
+                            moveTo(secondaryOffsets.first().x, secondaryOffsets.first().y)
+                            for (offset in secondaryOffsets) {
+                                lineTo(offset.x, offset.y)
+                            }
+                        },
                     color = secondaryColor,
-                    style = Stroke(width = 2.dp.toPx())
+                    style = Stroke(width = 2.dp.toPx()),
                 )
             }
         }

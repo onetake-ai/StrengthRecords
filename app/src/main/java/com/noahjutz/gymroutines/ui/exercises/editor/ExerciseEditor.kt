@@ -54,7 +54,7 @@ import org.koin.core.parameter.parametersOf
 fun ExerciseEditor(
     popBackStack: () -> Unit,
     exerciseId: Int,
-    viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) }
+    viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
 ) {
     var showDiscardAlert by remember { mutableStateOf(false) }
     if (showDiscardAlert) {
@@ -70,7 +70,7 @@ fun ExerciseEditor(
                 TextButton(onClick = { showDiscardAlert = false }) {
                     Text(stringResource(R.string.btn_cancel))
                 }
-            }
+            },
         )
     }
 
@@ -95,9 +95,9 @@ fun ExerciseEditor(
                         content = {
                             Icon(
                                 Icons.Default.Close,
-                                stringResource(R.string.btn_cancel)
+                                stringResource(R.string.btn_cancel),
                             )
-                        }
+                        },
                     )
                 },
                 title = stringResource(R.string.screen_edit_exercise),
@@ -109,11 +109,11 @@ fun ExerciseEditor(
                                 popBackStack()
                             }
                         },
-                        enabled = isSavingEnabled
+                        enabled = isSavingEnabled,
                     ) {
                         Text(stringResource(R.string.btn_save))
                     }
-                }
+                },
             )
         },
         content = { paddingValues ->
@@ -121,61 +121,67 @@ fun ExerciseEditor(
                 item {
                     val name by viewModel.name.collectAsState()
                     TextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, top = 16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp, end = 16.dp, top = 16.dp),
                         value = name,
                         onValueChange = viewModel::setName,
                         label = { Text(stringResource(R.string.label_exercise_name)) },
-                        singleLine = true
+                        singleLine = true,
                     )
                     val notes by viewModel.notes.collectAsState()
                     OutlinedTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
                         value = notes,
                         onValueChange = viewModel::setNotes,
-                        label = { Text(stringResource(R.string.label_exercise_notes)) }
+                        label = { Text(stringResource(R.string.label_exercise_notes)) },
                     )
                     val logReps by viewModel.logReps.collectAsState()
                     ListItem(
-                        modifier = Modifier.toggleable(
-                            value = logReps,
-                            onValueChange = viewModel::setLogReps
-                        ),
+                        modifier =
+                            Modifier.toggleable(
+                                value = logReps,
+                                onValueChange = viewModel::setLogReps,
+                            ),
                         headlineContent = { Text(stringResource(R.string.checkbox_log_reps)) },
-                        leadingContent = { Checkbox(checked = logReps, null) }
+                        leadingContent = { Checkbox(checked = logReps, null) },
                     )
                     val logWeight by viewModel.logWeight.collectAsState()
                     ListItem(
-                        modifier = Modifier.toggleable(
-                            value = logWeight,
-                            onValueChange = viewModel::setLogWeight
-                        ),
+                        modifier =
+                            Modifier.toggleable(
+                                value = logWeight,
+                                onValueChange = viewModel::setLogWeight,
+                            ),
                         headlineContent = { Text(stringResource(R.string.checkbox_log_weight)) },
-                        leadingContent = { Checkbox(checked = logWeight, null) }
+                        leadingContent = { Checkbox(checked = logWeight, null) },
                     )
                     val logTime by viewModel.logTime.collectAsState()
                     ListItem(
-                        modifier = Modifier.toggleable(
-                            value = logTime,
-                            onValueChange = viewModel::setLogTime
-                        ),
+                        modifier =
+                            Modifier.toggleable(
+                                value = logTime,
+                                onValueChange = viewModel::setLogTime,
+                            ),
                         headlineContent = { Text(stringResource(R.string.checkbox_log_time)) },
-                        leadingContent = { Checkbox(checked = logTime, null) }
+                        leadingContent = { Checkbox(checked = logTime, null) },
                     )
                     val logDistance by viewModel.logDistance.collectAsState()
                     ListItem(
-                        modifier = Modifier.toggleable(
-                            value = logDistance,
-                            onValueChange = viewModel::setLogDistance
-                        ),
+                        modifier =
+                            Modifier.toggleable(
+                                value = logDistance,
+                                onValueChange = viewModel::setLogDistance,
+                            ),
                         headlineContent = { Text(stringResource(R.string.checkbox_log_distance)) },
-                        leadingContent = { Checkbox(checked = logDistance, null) }
+                        leadingContent = { Checkbox(checked = logDistance, null) },
                     )
                 }
             }
-        }
+        },
     )
 }

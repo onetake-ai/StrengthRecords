@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 fun ExercisePickerSheet(
     viewModel: ExercisePickerViewModel = getViewModel(),
     onExercisesSelected: (List<Int>) -> Unit,
-    navToExerciseEditor: () -> Unit
+    navToExerciseEditor: () -> Unit,
 ) {
     val allExercises by viewModel.allExercises.collectAsState(emptyList())
     val selectedExerciseIds by viewModel.selectedExerciseIds.collectAsState(initial = emptyList())
@@ -61,45 +61,47 @@ fun ExercisePickerSheet(
                 title = stringResource(R.string.screen_pick_exercise),
                 navigationIcon = {
                     IconButton(
-                        onClick = { onExercisesSelected(emptyList()) }
+                        onClick = { onExercisesSelected(emptyList()) },
                     ) { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) }
                 },
                 actions = {
                     TextButton(
                         onClick = { onExercisesSelected(selectedExerciseIds) },
-                        enabled = selectedExerciseIds.isNotEmpty()
+                        enabled = selectedExerciseIds.isNotEmpty(),
                     ) {
                         Text(stringResource(R.string.btn_select_option))
                     }
-                }
+                },
             )
             val searchQuery by viewModel.nameFilter.collectAsState()
             SearchBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 value = searchQuery,
-                onValueChange = viewModel::search
+                onValueChange = viewModel::search,
             )
             LazyColumn(Modifier.weight(1f)) {
                 items(allExercises.filter { !it.hidden }) { exercise ->
                     val checked by viewModel.exercisesContains(exercise)
                         .collectAsState(initial = false)
                     ListItem(
-                        modifier = Modifier.toggleable(
-                            value = checked,
-                            onValueChange = {
-                                if (it) {
-                                    viewModel.addExercise(exercise)
-                                } else {
-                                    viewModel.removeExercise(exercise)
-                                }
-                            }
-                        ),
+                        modifier =
+                            Modifier.toggleable(
+                                value = checked,
+                                onValueChange = {
+                                    if (it) {
+                                        viewModel.addExercise(exercise)
+                                    } else {
+                                        viewModel.removeExercise(exercise)
+                                    }
+                                },
+                            ),
                         leadingContent = { Checkbox(checked = checked, onCheckedChange = null) },
                         headlineContent = {
                             Text(exercise.name)
-                        }
+                        },
                     )
                 }
 
@@ -110,15 +112,15 @@ fun ExercisePickerSheet(
                             Icon(
                                 Icons.Default.Add,
                                 null,
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = MaterialTheme.colorScheme.primary,
                             )
                         },
                         headlineContent = {
                             Text(
                                 stringResource(R.string.btn_new_exercise),
-                                color = MaterialTheme.colorScheme.primary
+                                color = MaterialTheme.colorScheme.primary,
                             )
-                        }
+                        },
                     )
                 }
             }

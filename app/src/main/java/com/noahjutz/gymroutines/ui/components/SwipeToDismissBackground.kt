@@ -37,21 +37,26 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SwipeToDeleteBackground(dismissState: SwipeToDismissBoxState) {
-    val alignment = when (dismissState.dismissDirection) {
-        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
-        SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
-        SwipeToDismissBoxValue.Settled -> Alignment.Center
-    }
+    val alignment =
+        when (dismissState.dismissDirection) {
+            SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+            SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
+            SwipeToDismissBoxValue.Settled -> Alignment.Center
+        }
     val color by animateColorAsState(
-        if (dismissState.dismissDirection == SwipeToDismissBoxValue.Settled) MaterialTheme.colorScheme.surface
-        else MaterialTheme.colorScheme.secondary
+        if (dismissState.dismissDirection == SwipeToDismissBoxValue.Settled) {
+            MaterialTheme.colorScheme.surface
+        } else {
+            MaterialTheme.colorScheme.secondary
+        },
     )
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color)
-            .padding(horizontal = 20.dp),
-        contentAlignment = alignment
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color)
+                .padding(horizontal = 20.dp),
+        contentAlignment = alignment,
     ) {
         Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.onSecondary)
     }

@@ -8,29 +8,32 @@ import androidx.lifecycle.ViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.noahjutz.gymroutines.data.AppDatabase
 import com.noahjutz.gymroutines.data.AppPrefs
+import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlinx.coroutines.flow.map
 
 class DataSettingsViewModel(
     preferences: DataStore<Preferences>,
     private val database: AppDatabase,
-    private val application: Application
+    private val application: Application,
 ) : ViewModel() {
-    val isWorkoutInProgress = preferences.data.map { preferences ->
-        val currentWorkoutId = preferences[AppPrefs.CurrentWorkout.key]
-        currentWorkoutId != null && currentWorkoutId >= 0
-    }
+    val isWorkoutInProgress =
+        preferences.data.map { preferences ->
+            val currentWorkoutId = preferences[AppPrefs.CurrentWorkout.key]
+            currentWorkoutId != null && currentWorkoutId >= 0
+        }
 
     fun exportDatabase(uri: Uri) {
         database.close()
-        val inStream = application.applicationContext
-            .getDatabasePath("workout_routines_database")
-            .inputStream()
+        val inStream =
+            application.applicationContext
+                .getDatabasePath("workout_routines_database")
+                .inputStream()
 
-        val outStream = application.applicationContext
-            .contentResolver
-            .openOutputStream(uri)
+        val outStream =
+            application.applicationContext
+                .contentResolver
+                .openOutputStream(uri)
 
         inStream.use { input ->
             outStream?.use { output ->
@@ -41,12 +44,14 @@ class DataSettingsViewModel(
 
     fun importDatabase(uri: Uri) {
         database.close()
-        val inStream = application.applicationContext
-            .contentResolver
-            .openInputStream(uri)
+        val inStream =
+            application.applicationContext
+                .contentResolver
+                .openInputStream(uri)
 
-        val databasePath = application.applicationContext
-            .getDatabasePath("workout_routines_database")
+        val databasePath =
+            application.applicationContext
+                .getDatabasePath("workout_routines_database")
 
         val outStream = databasePath.outputStream()
 

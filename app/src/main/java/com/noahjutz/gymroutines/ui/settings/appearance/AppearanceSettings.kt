@@ -51,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun AppearanceSettings(
     popBackStack: () -> Unit,
-    viewModel: AppearanceSettingsViewModel = getViewModel()
+    viewModel: AppearanceSettingsViewModel = getViewModel(),
 ) {
     Scaffold(
         topBar = {
@@ -61,39 +61,40 @@ fun AppearanceSettings(
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             Modifier
                 .verticalScroll(rememberScrollState())
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
             val appTheme by viewModel.appTheme.collectAsState(initial = ColorTheme.FollowSystem)
             Row(
                 Modifier
                     .padding(horizontal = 16.dp)
                     .padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     "Color Theme",
-                    modifier = Modifier
-                        .height(40.dp)
-                        .weight(1f),
-                    style = typography.displaySmall
+                    modifier =
+                        Modifier
+                            .height(40.dp)
+                            .weight(1f),
+                    style = typography.displaySmall,
                 )
                 AnimatedVisibility(
                     appTheme != ColorTheme.FollowSystem,
                     enter = fadeIn(),
-                    exit = fadeOut()
+                    exit = fadeOut(),
                 ) {
                     Spacer(Modifier.weight(1f))
                     OutlinedButton(
                         onClick = { viewModel.setAppTheme(ColorTheme.FollowSystem) },
                         modifier = Modifier.height(40.dp),
-                        shape = RoundedCornerShape(percent = 100)
+                        shape = RoundedCornerShape(percent = 100),
                     ) {
                         Text(stringResource(R.string.btn_reset))
                     }
@@ -104,14 +105,14 @@ fun AppearanceSettings(
                     colors = lightColorScheme(),
                     name = stringResource(ColorTheme.White.themeName),
                     selected = appTheme == ColorTheme.White || (appTheme == ColorTheme.FollowSystem && !isSystemInDarkTheme()),
-                    onClick = { viewModel.setAppTheme(ColorTheme.White) }
+                    onClick = { viewModel.setAppTheme(ColorTheme.White) },
                 )
                 Spacer(Modifier.width(16.dp))
                 ThemePreview(
                     colors = darkColorScheme(),
                     name = stringResource(ColorTheme.Black.themeName),
                     selected = appTheme == ColorTheme.Black || (appTheme == ColorTheme.FollowSystem && isSystemInDarkTheme()),
-                    onClick = { viewModel.setAppTheme(ColorTheme.Black) }
+                    onClick = { viewModel.setAppTheme(ColorTheme.Black) },
                 )
             }
         }
@@ -123,21 +124,22 @@ private fun RowScope.ThemePreview(
     colors: ColorScheme,
     name: String,
     selected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Column(
         Modifier
             .weight(1f)
             .height(240.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MaterialTheme(colorScheme = colors) {
             Surface(
-                modifier = Modifier
-                    .weight(1f),
+                modifier =
+                    Modifier
+                        .weight(1f),
                 onClick = onClick,
                 shadowElevation = 4.dp,
-                shape = RoundedCornerShape(30.dp)
+                shape = RoundedCornerShape(30.dp),
             ) {
                 Box(Modifier.fillMaxSize()) {
                     Column {
@@ -145,13 +147,13 @@ private fun RowScope.ThemePreview(
                             Modifier
                                 .fillMaxWidth()
                                 .height(60.dp)
-                                .background(colors.primary)
+                                .background(colors.primary),
                         )
                         Text(
                             "Theme theme",
                             Modifier
                                 .padding(16.dp)
-                                .placeholder(visible = true)
+                                .placeholder(visible = true),
                         )
                     }
                     Box(
@@ -160,16 +162,17 @@ private fun RowScope.ThemePreview(
                             .size(60.dp)
                             .align(Alignment.BottomEnd)
                             .clip(CircleShape)
-                            .background(colors.secondary)
+                            .background(colors.secondary),
                     ) {
                         if (selected) {
                             Icon(
                                 imageVector = Icons.Default.Done,
                                 contentDescription = stringResource(R.string.btn_select_option),
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .size(48.dp),
-                                tint = colors.onSecondary
+                                modifier =
+                                    Modifier
+                                        .align(Alignment.Center)
+                                        .size(48.dp),
+                                tint = colors.onSecondary,
                             )
                         }
                     }

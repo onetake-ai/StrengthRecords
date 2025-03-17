@@ -1,8 +1,8 @@
 package com.noahjutz.gymroutines.ui.components
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +13,7 @@ fun TopBar(
     modifier: Modifier = Modifier,
     title: String,
     navigationIcon: (@Composable () -> Unit)? = null,
-    actions: @Composable RowScope.() -> Unit = {}
+    actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
         modifier = modifier,
@@ -21,6 +21,6 @@ fun TopBar(
             Text(title)
         },
         actions = actions,
-        navigationIcon = navigationIcon ?: {}
+        navigationIcon = navigationIcon ?: {},
     )
 }

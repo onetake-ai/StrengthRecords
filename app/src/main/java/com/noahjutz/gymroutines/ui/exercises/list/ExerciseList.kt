@@ -78,7 +78,7 @@ import org.koin.androidx.compose.getViewModel
 fun ExerciseList(
     navToExerciseEditor: (Int) -> Unit,
     navToSettings: () -> Unit,
-    viewModel: ExerciseListViewModel = getViewModel()
+    viewModel: ExerciseListViewModel = getViewModel(),
 ) {
     Scaffold(
         contentWindowInsets = WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal),
@@ -93,22 +93,22 @@ fun ExerciseList(
                         }
                         DropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = { expanded = false },
                         ) {
                             DropdownMenuItem(
                                 onClick = navToSettings,
-                                text = { Text("Settings") }
+                                text = { Text("Settings") },
                             )
                         }
                     }
-                }
+                },
             )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
                 onClick = { navToExerciseEditor(-1) },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.btn_new_exercise)) }
+                text = { Text(stringResource(R.string.btn_new_exercise)) },
             )
         },
     ) { paddingValues ->
@@ -119,7 +119,7 @@ fun ExerciseList(
                 ExerciseListContent(
                     navToExerciseEditor = navToExerciseEditor,
                     exercises = exercises ?: emptyList(),
-                    viewModel = viewModel
+                    viewModel = viewModel,
                 )
             } else {
                 ExerciseListPlaceholder()
@@ -129,24 +129,26 @@ fun ExerciseList(
 }
 
 @OptIn(
-    ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
+    ExperimentalAnimationApi::class,
+    ExperimentalFoundationApi::class,
 )
 @Composable
 private fun ExerciseListContent(
     exercises: List<Exercise>,
     navToExerciseEditor: (Int) -> Unit,
-    viewModel: ExerciseListViewModel
+    viewModel: ExerciseListViewModel,
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
             val searchQuery by viewModel.nameFilter.collectAsState()
             SearchBar(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
                 value = searchQuery,
-                onValueChange = viewModel::setNameFilter
+                onValueChange = viewModel::setNameFilter,
             )
         }
 
@@ -154,17 +156,19 @@ private fun ExerciseListContent(
             val dismissState = rememberSwipeToDismissBoxState()
 
             SwipeToDismissBox(
-                modifier = Modifier
-                    .animateItemPlacement(),
+                modifier =
+                    Modifier
+                        .animateItemPlacement(),
                 // .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                 state = dismissState,
-                backgroundContent = { SwipeToDeleteBackground(dismissState) }
+                backgroundContent = { SwipeToDeleteBackground(dismissState) },
             ) {
                 Card(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 0.dp,
-                        draggedElevation = 6.dp // TODO elevation stays at 0
-                    ),
+                    elevation =
+                        CardDefaults.cardElevation(
+                            defaultElevation = 0.dp,
+                            draggedElevation = 6.dp, // TODO elevation stays at 0
+                        ),
                 ) {
                     ListItem(
                         modifier = Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
@@ -172,7 +176,7 @@ private fun ExerciseListContent(
                             Text(
                                 text = exercise.name,
                                 maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
+                                overflow = TextOverflow.Ellipsis,
                             )
                         },
                         trailingContent = {
@@ -183,7 +187,7 @@ private fun ExerciseListContent(
                                 }
                                 DropdownMenu(
                                     expanded = expanded,
-                                    onDismissRequest = { expanded = false }
+                                    onDismissRequest = { expanded = false },
                                 ) {
                                     DropdownMenuItem(
                                         onClick = {
@@ -194,11 +198,11 @@ private fun ExerciseListContent(
                                         },
                                         text = {
                                             Text(stringResource(R.string.btn_delete))
-                                        }
+                                        },
                                     )
                                 }
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -207,7 +211,7 @@ private fun ExerciseListContent(
                 ConfirmDeleteExerciseDialog(
                     onDismiss = { scope.launch { dismissState.reset() } },
                     exerciseName = exercise.name,
-                    onConfirm = { viewModel.delete(exercise) }
+                    onConfirm = { viewModel.delete(exercise) },
                 )
             }
         }
@@ -222,26 +226,26 @@ private fun ExerciseListContent(
 private fun ConfirmDeleteExerciseDialog(
     exerciseName: String,
     onDismiss: () -> Unit,
-    onConfirm: () -> Unit
+    onConfirm: () -> Unit,
 ) {
     AlertDialog(
         title = {
             Text(
-                stringResource(R.string.dialog_title_delete, exerciseName)
+                stringResource(R.string.dialog_title_delete, exerciseName),
             )
         },
         confirmButton = {
             Button(
                 onClick = onConfirm,
-                content = { Text(stringResource(R.string.btn_delete)) }
+                content = { Text(stringResource(R.string.btn_delete)) },
             )
         },
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
-                content = { Text(stringResource(R.string.btn_cancel)) }
+                content = { Text(stringResource(R.string.btn_cancel)) },
             )
         },
-        onDismissRequest = onDismiss
+        onDismissRequest = onDismiss,
     )
 }
