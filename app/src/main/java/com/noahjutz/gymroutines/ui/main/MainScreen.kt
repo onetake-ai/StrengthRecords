@@ -29,9 +29,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material.navigation.rememberBottomSheetNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -57,6 +60,13 @@ fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
         ColorTheme.White -> false
         ColorTheme.Black -> true
     }
+
+    val context = LocalContext.current
+
+    SideEffect {
+        viewModel.setStatusBars(isDark, context)
+    }
+
     GymRoutinesTheme(isDark = isDark) {
         Scaffold(
             bottomBar = {
