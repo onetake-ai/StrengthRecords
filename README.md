@@ -7,6 +7,11 @@
 
 # GymRoutines
 
+[![Translation status](https://translate.codeberg.org/widget/gymroutines/app-string-resources/svg-badge.svg)](https://translate.codeberg.org/engage/gymroutines/)
+[![Gitea Release](https://img.shields.io/gitea/v/release/noahjutz/GymRoutines?gitea_url=https%3A%2F%2Fcodeberg.org&label=tag)](https://codeberg.org/noahjutz/GymRoutines/releases/latest)
+[![F-Droid Version](https://img.shields.io/f-droid/v/com.noahjutz.gymroutines)](https://f-droid.org/packages/com.noahjutz.gymroutines)
+
+
 [noahjutz.codeberg.page/gr](https://noahjutz.codeberg.page/gr)
 
 An Open-Source Android app for creating training plans and tracking progress.
