@@ -4,16 +4,19 @@ import android.app.Application
 import android.net.Uri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.noahjutz.gymroutines.data.AppDatabase
 import com.noahjutz.gymroutines.data.AppPrefs
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DataSettingsViewModel(
-    preferences: DataStore<Preferences>,
+    private val preferences: DataStore<Preferences>,
     private val database: AppDatabase,
     private val application: Application,
 ) : ViewModel() {
@@ -68,5 +71,11 @@ class DataSettingsViewModel(
         val now = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
         return formatter.format(now)
+    }
+
+    fun finishWorkout() {
+        viewModelScope.launch {
+            preferences.edit { it[AppPrefs.CurrentWorkout.key] = -1 }
+        }
     }
 }

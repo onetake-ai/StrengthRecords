@@ -18,8 +18,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -46,7 +48,10 @@ fun DataSettings(
                 title = stringResource(R.string.screen_data_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.btn_pop_back))
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            stringResource(R.string.btn_pop_back)
+                        )
                     }
                 },
             )
@@ -90,13 +95,24 @@ fun DataSettings(
             val isWorkoutInProgress by viewModel.isWorkoutInProgress.collectAsState(initial = true)
             val scope = rememberCoroutineScope()
             val alertFinishWorkout = stringResource(R.string.alert_must_finish_workout)
+            val buttonFinishWorkout = stringResource(R.string.btn_finish_workout)
             ListItem(
                 modifier =
                     Modifier.clickable {
                         if (isWorkoutInProgress) {
                             scope.launch {
                                 snackbarHostState.currentSnackbarData?.dismiss()
-                                snackbarHostState.showSnackbar(alertFinishWorkout)
+                                val result = snackbarHostState.showSnackbar(
+                                    alertFinishWorkout,
+                                    actionLabel = buttonFinishWorkout,
+                                    duration = SnackbarDuration.Long
+                                )
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.finishWorkout()
+                                    exportDatabaseLauncher.launch(
+                                        "gymroutines_${viewModel.getCurrentTimeIso()}.db",
+                                    )
+                                }
                             }
                         } else {
                             exportDatabaseLauncher.launch(
