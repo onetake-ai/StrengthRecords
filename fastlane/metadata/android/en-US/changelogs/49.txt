@@ -1,0 +1,8 @@
+Features
+* You can now export app data without finishing your workout
+
+Bug Fixes
+* App crashes as soon as time text field is on screen (#120)
+
+Development
+* Upgrade Dependencies
