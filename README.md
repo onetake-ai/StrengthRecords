@@ -1,11 +1,13 @@
+<div align="center"><a href="https://github.com/Safouene1/support-palestine-banner/blob/master/Markdown-pages/Support.md"><img src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/banner-support.svg" alt="Support Palestine" style="width: 100%;"></a></div>
+
+# GymRoutines
+
 <a href="https://play.google.com/store/apps/details?id=com.noahjutz.gymroutines">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200px">
 </a>
 <a href="https://f-droid.org/packages/com.noahjutz.gymroutines">
     <img src="https://f-droid.org/badge/get-it-on.png" width="200px">
 </a>
-
-# GymRoutines
 
 [![Translation status](https://translate.codeberg.org/widget/gymroutines/app-string-resources/svg-badge.svg)](https://translate.codeberg.org/engage/gymroutines/)
 [![Gitea Release](https://img.shields.io/gitea/v/release/noahjutz/GymRoutines?gitea_url=https%3A%2F%2Fcodeberg.org&label=tag)](https://codeberg.org/noahjutz/GymRoutines/releases/latest)
