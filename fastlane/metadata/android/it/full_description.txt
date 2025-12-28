@@ -1,7 +1,7 @@
-GymRoutine facilita la creazione di esercizi e routine personalizzati che si adattano alle tue esigenze. Puoi utilizzare i piani di allenamento esistenti nell'app senza sforzo.
+Strength Records facilita la creazione di esercizi e routine personalizzati che si adattano alle tue esigenze. Puoi utilizzare i piani di allenamento esistenti nell'app senza sforzo.
 
 Tieni traccia dei tuoi progressi e visualizza le statistiche nell'app. Migliora le tue prestazioni prendendo decisioni basate sui dati.
 
-Concesso in licenza sotto la GNU General Public License versione 3, il codice sorgente di GymRoutine può essere ispezionato, modificato e ridistribuito da chiunque (vedi la licenza per ulteriori informazioni). Guarda il codice sorgente su Codeberg.
+Concesso in licenza sotto la GNU General Public License versione 3, il codice sorgente di Strength Records può essere ispezionato, modificato e ridistribuito da chiunque (vedi la licenza per ulteriori informazioni).
 
-Tutti i tuoi allenamenti sono archiviati localmente, il che significa che i tuoi dati sono il più sicuri e privati possibile. Oltre a ciò, l'indipendenza di GymRoutine da Internet porta a prestazioni e stabilità eccezionali.
+Tutti i tuoi allenamenti sono archiviati localmente, il che significa che i tuoi dati sono il più sicuri e privati possibile. Oltre a ciò, l'indipendenza di Strength Records da Internet porta a prestazioni e stabilità eccezionali.

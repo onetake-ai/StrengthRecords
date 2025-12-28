@@ -1,7 +1,7 @@
-GymRoutines facilitates creating custom exercises and routines that fit your needs. You can use your existing training plans in the app effortlessly.
+Strength Records facilitates creating custom exercises and routines that fit your needs. You can use your existing training plans in the app effortlessly.
 
 Track your progress and view statistics in the app. Improve your performance by making decisions based on data.
 
-Licensed under the GNU General Public License Version 3, the source code of GymRoutines can be inspected, modified and redistributed by anyone (see license for more). Check out the source code on Codeberg.
+Licensed under the GNU General Public License Version 3, the source code of Strength Records can be inspected, modified and redistributed by anyone (see license for more).
 
-All your workouts are stored locally, meaning that your data is as secure and private as it can get. Beyond that, GymRoutines' independence from the internet leads to exceptional performance and stability.
+All your workouts are stored locally, meaning that your data is as secure and private as it can get. Beyond that, Strength Records' independence from the internet leads to exceptional performance and stability.
